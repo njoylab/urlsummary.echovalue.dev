@@ -1,0 +1,27 @@
+{
+    "name": "URL Summary Scraper - Website Metadata & SEO Analysis",
+    "short_name": "URL Scraper",
+    "description": "Extract comprehensive metadata from any URL: SEO data, Open Graph tags, social links, contact info, and more.",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ],
+    "theme_color": "#0a0e1a",
+    "background_color": "#0a0e1a",
+    "display": "standalone",
+    "start_url": "/",
+    "scope": "/"
+}

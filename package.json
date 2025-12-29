@@ -1,0 +1,20 @@
+{
+  "name": "url-summary-scraper-frontend",
+  "version": "1.0.0",
+  "description": "URL Summary Scraper - Extract comprehensive metadata from any URL",
+  "scripts": {
+    "build": "node build.js",
+    "install-deps": "npm install"
+  },
+  "keywords": [
+    "url",
+    "scraper",
+    "metadata",
+    "seo",
+    "web-scraping",
+    "opengraph",
+    "social-media"
+  ],
+  "author": "URL Summary Scraper",
+  "license": "MIT"
+}

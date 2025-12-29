@@ -1,0 +1,13 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="32" height="32" rx="6" fill="#0a0e1a"/>
+
+  <!-- Diamond icon -->
+  <g transform="translate(16, 16)">
+    <path d="M 0,-8 L 8,0 L 0,8 L -8,0 Z" fill="#f59e0b" stroke="#fbbf24" stroke-width="1"/>
+    <circle cx="0" cy="0" r="2" fill="#0a0e1a"/>
+  </g>
+
+  <!-- DNS text hint (small) -->
+  <text x="16" y="26" font-family="monospace" font-size="6" fill="#f59e0b" text-anchor="middle" font-weight="bold">DNS</text>
+</svg>

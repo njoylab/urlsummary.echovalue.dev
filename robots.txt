@@ -1,0 +1,14 @@
+# robots.txt for DNS Intelligence Tool
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://lookup.echovalue.dev/sitemap.xml
+
+# Crawl-delay (optional, helps prevent server overload)
+Crawl-delay: 1
+
+# Disallow common non-essential paths (if any)
+# Disallow: /admin/
+# Disallow: /api/

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary Meta Tags -->
+    <title>URL Summary Scraper - Website Metadata & SEO Analysis | Free Web Scraper</title>
+    <meta name="title" content="URL Summary Scraper - Website Metadata & SEO Analysis">
+    <meta name="description"
+        content="Free URL scraper tool that extracts comprehensive metadata from any website: SEO data, Open Graph tags, social media links, contact information, media assets, and more.">
+    <meta name="keywords"
+        content="URL scraper, web scraper, metadata extractor, SEO analyzer, Open Graph checker, social media links, website scraper, free scraper tool">
+    <meta name="author" content="URL Summary Scraper">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://urlsummary.echovalue.dev/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://urlsummary.echovalue.dev/">
+    <meta property="og:title" content="URL Summary Scraper - Website Metadata & SEO Analysis">
+    <meta property="og:description"
+        content="Extract comprehensive metadata from any URL: SEO data, Open Graph tags, social media links, contact info, and more.">
+    <meta property="og:image" content="https://urlsummary.echovalue.dev/og-image.png">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="URL Summary Scraper">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://urlsummary.echovalue.dev/">
+    <meta property="twitter:title" content="URL Summary Scraper - Website Metadata & SEO Analysis">
+    <meta property="twitter:description"
+        content="Extract comprehensive metadata from any URL: SEO data, Open Graph tags, social media links, contact info, and more.">
+    <meta property="twitter:image" content="https://urlsummary.echovalue.dev/og-image.png">
+
+    <!-- Favicon - SVG works in all modern browsers -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Sitemap Reference -->
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+
+    <!-- Structured Data / Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "URL Summary Scraper - Metadata Extraction Tool",
+      "description": "Advanced web scraping tool that extracts comprehensive metadata from any URL including SEO data, Open Graph tags, social media links, contact information, and media assets.",
+      "url": "https://urlsummary.echovalue.dev/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "SEO Metadata Extraction",
+        "Open Graph Tags Analysis",
+        "Twitter Card Data Extraction",
+        "Social Media Links Detection",
+        "Contact Information Extraction",
+        "Media Assets Discovery",
+        "Internal & External Links Analysis",
+        "Structured Data (JSON-LD) Extraction",
+        "AI-Powered Content Summaries",
+        "Multilingual Support",
+        "Local Search History Storage"
+      ],
+      "browserRequirements": "Requires JavaScript. Works on all modern browsers.",
+      "permissions": "localStorage"
+    }
+    </script>
+</head>
+
+<body>
+    <noscript>
+        <div style="text-align: center; padding: 2rem; background: #1a1f2e; color: #e8eaed; font-family: sans-serif;">
+            <h1>JavaScript Required</h1>
+            <p>This URL scraper tool requires JavaScript to function. Please enable JavaScript in your browser settings
+                to use this application.</p>
+        </div>
+    </noscript>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer" role="region" aria-live="polite" aria-label="Notifications"></div>
+
+    <!-- Confirmation Modal Container -->
+    <div class="confirmation-overlay" id="confirmationOverlay" style="display: none;">
+        <div class="confirmation-modal" role="dialog" aria-labelledby="confirmationTitle"
+            aria-describedby="confirmationMessage">
+            <h3 class="confirmation-title" id="confirmationTitle">Confirm Action</h3>
+            <p class="confirmation-message" id="confirmationMessage"></p>
+            <div class="confirmation-actions">
+                <button class="confirmation-btn confirmation-btn-cancel" id="confirmationCancel">Cancel</button>
+                <button class="confirmation-btn confirmation-btn-confirm" id="confirmationConfirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="grain-overlay" aria-hidden="true"></div>
+
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="logo" role="img" aria-label="URL Summary Scraper Logo">
+                <span class="logo-icon" aria-hidden="true">◈</span>
+                <span class="logo-text">URL<span class="logo-accent">Summary</span></span>
+            </div>
+            <nav class="nav" role="navigation" aria-label="Main navigation">
+                <a href="#api" class="nav-link">API Access</a>
+                <a href="#pricing" class="nav-link">Bulk Analysis</a>
+            </nav>
+        </div>
+    </header>
+
+    <main role="main">
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title" id="hero-title">
+                        <span class="title-line">URL Summary Scraper:</span>
+                        <span class="title-line title-gradient">Extract Comprehensive Website Metadata</span>
+                    </h1>
+                    <p class="hero-description">
+                        A powerful web scraping tool that extracts SEO metadata, Open Graph tags, social media links,
+                        contact information, media assets, link analysis, and structured data
+                        all in one automated workflow with optional AI-powered summaries.
+                    </p>
+                </div>
+
+                <div class="analyzer-card">
+                    <div class="card-header">
+                        <div class="status-indicator">
+                            <span class="status-dot" aria-label="Status indicator"></span>
+                            <span class="status-text">All systems operational</span>
+                        </div>
+                    </div>
+
+                    <form class="analyzer-form" id="analyzerForm" aria-label="URL Analysis Form">
+                        <div class="input-group">
+                            <label for="url" class="input-label">Target URL</label>
+                            <div class="input-wrapper">
+                                <input type="url" id="url" class="domain-input" placeholder="https://example.com"
+                                    autocomplete="off" spellcheck="false" aria-describedby="url-error"
+                                    aria-invalid="false" />
+                                <button type="submit" class="analyze-btn" id="analyzeBtn">
+                                    <span class="btn-text">Analyze</span>
+                                    <span class="btn-icon">→</span>
+                                </button>
+                            </div>
+                            <div class="input-error" id="url-error" role="alert" aria-live="polite"></div>
+                        </div>
+
+                        <div class="turnstile-wrapper">
+                            <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-theme="dark"
+                                size="compact"></div>
+                        </div>
+
+                        <div class="advanced-toggle-wrapper">
+                            <button type="button" class="advanced-toggle" id="advancedToggle">
+                                <span class="toggle-icon">▸</span>
+                                <span>Advanced Options</span>
+                            </button>
+                            <button type="button" class="history-toggle" id="historyToggle">
+                                <span>🕒</span>
+                                <span>History</span>
+                                <span class="history-count" id="historyCount" style="display: none;">0</span>
+                            </button>
+                        </div>
+
+                        <div class="history-panel" id="historyPanel">
+                            <div class="history-header">
+                                <h4>Recent Searches</h4>
+                                <button type="button" class="clear-history-btn" id="clearHistoryBtn">Clear All</button>
+                            </div>
+                            <div class="privacy-notice">
+                                <span class="privacy-icon">🔒</span>
+                                <span class="privacy-text">Your search history is stored only in your browser and never
+                                    synced to servers.</span>
+                            </div>
+                            <div class="history-list" id="historyList">
+                                <div class="history-empty">No search history yet</div>
+                            </div>
+                        </div>
+
+                        <div class="advanced-options" id="advancedOptions">
+                            <div class="options-grid">
+                                <div class="option-group">
+                                    <label class="option-label">
+                                        Language
+                                        <span class="tooltip-wrapper">
+                                            <span class="tooltip-icon">?</span>
+                                            <span class="tooltip-text">Preferred language for AI summaries and content analysis</span>
+                                        </span>
+                                    </label>
+                                    <div class="custom-select" data-name="language">
+                                        <div class="custom-select-trigger">
+                                            <span class="custom-select-value">🇺🇸 English (US)</span>
+                                            <span class="custom-select-arrow">▼</span>
+                                        </div>
+                                        <div class="custom-select-options">
+                                            <div class="custom-select-option" data-value="en-US">🇺🇸 English (US)</div>
+                                            <div class="custom-select-option" data-value="it-IT">🇮🇹 Italiano</div>
+                                            <div class="custom-select-option" data-value="es-ES">🇪🇸 Español</div>
+                                            <div class="custom-select-option" data-value="fr-FR">🇫🇷 Français</div>
+                                            <div class="custom-select-option" data-value="de-DE">🇩🇪 Deutsch</div>
+                                            <div class="custom-select-option" data-value="pt-PT">🇵🇹 Português</div>
+                                            <div class="custom-select-option" data-value="ja-JP">🇯🇵 日本語</div>
+                                            <div class="custom-select-option" data-value="zh-CN">🇨🇳 中文</div>
+                                        </div>
+                                        <input type="hidden" name="language" value="en-US">
+                                    </div>
+                                </div>
+
+                                <div class="option-group">
+                                    <label class="toggle-option">
+                                        <span class="toggle-option-label">
+                                            Ignore robots.txt
+                                            <span class="tooltip-wrapper">
+                                                <span class="tooltip-icon">?</span>
+                                                <span class="tooltip-text">Bypass robots.txt restrictions (use responsibly and only for authorized testing)</span>
+                                            </span>
+                                        </span>
+                                        <input type="checkbox" class="toggle-input" name="ignoreRobots">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="option-group">
+                                    <label class="toggle-option">
+                                        <span class="toggle-option-label">
+                                            Ignore External Links
+                                            <span class="tooltip-wrapper">
+                                                <span class="tooltip-icon">?</span>
+                                                <span class="tooltip-text">Skip extraction of external links to speed up processing</span>
+                                            </span>
+                                        </span>
+                                        <input type="checkbox" class="toggle-input" name="ignoreExternalLinks">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="option-group">
+                                    <label class="toggle-option">
+                                        <span class="toggle-option-label">
+                                            Ignore Internal Links
+                                            <span class="tooltip-wrapper">
+                                                <span class="tooltip-icon">?</span>
+                                                <span class="tooltip-text">Skip extraction of internal links to speed up processing</span>
+                                            </span>
+                                        </span>
+                                        <input type="checkbox" class="toggle-input" name="ignoreInternalLinks">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="option-group">
+                                    <label class="toggle-option">
+                                        <span class="toggle-option-label">
+                                            Generate AI Summary
+                                            <span class="tooltip-wrapper">
+                                                <span class="tooltip-icon">?</span>
+                                                <span class="tooltip-text">Use AI to generate intelligent content summaries and extract key facts (requires AI endpoint)</span>
+                                            </span>
+                                        </span>
+                                        <input type="checkbox" class="toggle-input" name="generateSummary">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="option-group">
+                                    <label class="option-label">
+                                        Summary Length
+                                        <span class="tooltip-wrapper">
+                                            <span class="tooltip-icon">?</span>
+                                            <span class="tooltip-text">Short (~50 words), Medium (~150 words), or Long (~300 words)</span>
+                                        </span>
+                                    </label>
+                                    <div class="custom-select" data-name="summaryLength">
+                                        <div class="custom-select-trigger">
+                                            <span class="custom-select-value">📄 Medium</span>
+                                            <span class="custom-select-arrow">▼</span>
+                                        </div>
+                                        <div class="custom-select-options">
+                                            <div class="custom-select-option" data-value="short">📋 Short</div>
+                                            <div class="custom-select-option selected" data-value="medium">📄 Medium</div>
+                                            <div class="custom-select-option" data-value="long">📰 Long</div>
+                                        </div>
+                                        <input type="hidden" name="summaryLength" value="medium">
+                                    </div>
+                                </div>
+
+                                <div class="option-group">
+                                    <label class="toggle-option">
+                                        <span class="toggle-option-label">
+                                            Extract Key Facts
+                                            <span class="tooltip-wrapper">
+                                                <span class="tooltip-icon">?</span>
+                                                <span class="tooltip-text">AI extracts structured key facts like company name, industry, services, target audience (requires AI endpoint)</span>
+                                            </span>
+                                        </span>
+                                        <input type="checkbox" class="toggle-input" name="extractKeyFacts">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="results-container" id="resultsContainer" style="display: none;">
+                    <!-- Results will be injected here -->
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section" id="pricing" aria-labelledby="cta-heading">
+            <div class="container">
+                <h2 id="cta-heading" class="sr-only">Additional Services</h2>
+                <div class="cta-grid">
+                    <div class="cta-card">
+                        <div class="cta-icon">⚡</div>
+                        <h3 class="cta-title">Bulk Analysis</h3>
+                        <p class="cta-description">
+                            Coming soon. Bulk URL analysis for large website lists with enterprise-grade infrastructure.
+                        </p>
+                        <span class="cta-button cta-button-primary" aria-disabled="true">Coming Soon</span>
+                    </div>
+
+                    <div class="cta-card" id="api">
+                        <div class="cta-icon">{ }</div>
+                        <h3 class="cta-title">API Access</h3>
+                        <p class="cta-description">
+                            Integrate URL metadata extraction directly into your applications.
+                            Available on Apify and RapidAPI with simple REST access and AI-powered features.
+                        </p>
+                        <div class="cta-actions">
+                            <a href="https://apify.com/njoylab/ai-enhanced-website-metadata?fpr=njoylab" target="_blank"
+                                class="cta-button cta-button-secondary">View on Apify</a>
+                            <a href="https://rapidapi.com/njoylab/api/website-url-to-metadata" target="_blank"
+                                class="cta-button cta-button-secondary">View on RapidAPI</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">
+                    &copy; 2026 URL Summary Scraper. Built by <a href="https://njoylab.com" target="_blank" rel="noopener"
+                        style="color: var(--color-accent); text-decoration: none;">nJoyLab.com</a>
+                </p>
+                <p class="footer-links" style="color: var(--color-text-dim); font-size: 0.9rem; margin-top: 0.5rem;">
+                    <a href="https://echovalue.dev" target="_blank" rel="noopener"
+                        style="color: var(--color-text-secondary); text-decoration: none;">More Tools</a>
+                    <span style="margin: 0 0.5rem;">•</span>
+                    <a href="https://github.com/njoylab" target="_blank" rel="noopener"
+                        style="color: var(--color-text-secondary); text-decoration: none;">GitHub</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LZString for JSON compression -->
+    <script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
