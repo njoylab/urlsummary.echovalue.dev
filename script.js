@@ -298,9 +298,8 @@ urlInput.addEventListener('blur', () => {
     updateValidationUI(validation, false);
 });
 
-// Store the current API response
-let currentApiResponse = null;
 let currentOptions = null;
+let currentApiResponse = null;
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -807,10 +806,27 @@ function renderSummaryHeader(technical, seo) {
     const loadTime = technical?.loadTime ? `${technical.loadTime}ms` : '—';
     const isSecure = technical?.isSecure ? '🔒 Secure' : '🔓 Not Secure';
     const title = seo?.title || 'No title found';
+    const url = technical?.originalUrl || '';
 
     return `
         <div class="summary-header">
-            <h2 class="summary-title">${escapeHtml(title)}</h2>
+            <div class="summary-header-top">
+                <h2 class="summary-title">${escapeHtml(title)}</h2>
+                <div class="json-actions">
+                    <button class="json-action-btn" id="copyJsonBtn">
+                        <span>📋</span>
+                        <span>Copy JSON</span>
+                    </button>
+                    <button class="json-action-btn" id="viewJsonBtn">
+                        <span>👁️</span>
+                        <span>View JSON</span>
+                    </button>
+                    <button class="json-action-btn" id="downloadJsonBtn">
+                        <span>💾</span>
+                        <span>Download JSON</span>
+                    </button>
+                </div>
+            </div>
             <div class="summary-stats">
                 <div class="summary-stat">
                     <span class="stat-label">Status</span>
@@ -1126,6 +1142,23 @@ function displayResults(data) {
     // Attach collapsible handlers
     attachCollapsibleHandlers();
 
+    // Attach JSON action button handlers
+    const copyJsonBtn = document.getElementById('copyJsonBtn');
+    const viewJsonBtn = document.getElementById('viewJsonBtn');
+    const downloadJsonBtn = document.getElementById('downloadJsonBtn');
+
+    if (copyJsonBtn) {
+        copyJsonBtn.addEventListener('click', copyJsonToClipboard);
+    }
+
+    if (viewJsonBtn) {
+        viewJsonBtn.addEventListener('click', viewJsonFile);
+    }
+
+    if (downloadJsonBtn) {
+        downloadJsonBtn.addEventListener('click', downloadJsonFile);
+    }
+
     // Update URL with result
     updateURLWithResult(data.technical.originalUrl, currentOptions);
 
@@ -1291,4 +1324,119 @@ if (ignoreRobotsCheckbox) {
             }
         }
     });
+}
+
+// Copy JSON to clipboard
+function copyJsonToClipboard() {
+    if (!currentApiResponse) {
+        showToast('No analysis data available to copy', 'warning', 4000);
+        return;
+    }
+
+    const jsonString = JSON.stringify(currentApiResponse, null, 2);
+
+    navigator.clipboard.writeText(jsonString).then(() => {
+        // Visual feedback
+        const btn = document.getElementById('copyJsonBtn');
+        const originalContent = btn.innerHTML;
+        btn.innerHTML = '<span>✓</span><span>Copied!</span>';
+        btn.style.background = 'var(--color-success)';
+        btn.style.borderColor = 'var(--color-success)';
+        btn.style.color = 'var(--color-bg)';
+
+        setTimeout(() => {
+            btn.innerHTML = originalContent;
+            btn.style.background = '';
+            btn.style.borderColor = '';
+            btn.style.color = '';
+        }, 2000);
+
+        showToast('JSON copied to clipboard', 'success', 3000);
+    }).catch(err => {
+        showToast('Failed to copy JSON to clipboard', 'error', 5000);
+        console.error('Clipboard error:', err);
+    });
+}
+
+// View JSON file in JSONLint
+function viewJsonFile() {
+    if (!currentApiResponse) {
+        showToast('No analysis data available to view', 'warning', 4000);
+        return;
+    }
+
+    try {
+        // Compress JSON using LZString
+        const jsonString = JSON.stringify(currentApiResponse);
+        const compressed = LZString.compressToEncodedURIComponent(jsonString);
+
+        // Create a temporary link and click it (prevents popup blockers)
+        const url = `https://jsonlint.echovalue.dev/?json=${compressed}`;
+        const link = document.createElement('a');
+        link.href = url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Visual feedback
+        const btn = document.getElementById('viewJsonBtn');
+        const originalContent = btn.innerHTML;
+        btn.innerHTML = '<span>✓</span><span>Opened!</span>';
+        btn.style.background = 'var(--color-success)';
+        btn.style.borderColor = 'var(--color-success)';
+        btn.style.color = 'var(--color-bg)';
+
+        setTimeout(() => {
+            btn.innerHTML = originalContent;
+            btn.style.background = '';
+            btn.style.borderColor = '';
+            btn.style.color = '';
+        }, 2000);
+    } catch (error) {
+        showToast('Failed to compress JSON. Please try again.', 'error', 5000);
+        console.error('Compression error:', error);
+    }
+}
+
+// Download JSON file
+function downloadJsonFile() {
+    if (!currentApiResponse) {
+        showToast('No analysis data available to download', 'warning', 4000);
+        return;
+    }
+
+    const jsonString = JSON.stringify(currentApiResponse, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+
+    // Generate filename from URL and timestamp
+    const url = currentApiResponse.data?.technical?.originalUrl || 'analysis';
+    const hostname = url.replace(/^https?:\/\//, '').replace(/\//g, '_').replace(/:/g, '_');
+    const timestamp = new Date().toISOString().split('T')[0];
+    link.download = `${hostname}_${timestamp}.json`;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(link.href);
+
+    // Visual feedback
+    const btn = document.getElementById('downloadJsonBtn');
+    const originalContent = btn.innerHTML;
+    btn.innerHTML = '<span>✓</span><span>Downloaded!</span>';
+    btn.style.background = 'var(--color-success)';
+    btn.style.borderColor = 'var(--color-success)';
+    btn.style.color = 'var(--color-bg)';
+
+    setTimeout(() => {
+        btn.innerHTML = originalContent;
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        btn.style.color = '';
+    }, 2000);
+
+    showToast('JSON file downloaded', 'success', 3000);
 }
