@@ -812,10 +812,23 @@ function renderSummaryHeader(technical, seo) {
             <div class="summary-header-top">
                 <h2 class="summary-title">${escapeHtml(title)}</h2>
                 <div class="json-actions">
-                    <button class="json-action-btn" id="copyJsonBtn">
-                        <span>📋</span>
-                        <span>Copy JSON</span>
-                    </button>
+                    <div class="json-action-dropdown">
+                        <button class="json-action-btn dropdown-trigger" id="copyDropdownBtn">
+                            <span>📋</span>
+                            <span>Copy</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item" data-action="copy-json">
+                                <span>📄</span>
+                                <span>Copy as JSON</span>
+                            </button>
+                            <button class="dropdown-item" data-action="copy-markdown">
+                                <span>📝</span>
+                                <span>Copy as Markdown for AI</span>
+                            </button>
+                        </div>
+                    </div>
                     <button class="json-action-btn" id="viewJsonBtn">
                         <span>👁️</span>
                         <span>View JSON</span>
@@ -1142,13 +1155,45 @@ function displayResults(data) {
     attachCollapsibleHandlers();
 
     // Attach JSON action button handlers
-    const copyJsonBtn = document.getElementById('copyJsonBtn');
+    const copyDropdownBtn = document.getElementById('copyDropdownBtn');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+    const dropdownItems = document.querySelectorAll('.dropdown-item');
     const viewJsonBtn = document.getElementById('viewJsonBtn');
     const downloadJsonBtn = document.getElementById('downloadJsonBtn');
 
-    if (copyJsonBtn) {
-        copyJsonBtn.addEventListener('click', copyJsonToClipboard);
+    // Dropdown toggle handler
+    if (copyDropdownBtn && dropdownMenu) {
+        copyDropdownBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.json-action-dropdown')) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
     }
+
+    // Dropdown item handlers
+    dropdownItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const action = item.dataset.action;
+
+            if (action === 'copy-json') {
+                copyJsonToClipboard();
+            } else if (action === 'copy-markdown') {
+                copyMarkdownToClipboard();
+            }
+
+            // Close dropdown after action
+            if (dropdownMenu) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+    });
 
     if (viewJsonBtn) {
         viewJsonBtn.addEventListener('click', viewJsonFile);
@@ -1353,6 +1398,176 @@ function copyJsonToClipboard() {
         showToast('JSON copied to clipboard', 'success', 3000);
     }).catch(err => {
         showToast('Failed to copy JSON to clipboard', 'error', 5000);
+        console.error('Clipboard error:', err);
+    });
+}
+
+// Generate Markdown report optimized for LLM prompts
+function generateMarkdownReport() {
+    if (!currentApiResponse || !currentApiResponse.data) {
+        return '';
+    }
+
+    const data = currentApiResponse.data;
+    const url = data.technical?.originalUrl || 'Unknown URL';
+    const timestamp = new Date().toLocaleString('en-US', {
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+    });
+    const status = data.technical?.statusCode || '—';
+    const loadTime = data.technical?.loadTime ? `${data.technical.loadTime}ms` : '—';
+    const statusEmoji = status >= 200 && status < 300 ? '✅' : status >= 300 && status < 400 ? '⚠️' : '❌';
+
+    let md = `# Website Analysis Report\n\n`;
+    md += `**URL**: ${url}\n`;
+    md += `**Analysis Date**: ${timestamp}\n`;
+    md += `**Status**: ${statusEmoji} ${status} (${loadTime})\n\n`;
+
+    md += `## Overview\n\n`;
+    md += `This report contains comprehensive metadata extracted from the website, including SEO data, social media links, contact information, technical details, and more.\n\n`;
+    md += `---\n\n`;
+
+    // SEO Metadata
+    if (data.seo && Object.keys(data.seo).some(k => data.seo[k])) {
+        md += `## SEO Metadata\n\n`;
+        if (data.seo.title) md += `- **Title**: ${data.seo.title}\n`;
+        if (data.seo.description) md += `- **Description**: ${data.seo.description}\n`;
+        if (data.seo.keywords) md += `- **Keywords**: ${data.seo.keywords}\n`;
+        if (data.seo.canonical) md += `- **Canonical URL**: ${data.seo.canonical}\n`;
+        if (data.seo.robots) md += `- **Robots**: ${data.seo.robots}\n`;
+        if (data.seo.language) md += `- **Language**: ${data.seo.language}\n`;
+        if (data.seo.viewport) md += `- **Viewport**: ${data.seo.viewport}\n`;
+        md += `\n`;
+    }
+
+    // Social Media Presence
+    if (data.social && Object.keys(data.social).some(k => data.social[k])) {
+        md += `## Social Media Presence\n\n`;
+        Object.entries(data.social).forEach(([platform, url]) => {
+            if (url) {
+                const displayName = platform.charAt(0).toUpperCase() + platform.slice(1);
+                md += `- **${displayName}**: [${url}](${url})\n`;
+            }
+        });
+        md += `\n`;
+    }
+
+    // Contact Information
+    if (data.contact && Object.keys(data.contact).some(k => data.contact[k])) {
+        md += `## Contact Information\n\n`;
+        if (data.contact.email) md += `- **Email**: ${data.contact.email}\n`;
+        if (data.contact.phone) md += `- **Phone**: ${data.contact.phone}\n`;
+        if (data.contact.address) md += `- **Address**: ${data.contact.address}\n`;
+        md += `\n`;
+    }
+
+    // Technical Details
+    if (data.technical) {
+        md += `## Technical Details\n\n`;
+        if (data.technical.statusCode) md += `- **HTTP Status**: ${data.technical.statusCode}\n`;
+        if (data.technical.loadTime) md += `- **Load Time**: ${data.technical.loadTime}ms\n`;
+        if (data.technical.isSecure !== undefined) md += `- **HTTPS**: ${data.technical.isSecure ? 'Yes ✅' : 'No ❌'}\n`;
+        if (data.technical.finalUrl) md += `- **Final URL**: ${data.technical.finalUrl}\n`;
+        if (data.technical.robotsAllowed !== undefined) md += `- **Robots Allowed**: ${data.technical.robotsAllowed ? 'Yes' : 'No'}\n`;
+        if (data.technical.contentType) md += `- **Content Type**: ${data.technical.contentType}\n`;
+        md += `\n`;
+    }
+
+    // Open Graph
+    if (data.openGraph && Object.keys(data.openGraph).some(k => data.openGraph[k])) {
+        md += `## Open Graph Metadata\n\n`;
+        if (data.openGraph.title) md += `- **OG Title**: ${data.openGraph.title}\n`;
+        if (data.openGraph.description) md += `- **OG Description**: ${data.openGraph.description}\n`;
+        if (data.openGraph.image) md += `- **OG Image**: [${data.openGraph.image}](${data.openGraph.image})\n`;
+        if (data.openGraph.url) md += `- **OG URL**: ${data.openGraph.url}\n`;
+        if (data.openGraph.type) md += `- **OG Type**: ${data.openGraph.type}\n`;
+        if (data.openGraph.siteName) md += `- **OG Site Name**: ${data.openGraph.siteName}\n`;
+        md += `\n`;
+    }
+
+    // Twitter Card
+    if (data.twitterCard && Object.keys(data.twitterCard).some(k => data.twitterCard[k])) {
+        md += `## Twitter Card Metadata\n\n`;
+        if (data.twitterCard.card) md += `- **Card Type**: ${data.twitterCard.card}\n`;
+        if (data.twitterCard.site) md += `- **Site**: ${data.twitterCard.site}\n`;
+        if (data.twitterCard.creator) md += `- **Creator**: ${data.twitterCard.creator}\n`;
+        if (data.twitterCard.title) md += `- **Title**: ${data.twitterCard.title}\n`;
+        if (data.twitterCard.description) md += `- **Description**: ${data.twitterCard.description}\n`;
+        if (data.twitterCard.image) md += `- **Image**: [${data.twitterCard.image}](${data.twitterCard.image})\n`;
+        md += `\n`;
+    }
+
+    // Media Assets
+    if (data.media && Object.keys(data.media).some(k => data.media[k])) {
+        md += `## Media Assets\n\n`;
+        if (data.media.favicon) md += `- **Favicon**: [${data.media.favicon}](${data.media.favicon})\n`;
+        if (data.media.appleTouchIcon) md += `- **Apple Touch Icon**: [${data.media.appleTouchIcon}](${data.media.appleTouchIcon})\n`;
+        if (data.media.featuredImage) md += `- **Featured Image**: [${data.media.featuredImage}](${data.media.featuredImage})\n`;
+        if (data.media.logo) md += `- **Logo**: [${data.media.logo}](${data.media.logo})\n`;
+        md += `\n`;
+    }
+
+    // Links Summary
+    if (data.links) {
+        md += `## Links Analysis\n\n`;
+        const totalLinks = (data.links.internal?.total || 0) + (data.links.external?.total || 0);
+        md += `- **Total Links**: ${totalLinks}\n`;
+        md += `- **Internal Links**: ${data.links.internal?.total || 0}\n`;
+        md += `- **External Links**: ${data.links.external?.total || 0}\n`;
+        md += `- **External Domains**: ${data.links.external?.domains?.length || 0}\n`;
+        md += `\n`;
+    }
+
+    // AI Analysis
+    if (data.ai && (data.ai.summary || data.ai.keyFacts)) {
+        md += `## AI Analysis\n\n`;
+
+        if (data.ai.summary) {
+            const summaryText = data.ai.summary.long || data.ai.summary.medium || data.ai.summary.short || '';
+            if (summaryText) {
+                md += `### AI-Generated Summary\n\n`;
+                md += `${summaryText}\n\n`;
+            }
+        }
+
+        if (data.ai.keyFacts) {
+            const facts = Object.entries(data.ai.keyFacts).filter(([_, v]) => v && String(v).trim());
+            if (facts.length > 0) {
+                md += `### Key Facts\n\n`;
+                facts.forEach(([key, value]) => {
+                    const label = key.replace(/([A-Z])/g, ' $1').trim();
+                    const displayLabel = label.charAt(0).toUpperCase() + label.slice(1);
+                    const displayValue = Array.isArray(value) ? value.join(', ') : value;
+                    md += `- **${displayLabel}**: ${displayValue}\n`;
+                });
+                md += `\n`;
+            }
+        }
+
+        if (data.ai.error) {
+            md += `*Note: ${data.ai.error}*\n\n`;
+        }
+    }
+
+    md += `---\n\n`;
+    md += `*Generated by [URL Summary Scraper](https://urlsummary.echovalue.dev) on ${timestamp}*\n`;
+
+    return md;
+}
+
+// Copy Markdown to clipboard
+function copyMarkdownToClipboard() {
+    if (!currentApiResponse) {
+        showToast('No analysis data available to copy', 'warning', 4000);
+        return;
+    }
+
+    const markdown = generateMarkdownReport();
+
+    navigator.clipboard.writeText(markdown).then(() => {
+        showToast('Markdown copied to clipboard', 'success', 3000);
+    }).catch(err => {
+        showToast('Failed to copy Markdown to clipboard', 'error', 5000);
         console.error('Clipboard error:', err);
     });
 }
