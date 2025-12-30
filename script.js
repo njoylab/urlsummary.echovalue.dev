@@ -355,15 +355,27 @@ async function callScraperApi(url, options, turnstileToken) {
 
     const payload = {
         url: url,
-        language: options.language === 'auto' ? undefined : (options.language || 'en-US'),
         ignoreRobots: options.ignoreRobots || false,
         ignoreExternalLinks: options.ignoreExternalLinks || false,
         ignoreInteralLinks: options.ignoreInternalLinks || false,  // Note: typo in backend API
         generateSummary: generateSummary,
-        summaryLength: generateSummary ? summaryLength : 'short',
-        extractKeyFacts: options.extractKeyFacts || false,
-        summaryLanguage: options.language === 'auto' ? undefined : (options.summaryLanguage || options.language || 'en-US')
+        extractKeyFacts: options.extractKeyFacts || false
     };
+
+    // Add language only if not 'auto'
+    if (options.language && options.language !== 'auto') {
+        payload.language = options.language;
+    }
+
+    // Add summaryLength only if generateSummary is true
+    if (generateSummary) {
+        payload.summaryLength = summaryLength;
+    }
+
+    // Add summaryLanguage only if not 'auto'
+    if (options.language && options.language !== 'auto') {
+        payload.summaryLanguage = options.language;
+    }
 
     return await fetchWithTimeout(API_ENDPOINT, payload, turnstileToken);
 }
