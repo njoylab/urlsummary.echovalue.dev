@@ -26,7 +26,7 @@
     <meta property="og:title" content="URL Summary Scraper - Website Metadata & SEO Analysis">
     <meta property="og:description"
         content="Extract comprehensive metadata from any URL: SEO data, Open Graph tags, social media links, contact info, and more.">
-    <meta property="og:image" content="https://urlsummary.echovalue.dev/og-image.png">
+    <meta property="og:image" content="https://urlsummary.echovalue.dev/android-chrome-512x512.png">
     <meta property="og:locale" content="en_US">
     <meta property="og:site_name" content="URL Summary Scraper">
 
@@ -36,7 +36,7 @@
     <meta property="twitter:title" content="URL Summary Scraper - Website Metadata & SEO Analysis">
     <meta property="twitter:description"
         content="Extract comprehensive metadata from any URL: SEO data, Open Graph tags, social media links, contact info, and more.">
-    <meta property="twitter:image" content="https://urlsummary.echovalue.dev/og-image.png">
+    <meta property="twitter:image" content="https://urlsummary.echovalue.dev/android-chrome-512x512.png">
 
     <!-- Favicon - SVG works in all modern browsers -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -59,7 +59,7 @@
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=4">
+    <link rel="stylesheet" href="styles.css?v=5">
 
     <!-- Sitemap Reference -->
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
@@ -344,9 +344,9 @@
                         </p>
                         <div class="cta-actions">
                             <a href="https://apify.com/njoylab/ai-enhanced-website-metadata?fpr=njoylab" target="_blank"
-                                class="cta-button cta-button-secondary">View on Apify</a>
+                                rel="noopener noreferrer" class="cta-button cta-button-secondary">View on Apify</a>
                             <a href="https://rapidapi.com/njoylab/api/website-url-to-metadata" target="_blank"
-                                class="cta-button cta-button-secondary">View on RapidAPI</a>
+                                rel="noopener noreferrer" class="cta-button cta-button-secondary">View on RapidAPI</a>
                         </div>
                     </div>
                 </div>
@@ -359,17 +359,19 @@
             <div class="footer-content">
                 <p class="footer-text">
                     &copy; 2025 URL Summary Scraper. Built by <a href="https://njoylab.com" target="_blank"
-                        rel="noopener" style="color: var(--color-accent); text-decoration: none;">nJoyLab.com</a>
+                        rel="noopener noreferrer"
+                        style="color: var(--color-accent); text-decoration: none;">nJoyLab.com</a>
                 </p>
                 <p class="footer-links" style="color: var(--color-text-dim); font-size: 0.9rem; margin-top: 0.5rem;">
-                    <a href="https://echovalue.dev" target="_blank" rel="noopener"
+                    <a href="https://echovalue.dev" target="_blank" rel="noopener noreferrer"
                         style="color: var(--color-text-secondary); text-decoration: none;">More Tools</a>
                     <span style="margin: 0 0.5rem;">•</span>
-                    <a href="https://github.com/njoylab/urlsummary.echovalue.dev" target="_blank" rel="noopener"
+                    <a href="https://github.com/njoylab/urlsummary.echovalue.dev" target="_blank"
+                        rel="noopener noreferrer"
                         style="color: var(--color-text-secondary); text-decoration: none;">GitHub</a>
                     <span style="margin: 0 0.5rem;">•</span>
-                    <a href="/terms.html"
-                        style="color: var(--color-text-secondary); text-decoration: none;">Terms & Conditions</a>
+                    <a href="/terms.html" style="color: var(--color-text-secondary); text-decoration: none;">Terms &
+                        Conditions</a>
                 </p>
             </div>
         </div>
@@ -389,7 +391,7 @@
 
     <!-- LZString for JSON compression -->
     <script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
-    <script src="script.js?v=4"></script>
+    <script src="script.js?v=5"></script>
 </body>
 
 </html>

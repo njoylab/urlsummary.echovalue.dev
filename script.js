@@ -53,7 +53,7 @@ function showToast(message, type = 'info', duration = 5000) {
     toast.innerHTML = `
         <span class="toast-icon" aria-hidden="true">${icon}</span>
         <div class="toast-content">
-            <div class="toast-message">${message}</div>
+            <div class="toast-message">${escapeHtml(message)}</div>
         </div>
         <button class="toast-close" aria-label="Close notification">×</button>
         ${duration > 0 ? '<div class="toast-progress"></div>' : ''}
@@ -170,7 +170,6 @@ document.addEventListener('keydown', (e) => {
 const analyzeBtn = document.getElementById('analyzeBtn');
 const urlError = document.getElementById('url-error');
 
-const URL_REGEX = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
 const VALIDATION_DEBOUNCE_MS = 300;
 
 let validationTimeout = null;
@@ -206,8 +205,19 @@ function validateURL(input) {
         return { valid: false, message: 'URL is too long (maximum 2048 characters)', cleaned };
     }
 
-    if (!URL_REGEX.test(cleaned)) {
+    let parsedUrl = null;
+    try {
+        parsedUrl = new URL(cleaned);
+    } catch (e) {
         return { valid: false, message: 'Invalid URL format. Must include domain (e.g., https://example.com)', cleaned };
+    }
+
+    if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
+        return { valid: false, message: 'URL must start with http:// or https://', cleaned };
+    }
+
+    if (!parsedUrl.hostname || !parsedUrl.hostname.includes('.')) {
+        return { valid: false, message: 'URL must include a valid domain (e.g., https://example.com)', cleaned };
     }
 
     return { valid: true, message: '', cleaned };
@@ -522,23 +532,27 @@ function renderHistory() {
     historyList.innerHTML = history.map(item => {
         const title = item.preview?.title || item.url;
         const displayTitle = title.length > 50 ? title.substring(0, 50) + '...' : title;
+        const safeTitle = escapeHtml(displayTitle);
+        const safeUrl = escapeHtml(item.url);
+        const safeFavicon = item.preview?.favicon ? escapeHtml(item.preview.favicon) : '';
+        const safeStatus = item.preview?.statusCode ? escapeHtml(String(item.preview.statusCode)) : '';
 
         return `
-            <div class="history-item" data-url="${item.url}">
+            <div class="history-item" data-url="${safeUrl}">
                 <div class="history-item-main">
-                    ${item.preview?.favicon ? `<img src="${item.preview.favicon}" class="history-item-favicon" alt="">` : ''}
+                    ${safeFavicon ? `<img src="${safeFavicon}" class="history-item-favicon" alt="">` : ''}
                     <div class="history-item-content">
-                        <div class="history-item-domain">${displayTitle}</div>
+                        <div class="history-item-domain">${safeTitle}</div>
                         <div class="history-item-meta">
                             <span class="history-item-date">
                                 <span>📅</span>
                                 <span>${formatDate(item.timestamp)}</span>
                             </span>
-                            ${item.preview?.statusCode ? `<span class="history-item-status">${item.preview.statusCode}</span>` : ''}
+                            ${safeStatus ? `<span class="history-item-status">${safeStatus}</span>` : ''}
                         </div>
                     </div>
                 </div>
-                <button class="history-item-delete" data-url="${item.url}" title="Delete">×</button>
+                <button class="history-item-delete" data-url="${safeUrl}" title="Delete">×</button>
             </div>
         `;
     }).join('');
@@ -635,8 +649,13 @@ function initializeFromURL() {
             urlInput.value = decodedUrl;
 
             if (langParam) {
-                const langSelect = form.querySelector('select[name="language"]');
-                if (langSelect) langSelect.value = langParam;
+                const langSelect = document.querySelector('.custom-select[data-name="language"]');
+                if (langSelect) {
+                    const langOption = langSelect.querySelector(`.custom-select-option[data-value="${langParam}"]`);
+                    if (langOption) {
+                        langOption.click();
+                    }
+                }
             }
 
             // Trigger validation
@@ -785,7 +804,7 @@ function renderDataItem(label, value, type = 'text') {
     let displayValue = '';
 
     if (type === 'link') {
-        displayValue = `<a href="${escapeHtml(value)}" target="_blank" class="data-value-link">${escapeHtml(value)}</a>`;
+        displayValue = `<a href="${escapeHtml(value)}" target="_blank" rel="noopener noreferrer" class="data-value-link">${escapeHtml(value)}</a>`;
     } else if (Array.isArray(value)) {
         displayValue = `<span class="data-value">${value.map(v => escapeHtml(v)).join(', ')}</span>`;
     } else {
@@ -819,7 +838,7 @@ function renderSummaryHeader(technical, seo) {
                             <span class="dropdown-arrow">▼</span>
                         </button>
                         <div class="dropdown-menu">
-                            <button class="dropdown-item" data-action="copy-json">
+                            <button class="dropdown-item" id="copyJsonBtn" data-action="copy-json">
                                 <span>📄</span>
                                 <span>Copy as JSON</span>
                             </button>
@@ -918,7 +937,7 @@ function renderSocialMediaSection(social) {
             const icon = SOCIAL_ICONS[platform] || '🔗';
             const displayName = platform.charAt(0).toUpperCase() + platform.slice(1);
             return `
-                <a href="${escapeHtml(url)}" target="_blank" class="social-link-item">
+                <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="social-link-item">
                     <span class="social-icon">${icon}</span>
                     <span class="social-platform">${escapeHtml(displayName)}</span>
                 </a>
@@ -982,7 +1001,7 @@ function renderMediaSection(media) {
                      class="media-image media-image-${item.type}"
                      loading="lazy"
                      onerror="this.style.display='none'">
-                <a href="${escapeHtml(item.url)}" target="_blank" class="media-link">View Full Size</a>
+                <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" class="media-link">View Full Size</a>
             </div>
         </div>
     `);
@@ -1038,7 +1057,7 @@ function renderLinksList(title, urls, limit = 20) {
 
     const items = displayUrls.map(url => `
         <div class="link-item">
-            <a href="${escapeHtml(url)}" target="_blank">${escapeHtml(url)}</a>
+            <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(url)}</a>
         </div>
     `).join('');
 
@@ -1273,6 +1292,11 @@ form.addEventListener('submit', async (e) => {
         return;
     }
 
+    if (!API_ENDPOINT || API_ENDPOINT === '__API_ENDPOINT__') {
+        showToast('API endpoint not configured. Please set URL_SCRAPER_API_ENDPOINT and rebuild.', 'error', 8000);
+        return;
+    }
+
     const url = validation.cleaned;
     const options = getFormOptions();
     const turnstileToken = getTurnstileToken();
@@ -1382,18 +1406,20 @@ function copyJsonToClipboard() {
     navigator.clipboard.writeText(jsonString).then(() => {
         // Visual feedback
         const btn = document.getElementById('copyJsonBtn');
-        const originalContent = btn.innerHTML;
-        btn.innerHTML = '<span>✓</span><span>Copied!</span>';
-        btn.style.background = 'var(--color-success)';
-        btn.style.borderColor = 'var(--color-success)';
-        btn.style.color = 'var(--color-bg)';
+        if (btn) {
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = '<span>✓</span><span>Copied!</span>';
+            btn.style.background = 'var(--color-success)';
+            btn.style.borderColor = 'var(--color-success)';
+            btn.style.color = 'var(--color-bg)';
 
-        setTimeout(() => {
-            btn.innerHTML = originalContent;
-            btn.style.background = '';
-            btn.style.borderColor = '';
-            btn.style.color = '';
-        }, 2000);
+            setTimeout(() => {
+                btn.innerHTML = originalContent;
+                btn.style.background = '';
+                btn.style.borderColor = '';
+                btn.style.color = '';
+            }, 2000);
+        }
 
         showToast('JSON copied to clipboard', 'success', 3000);
     }).catch(err => {
