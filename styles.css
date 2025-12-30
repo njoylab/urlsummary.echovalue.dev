@@ -1289,9 +1289,13 @@ body {
     font-weight: 600;
 }
 
-.analyze-btn.loading-active {
+.analyze-btn.loading {
     animation: loadingPulse 2s ease-in-out infinite;
     pointer-events: none;
+}
+
+.analyze-btn.loading .btn-icon {
+    display: none;
 }
 
 @keyframes loadingPulse {

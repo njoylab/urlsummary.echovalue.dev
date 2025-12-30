@@ -106,7 +106,6 @@ The `build.js` script:
 
 ## Privacy
 
-- ✅ All processing happens in your browser
 - ✅ No server-side data collection
 - ✅ Search history stored locally only (LocalStorage)
 - ✅ No tracking or analytics
