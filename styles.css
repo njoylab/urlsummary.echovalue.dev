@@ -700,12 +700,15 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.5rem;
+    overflow: visible;
 }
 
 .option-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    position: relative;
+    overflow: visible;
 }
 
 .option-label {
@@ -901,7 +904,7 @@ body {
     white-space: normal;
     width: max-content;
     max-width: 280px;
-    z-index: 1000;
+    z-index: 10000;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     pointer-events: none;
     transition: all 0.3s var(--transition-smooth);
@@ -2455,6 +2458,11 @@ body {
 .custom-select {
     position: relative;
     width: 100%;
+    z-index: 1;
+}
+
+.custom-select.active {
+    z-index: 10001;
 }
 
 .custom-select-trigger {
@@ -2510,7 +2518,7 @@ body {
     border-bottom-right-radius: 8px;
     max-height: 240px;
     overflow-y: auto;
-    z-index: 1000;
+    z-index: 10000;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
