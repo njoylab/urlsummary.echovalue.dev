@@ -1294,7 +1294,7 @@ body {
 .analyze-btn.loading {
     animation: loadingPulse 1.5s ease-in-out infinite;
     pointer-events: none;
-    min-width: 320px;
+    width: 320px;
     justify-content: center;
 }
 
@@ -1838,7 +1838,7 @@ body {
     }
 
     .analyze-btn.loading {
-        min-width: auto;
+        width: 100%;
     }
 
     .nav {
