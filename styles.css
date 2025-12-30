@@ -1292,7 +1292,7 @@ body {
 }
 
 .analyze-btn.loading {
-    animation: loadingPulse 2s ease-in-out infinite;
+    animation: loadingPulse 1.5s ease-in-out infinite;
     pointer-events: none;
 }
 
@@ -1300,13 +1300,28 @@ body {
     display: none;
 }
 
+.analyze-btn.loading .btn-text::after {
+    content: '';
+    display: inline-block;
+    animation: loadingDots 1.5s steps(4, end) infinite;
+}
+
 @keyframes loadingPulse {
     0%, 100% {
+        opacity: 1;
         box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
     }
     50% {
-        box-shadow: 0 10px 40px rgba(245, 158, 11, 0.5);
+        opacity: 0.85;
+        box-shadow: 0 10px 40px rgba(245, 158, 11, 0.6);
     }
+}
+
+@keyframes loadingDots {
+    0% { content: ''; }
+    25% { content: '.'; }
+    50% { content: '..'; }
+    75% { content: '...'; }
 }
 
 /* Toast Notification System */
