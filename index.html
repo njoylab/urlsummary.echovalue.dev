@@ -212,18 +212,19 @@
                             <div class="options-grid">
                                 <div class="option-group">
                                     <label class="option-label">
-                                        Language
+                                        Preferred Language
                                         <span class="tooltip-wrapper">
                                             <span class="tooltip-icon">?</span>
-                                            <span class="tooltip-text">Preferred language for AI summaries and content analysis</span>
+                                            <span class="tooltip-text">Preferred language for AI summaries and content analysis. Auto detects content language.</span>
                                         </span>
                                     </label>
                                     <div class="custom-select" data-name="language">
                                         <div class="custom-select-trigger">
-                                            <span class="custom-select-value">🇺🇸 English (US)</span>
+                                            <span class="custom-select-value">🌐 Auto</span>
                                             <span class="custom-select-arrow">▼</span>
                                         </div>
                                         <div class="custom-select-options">
+                                            <div class="custom-select-option selected" data-value="auto">🌐 Auto</div>
                                             <div class="custom-select-option" data-value="en-US">🇺🇸 English (US)</div>
                                             <div class="custom-select-option" data-value="it-IT">🇮🇹 Italiano</div>
                                             <div class="custom-select-option" data-value="es-ES">🇪🇸 Español</div>
@@ -233,7 +234,7 @@
                                             <div class="custom-select-option" data-value="ja-JP">🇯🇵 日本語</div>
                                             <div class="custom-select-option" data-value="zh-CN">🇨🇳 中文</div>
                                         </div>
-                                        <input type="hidden" name="language" value="en-US">
+                                        <input type="hidden" name="language" value="auto">
                                     </div>
                                 </div>
 
@@ -280,38 +281,25 @@
                                 </div>
 
                                 <div class="option-group">
-                                    <label class="toggle-option">
-                                        <span class="toggle-option-label">
-                                            Generate AI Summary
-                                            <span class="tooltip-wrapper">
-                                                <span class="tooltip-icon">?</span>
-                                                <span class="tooltip-text">Use AI to generate intelligent content summaries and extract key facts (requires AI endpoint)</span>
-                                            </span>
-                                        </span>
-                                        <input type="checkbox" class="toggle-input" name="generateSummary">
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-
-                                <div class="option-group">
                                     <label class="option-label">
-                                        Summary Length
+                                        AI Summary
                                         <span class="tooltip-wrapper">
                                             <span class="tooltip-icon">?</span>
-                                            <span class="tooltip-text">Short (~50 words), Medium (~150 words), or Long (~300 words)</span>
+                                            <span class="tooltip-text">Generate AI-powered content summary: None, Short (~50 words), Medium (~150 words), or Long (~300 words)</span>
                                         </span>
                                     </label>
                                     <div class="custom-select" data-name="summaryLength">
                                         <div class="custom-select-trigger">
-                                            <span class="custom-select-value">📄 Medium</span>
+                                            <span class="custom-select-value">📋 Short</span>
                                             <span class="custom-select-arrow">▼</span>
                                         </div>
                                         <div class="custom-select-options">
-                                            <div class="custom-select-option" data-value="short">📋 Short</div>
-                                            <div class="custom-select-option selected" data-value="medium">📄 Medium</div>
+                                            <div class="custom-select-option" data-value="none">🚫 None</div>
+                                            <div class="custom-select-option selected" data-value="short">📋 Short</div>
+                                            <div class="custom-select-option" data-value="medium">📄 Medium</div>
                                             <div class="custom-select-option" data-value="long">📰 Long</div>
                                         </div>
-                                        <input type="hidden" name="summaryLength" value="medium">
+                                        <input type="hidden" name="summaryLength" value="short">
                                     </div>
                                 </div>
 
@@ -324,7 +312,7 @@
                                                 <span class="tooltip-text">AI extracts structured key facts like company name, industry, services, target audience (requires AI endpoint)</span>
                                             </span>
                                         </span>
-                                        <input type="checkbox" class="toggle-input" name="extractKeyFacts">
+                                        <input type="checkbox" class="toggle-input" name="extractKeyFacts" checked>
                                         <span class="toggle-slider"></span>
                                     </label>
                                 </div>
@@ -388,6 +376,18 @@
             </div>
         </div>
     </footer>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="confirm-modal">
+        <div class="confirm-modal-content">
+            <div class="confirm-modal-icon">⚠️</div>
+            <p id="confirmMessage" class="confirm-modal-message"></p>
+            <div class="confirm-modal-buttons">
+                <button id="cancelBtn" class="confirm-btn confirm-btn-cancel">Cancel</button>
+                <button id="confirmBtn" class="confirm-btn confirm-btn-confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
 
     <!-- LZString for JSON compression -->
     <script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>

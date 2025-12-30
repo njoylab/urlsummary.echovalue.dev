@@ -349,16 +349,20 @@ async function fetchWithTimeout(url, payload, turnstileToken) {
 }
 
 async function callScraperApi(url, options, turnstileToken) {
+    // Determine if AI summary should be generated based on summaryLength
+    const summaryLength = options.summaryLength || 'short';
+    const generateSummary = summaryLength !== 'none';
+
     const payload = {
         url: url,
-        language: options.language || 'en-US',
+        language: options.language === 'auto' ? undefined : (options.language || 'en-US'),
         ignoreRobots: options.ignoreRobots || false,
         ignoreExternalLinks: options.ignoreExternalLinks || false,
         ignoreInteralLinks: options.ignoreInternalLinks || false,  // Note: typo in backend API
-        generateSummary: options.generateSummary || false,
-        summaryLength: options.summaryLength || 'medium',
+        generateSummary: generateSummary,
+        summaryLength: generateSummary ? summaryLength : 'short',
         extractKeyFacts: options.extractKeyFacts || false,
-        summaryLanguage: options.summaryLanguage || options.language || 'en-US'
+        summaryLanguage: options.language === 'auto' ? undefined : (options.summaryLanguage || options.language || 'en-US')
     };
 
     return await fetchWithTimeout(API_ENDPOINT, payload, turnstileToken);
@@ -398,22 +402,20 @@ const MAX_HISTORY_ITEMS = 20;
 function getFormOptions() {
     const formData = new FormData(form);
     const options = {
-        language: 'en-US',
+        language: 'auto',
         ignoreRobots: false,
         ignoreExternalLinks: false,
         ignoreInternalLinks: false,
-        generateSummary: false,
-        summaryLength: 'medium',
-        extractKeyFacts: false,
-        summaryLanguage: 'en-US'
+        summaryLength: 'short',
+        extractKeyFacts: true,
+        summaryLanguage: 'auto'
     };
 
-    options.language = formData.get('language') || 'en-US';
+    options.language = formData.get('language') || 'auto';
     options.ignoreRobots = formData.get('ignoreRobots') === 'on';
     options.ignoreExternalLinks = formData.get('ignoreExternalLinks') === 'on';
     options.ignoreInternalLinks = formData.get('ignoreInternalLinks') === 'on';
-    options.generateSummary = formData.get('generateSummary') === 'on';
-    options.summaryLength = formData.get('summaryLength') || 'medium';
+    options.summaryLength = formData.get('summaryLength') || 'short';
     options.extractKeyFacts = formData.get('extractKeyFacts') === 'on';
     options.summaryLanguage = options.language;
 
@@ -583,7 +585,6 @@ function loadFromHistory(historyItem) {
         setToggle('ignoreRobots', options.ignoreRobots);
         setToggle('ignoreExternalLinks', options.ignoreExternalLinks);
         setToggle('ignoreInternalLinks', options.ignoreInternalLinks);
-        setToggle('generateSummary', options.generateSummary);
         setToggle('extractKeyFacts', options.extractKeyFacts);
 
         // Set summary length (custom select)
@@ -1095,6 +1096,7 @@ function renderAISection(ai) {
 function displayResults(data) {
     const sections = [
         renderSummaryHeader(data.technical, data.seo),
+        renderAISection(data.ai),
         renderSEOSection(data.seo),
         renderOpenGraphSection(data.openGraph),
         renderTwitterCardSection(data.twitterCard),
@@ -1103,8 +1105,7 @@ function displayResults(data) {
         renderTechnicalSection(data.technical),
         renderMediaSection(data.media),
         renderLinksSection(data.links),
-        renderStructuredDataSection(data.structuredData),
-        renderAISection(data.ai)
+        renderStructuredDataSection(data.structuredData)
     ].filter(Boolean);
 
     resultsContainer.innerHTML = sections.join('');
@@ -1230,3 +1231,52 @@ form.addEventListener('submit', async (e) => {
         }
     }
 });
+
+// Confirmation modal
+function showConfirmModal(message) {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('confirmModal');
+        const messageEl = document.getElementById('confirmMessage');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+
+        messageEl.textContent = message;
+        modal.style.display = 'flex';
+
+        const handleConfirm = () => {
+            modal.style.display = 'none';
+            cleanup();
+            resolve(true);
+        };
+
+        const handleCancel = () => {
+            modal.style.display = 'none';
+            cleanup();
+            resolve(false);
+        };
+
+        const cleanup = () => {
+            confirmBtn.removeEventListener('click', handleConfirm);
+            cancelBtn.removeEventListener('click', handleCancel);
+        };
+
+        confirmBtn.addEventListener('click', handleConfirm);
+        cancelBtn.addEventListener('click', handleCancel);
+    });
+}
+
+// Handle Ignore robots.txt confirmation
+const ignoreRobotsCheckbox = form.querySelector('input[name="ignoreRobots"]');
+if (ignoreRobotsCheckbox) {
+    ignoreRobotsCheckbox.addEventListener('change', async (e) => {
+        if (e.target.checked) {
+            const confirmed = await showConfirmModal(
+                'Are you authorized to bypass robots.txt restrictions for this website? Only proceed if you have explicit permission or are conducting authorized security testing.'
+            );
+
+            if (!confirmed) {
+                e.target.checked = false;
+            }
+        }
+    });
+}
