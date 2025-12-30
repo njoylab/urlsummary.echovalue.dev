@@ -1294,10 +1294,17 @@ body {
 .analyze-btn.loading {
     animation: loadingPulse 1.5s ease-in-out infinite;
     pointer-events: none;
+    min-width: 320px;
+    justify-content: center;
 }
 
 .analyze-btn.loading .btn-icon {
     display: none;
+}
+
+.analyze-btn.loading .btn-text {
+    white-space: nowrap;
+    text-align: center;
 }
 
 .analyze-btn.loading .btn-text::after {
@@ -1828,6 +1835,10 @@ body {
     .analyze-btn {
         width: 100%;
         justify-content: center;
+    }
+
+    .analyze-btn.loading {
+        min-width: auto;
     }
 
     .nav {
