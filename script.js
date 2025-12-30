@@ -427,7 +427,7 @@ function getFormOptions() {
     options.ignoreExternalLinks = formData.get('ignoreExternalLinks') === 'on';
     options.ignoreInternalLinks = formData.get('ignoreInternalLinks') === 'on';
     options.summaryLength = formData.get('summaryLength') || 'short';
-    options.extractKeyFacts = formData.get('extractKeyFacts') === 'on';
+    options.extractKeyFacts = options.summaryLength !== 'none';
     options.summaryLanguage = options.language;
 
     return options;
@@ -596,7 +596,6 @@ function loadFromHistory(historyItem) {
         setToggle('ignoreRobots', options.ignoreRobots);
         setToggle('ignoreExternalLinks', options.ignoreExternalLinks);
         setToggle('ignoreInternalLinks', options.ignoreInternalLinks);
-        setToggle('extractKeyFacts', options.extractKeyFacts);
 
         // Set summary length (custom select)
         if (options.summaryLength) {
@@ -1089,9 +1088,10 @@ function renderAISection(ai) {
 
     let keyFactsHtml = '';
     if (ai.keyFacts) {
-        const facts = Object.entries(ai.keyFacts)
-            .filter(([_, value]) => value)
-            .map(([key, value]) => {
+        const factEntries = Object.entries(ai.keyFacts).filter(([_, value]) => value && String(value).trim());
+
+        if (factEntries.length > 0) {
+            const facts = factEntries.map(([key, value]) => {
                 const label = key.replace(/([A-Z])/g, ' $1').trim();
                 const displayLabel = label.charAt(0).toUpperCase() + label.slice(1);
                 const displayValue = Array.isArray(value) ? value.join(', ') : value;
@@ -1103,7 +1103,6 @@ function renderAISection(ai) {
                 `;
             }).join('');
 
-        if (facts) {
             keyFactsHtml = `
                 <div class="key-facts">
                     <h4 class="key-facts-title">Key Facts</h4>
