@@ -2269,8 +2269,17 @@ body {
 }
 
 .social-icon {
-    font-size: 1.5rem;
-    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.social-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
 }
 
 .social-platform {
