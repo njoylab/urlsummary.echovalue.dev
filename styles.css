@@ -772,29 +772,28 @@ body {
     font-weight: bold;
 }
 
-/* Toggle Option */
-.toggle-option {
+/* Toggle Switch */
+.toggle-switch {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
     background: var(--color-bg-elevated);
-    border: 1px solid var(--color-border);
+    border: 2px solid var(--color-border);
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s var(--transition-smooth);
+    transition: all 0.3s var(--transition-smooth);
+    min-height: 56px;
 }
 
-.toggle-option:hover {
-    border-color: var(--color-border-hover);
+.toggle-switch:hover {
+    border-color: var(--color-accent);
 }
 
-.toggle-option-label {
+.toggle-switch-label {
     font-size: 0.9rem;
-    color: var(--color-text-primary);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
 }
 
 .toggle-input {
@@ -2465,10 +2464,11 @@ body {
     background: var(--color-bg-elevated);
     border: 2px solid var(--color-border);
     border-radius: 8px;
-    padding: 0.75rem 1rem;
+    padding: 1rem;
     cursor: pointer;
     transition: all 0.3s var(--transition-smooth);
     user-select: none;
+    min-height: 56px;
 }
 
 .custom-select-trigger:hover {
