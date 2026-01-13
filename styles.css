@@ -381,7 +381,7 @@ body {
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     border-radius: 16px;
-    overflow: hidden;
+    overflow: visible;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     animation: fadeInUp 0.8s var(--transition-smooth) 0.4s both;
     transition: transform 0.3s var(--transition-smooth), box-shadow 0.3s var(--transition-smooth);
