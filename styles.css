@@ -257,6 +257,125 @@ body {
     line-height: 1.8;
 }
 
+.hero-feature-list {
+    margin: 2rem auto 0;
+    max-width: 900px;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.75rem;
+    padding: 0;
+}
+
+.hero-feature-list li {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+}
+
+.feature-bullet {
+    color: var(--color-accent);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+/* Landing Page Sections */
+.landing-section {
+    padding: 4rem 0;
+}
+
+.landing-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.landing-title {
+    font-family: var(--font-mono);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: var(--color-text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.landing-lede {
+    color: var(--color-text-secondary);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.use-cases-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+}
+
+.use-cases-list li {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    color: var(--color-text-secondary);
+}
+
+.steps-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+}
+
+.step-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.step-label {
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.step-title {
+    margin: 0.75rem 0 0.5rem;
+    font-size: 1.1rem;
+    color: var(--color-text-primary);
+}
+
+.step-description {
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+}
+
+.landing-note {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: var(--color-text-secondary);
+}
+
+.landing-note a {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+.landing-note a:hover {
+    color: var(--color-accent-hover);
+    text-decoration: underline;
+}
+
 /* Analyzer Card */
 .analyzer-card {
     background: var(--color-bg-card);

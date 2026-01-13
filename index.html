@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Primary Meta Tags -->
-    <title>URL Summary Scraper - Website Metadata & SEO Analysis | Free Web Scraper</title>
-    <meta name="title" content="URL Summary Scraper - Website Metadata & SEO Analysis">
+    <title>Website Metadata & SEO Analyzer | URL Summary</title>
+    <meta name="title" content="Website Metadata & SEO Analyzer | URL Summary">
     <meta name="description"
-        content="Free URL scraper tool that extracts comprehensive metadata from any website: SEO data, Open Graph tags, social media links, contact information, media assets, and more.">
+        content="Analyze any website to extract SEO metadata, social tags, JSON-LD, links, and contact info. Fast, free analyzer with API and MCP access.">
     <meta name="keywords"
-        content="URL scraper, web scraper, metadata extractor, SEO analyzer, Open Graph checker, social media links, website scraper, free scraper tool">
+        content="website metadata analyzer, SEO analyzer, Open Graph checker, Twitter card validator, JSON-LD extractor, URL scraper">
     <meta name="author" content="URL Summary Scraper">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
@@ -23,19 +23,19 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://urlsummary.echovalue.dev/">
-    <meta property="og:title" content="URL Summary Scraper - Website Metadata & SEO Analysis">
+    <meta property="og:title" content="Website Metadata & SEO Analyzer | URL Summary">
     <meta property="og:description"
-        content="Extract comprehensive metadata from any URL: SEO data, Open Graph tags, social media links, contact info, and more.">
+        content="Analyze any website to extract SEO metadata, social tags, JSON-LD, links, and contact info.">
     <meta property="og:image" content="https://urlsummary.echovalue.dev/android-chrome-512x512.png">
     <meta property="og:locale" content="en_US">
-    <meta property="og:site_name" content="URL Summary Scraper">
+    <meta property="og:site_name" content="URL Summary">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://urlsummary.echovalue.dev/">
-    <meta property="twitter:title" content="URL Summary Scraper - Website Metadata & SEO Analysis">
+    <meta property="twitter:title" content="Website Metadata & SEO Analyzer | URL Summary">
     <meta property="twitter:description"
-        content="Extract comprehensive metadata from any URL: SEO data, Open Graph tags, social media links, contact info, and more.">
+        content="Analyze any website to extract SEO metadata, social tags, JSON-LD, links, and contact info.">
     <meta property="twitter:image" content="https://urlsummary.echovalue.dev/android-chrome-512x512.png">
 
     <!-- Favicon - SVG works in all modern browsers -->
@@ -68,32 +68,100 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "URL Summary Scraper - Metadata Extraction Tool",
-      "description": "Advanced web scraping tool that extracts comprehensive metadata from any URL including SEO data, Open Graph tags, social media links, contact information, and media assets.",
-      "url": "https://urlsummary.echovalue.dev/",
-      "applicationCategory": "DeveloperApplication",
-      "operatingSystem": "Any",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "featureList": [
-        "SEO Metadata Extraction",
-        "Open Graph Tags Analysis",
-        "Twitter Card Data Extraction",
-        "Social Media Links Detection",
-        "Contact Information Extraction",
-        "Media Assets Discovery",
-        "Internal & External Links Analysis",
-        "Structured Data (JSON-LD) Extraction",
-        "AI-Powered Content Summaries",
-        "Multilingual Support",
-        "Local Search History Storage"
-      ],
-      "browserRequirements": "Requires JavaScript. Works on all modern browsers.",
-      "permissions": "localStorage"
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": "URL Summary",
+          "url": "https://urlsummary.echovalue.dev/",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://urlsummary.echovalue.dev/?url={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Website Metadata & SEO Analyzer",
+          "operatingSystem": "Web",
+          "applicationCategory": "BusinessApplication",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "description": "Analyze any website to extract SEO metadata, social tags, structured data, and link insights with optional AI summaries.",
+          "url": "https://urlsummary.echovalue.dev/"
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What does the analyzer extract?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "It extracts titles, descriptions, meta tags, Open Graph data, Twitter cards, canonical tags, robots directives, JSON-LD structured data, social links, contact info, and internal/external links."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is the analyzer free to use?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. The web analyzer is free for single URL checks, with optional API access for automation and bulk workflows."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does it respect robots.txt?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "By default it respects robots.txt. You can choose to ignore robots.txt only for authorized testing and owned sites."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do you store the URLs I analyze?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Search history stays in your browser only. It is never synced to servers unless you choose to use the API."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How accurate are social previews?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "We show the exact Open Graph and Twitter card values found on the page, which match what social platforms read."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I automate checks with an API?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. API access is available on Apify and RapidAPI with REST endpoints for automation and bulk analysis."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is MCP access available?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. You can use the MCP tool on Apify to integrate the analyzer into AI workflows."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What should I do if some fields are empty?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Not every site implements every metadata type. Missing values usually mean those tags are not present on the page."
+              }
+            }
+          ]
+        }
+      ]
     }
     </script>
 </head>
@@ -101,7 +169,7 @@
 <body>
     <noscript>
         <div style="text-align: center; padding: 2rem; background: #1a1f2e; color: #e8eaed; font-family: sans-serif;">
-            <h1>JavaScript Required</h1>
+            <h2>JavaScript Required</h2>
             <p>This URL scraper tool requires JavaScript to function. Please enable JavaScript in your browser settings
                 to use this application.</p>
         </div>
@@ -117,8 +185,8 @@
             <h3 class="confirmation-title" id="confirmationTitle">Confirm Action</h3>
             <p class="confirmation-message" id="confirmationMessage"></p>
             <div class="confirmation-actions">
-                <button class="confirmation-btn confirmation-btn-cancel" id="confirmationCancel">Cancel</button>
-                <button class="confirmation-btn confirmation-btn-confirm" id="confirmationConfirm">Confirm</button>
+                <button type="button" class="confirmation-btn confirmation-btn-cancel" id="confirmationCancel">Cancel</button>
+                <button type="button" class="confirmation-btn confirmation-btn-confirm" id="confirmationConfirm">Confirm</button>
             </div>
         </div>
     </div>
@@ -127,32 +195,43 @@
 
     <header class="header" role="banner">
         <div class="container">
-            <div class="logo" role="img" aria-label="URL Summary Scraper Logo">
+            <a href="/" class="logo" role="img" aria-label="URL Summary Scraper Logo" style="text-decoration: none;">
                 <span class="logo-icon" aria-hidden="true">◈</span>
                 <span class="logo-text">URL<span class="logo-accent">Summary</span></span>
-            </div>
+            </a>
             <nav class="nav" role="navigation" aria-label="Main navigation">
-                <a href="/faq.html" class="nav-link">FAQ</a>
-                <a href="#api" class="nav-link">API Access</a>
-                <a href="#mcp" class="nav-link">MCP Access</a>
-                <a href="#pricing" class="nav-link">Bulk Analysis</a>
+                <a href="/" class="nav-link">Home</a>
+                <a href="/app.html" class="nav-link">App</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="#api" class="nav-link">API</a>
+                <a href="#mcp" class="nav-link">MCP</a>
             </nav>
         </div>
     </header>
 
-    <main role="main">
+    <main role="main" id="top">
         <section class="hero" aria-labelledby="hero-title">
             <div class="container">
                 <div class="hero-content">
                     <h1 class="hero-title" id="hero-title">
-                        <span class="title-line">URL Summary Scraper:</span>
-                        <span class="title-line title-gradient">Extract Comprehensive Website Metadata</span>
+                        <span class="title-line">Website Metadata &amp; SEO Analyzer</span>
                     </h1>
                     <p class="hero-description">
-                        A powerful web scraping tool that extracts SEO metadata, Open Graph tags, social media links,
-                        contact information, media assets, link analysis, and structured data
-                        all in one automated workflow with optional AI-powered summaries.
+                        Analyze any URL to extract on-page SEO signals, social previews, structured data, and link
+                        insights in seconds. Built for marketers, developers, and QA teams that need quick, reliable
+                        metadata checks.
                     </p>
+                    <ul class="hero-feature-list" aria-label="Metadata extracted">
+                        <li><span class="feature-bullet">✓</span>Title, description, and core meta tags</li>
+                        <li><span class="feature-bullet">✓</span>Open Graph metadata</li>
+                        <li><span class="feature-bullet">✓</span>Twitter card metadata</li>
+                        <li><span class="feature-bullet">✓</span>Canonical tags</li>
+                        <li><span class="feature-bullet">✓</span>Robots directives</li>
+                        <li><span class="feature-bullet">✓</span>Structured data (JSON-LD)</li>
+                        <li><span class="feature-bullet">✓</span>Social profile links</li>
+                        <li><span class="feature-bullet">✓</span>Contact information</li>
+                        <li><span class="feature-bullet">✓</span>Internal and external links</li>
+                    </ul>
                 </div>
 
                 <div class="analyzer-card">
@@ -323,6 +402,159 @@
             </div>
         </section>
 
+        <section class="landing-section" id="use-cases" aria-labelledby="use-cases-title">
+            <div class="container">
+                <div class="landing-header">
+                    <h2 class="landing-title" id="use-cases-title">Use cases</h2>
+                    <p class="landing-lede">Quick answers for teams that ship websites and content at speed.</p>
+                </div>
+                <ul class="use-cases-list" aria-label="Use cases for the analyzer">
+                    <li>SEO audits and metadata cleanup</li>
+                    <li>Social preview verification before launch</li>
+                    <li>Competitor research and benchmarking</li>
+                    <li>QA checks for releases and migrations</li>
+                    <li>Monitoring metadata changes over time</li>
+                    <li>API integration for automated checks</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="landing-section" id="how-it-works" aria-labelledby="how-it-works-title">
+            <div class="container">
+                <div class="landing-header">
+                    <h2 class="landing-title" id="how-it-works-title">How it works</h2>
+                    <p class="landing-lede">Three steps from URL to actionable metadata insights.</p>
+                </div>
+                <ol class="steps-grid">
+                    <li class="step-card">
+                        <span class="step-label">Step 1</span>
+                        <h3 class="step-title">Enter a URL</h3>
+                        <p class="step-description">Paste any website URL and choose optional settings like language or
+                            link depth.</p>
+                    </li>
+                    <li class="step-card">
+                        <span class="step-label">Step 2</span>
+                        <h3 class="step-title">Run the analysis</h3>
+                        <p class="step-description">We fetch the page, parse metadata, and summarize structured signals
+                            in seconds.</p>
+                    </li>
+                    <li class="step-card">
+                        <span class="step-label">Step 3</span>
+                        <h3 class="step-title">Review and export</h3>
+                        <p class="step-description">Inspect results, copy JSON or Markdown, and share insights with your
+                            team.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="landing-section" id="faq" aria-labelledby="faq-title">
+            <div class="container">
+                <div class="landing-header">
+                    <h2 class="landing-title" id="faq-title">FAQ</h2>
+                    <p class="landing-lede">Everything you need to know before running your first analysis.</p>
+                </div>
+                <div class="faq-container">
+                    <div class="faq-section">
+                        <h3 class="faq-section-title">Getting started</h3>
+
+                        <div class="faq-item">
+                            <button type="button" class="faq-question" aria-expanded="false">
+                                <span>What does the analyzer extract?</span>
+                                <span class="faq-icon">▸</span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>We extract titles, descriptions, meta tags, Open Graph data, Twitter cards, canonical
+                                    tags, robots directives, JSON-LD structured data, social links, contact info, and
+                                    internal/external links.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button type="button" class="faq-question" aria-expanded="false">
+                                <span>Is the analyzer free to use?</span>
+                                <span class="faq-icon">▸</span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Yes. The web analyzer is free for single URL checks, with optional API access for
+                                    automation and bulk workflows.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button type="button" class="faq-question" aria-expanded="false">
+                                <span>Does it respect robots.txt?</span>
+                                <span class="faq-icon">▸</span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>By default it respects robots.txt. The ignore option is intended only for authorized
+                                    testing and sites you own.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button type="button" class="faq-question" aria-expanded="false">
+                                <span>Do you store the URLs I analyze?</span>
+                                <span class="faq-icon">▸</span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Search history is stored locally in your browser and never synced to servers unless
+                                    you use the API.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-section">
+                        <h3 class="faq-section-title">Results and access</h3>
+
+                        <div class="faq-item">
+                            <button type="button" class="faq-question" aria-expanded="false">
+                                <span>How accurate are social previews?</span>
+                                <span class="faq-icon">▸</span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>We show the exact Open Graph and Twitter card values found on the page, which match
+                                    what social platforms read.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button type="button" class="faq-question" aria-expanded="false">
+                                <span>Can I automate checks with an API?</span>
+                                <span class="faq-icon">▸</span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Yes. API access is available on Apify and RapidAPI with REST endpoints for automation
+                                    and bulk analysis.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button type="button" class="faq-question" aria-expanded="false">
+                                <span>Is MCP access available?</span>
+                                <span class="faq-icon">▸</span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Yes. You can use the MCP tool on Apify to connect the analyzer to AI workflows.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button type="button" class="faq-question" aria-expanded="false">
+                                <span>What should I do if some fields are empty?</span>
+                                <span class="faq-icon">▸</span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Not every site implements every metadata type. Missing values usually mean those tags
+                                    are not present on the page.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="landing-note">Need deeper answers? Visit the full <a href="/faq.html">FAQ page</a>.</p>
+            </div>
+        </section>
+
         <section class="cta-section" id="pricing" aria-labelledby="cta-heading">
             <div class="container">
                 <h2 id="cta-heading" class="sr-only">Additional Services</h2>
@@ -396,8 +628,8 @@
             <div class="confirm-modal-icon">⚠️</div>
             <p id="confirmMessage" class="confirm-modal-message"></p>
             <div class="confirm-modal-buttons">
-                <button id="cancelBtn" class="confirm-btn confirm-btn-cancel">Cancel</button>
-                <button id="confirmBtn" class="confirm-btn confirm-btn-confirm">Confirm</button>
+                <button type="button" id="cancelBtn" class="confirm-btn confirm-btn-cancel">Cancel</button>
+                <button type="button" id="confirmBtn" class="confirm-btn confirm-btn-confirm">Confirm</button>
             </div>
         </div>
     </div>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary Meta Tags -->
+    <title>URL Summary Analyzer App</title>
+    <meta name="title" content="URL Summary Analyzer App">
+    <meta name="description"
+        content="Run the metadata analyzer with advanced options, history, and exports. Fast URL analysis with the full web app experience.">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://urlsummary.echovalue.dev/app.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://urlsummary.echovalue.dev/app.html">
+    <meta property="og:title" content="URL Summary Analyzer App">
+    <meta property="og:description"
+        content="Run the metadata analyzer with advanced options, history, and exports. Fast URL analysis with the full web app experience.">
+    <meta property="og:image" content="https://urlsummary.echovalue.dev/android-chrome-512x512.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://urlsummary.echovalue.dev/app.html">
+    <meta property="twitter:title" content="URL Summary Analyzer App">
+    <meta property="twitter:description"
+        content="Run the metadata analyzer with advanced options, history, and exports. Fast URL analysis with the full web app experience.">
+    <meta property="twitter:image" content="https://urlsummary.echovalue.dev/android-chrome-512x512.png">
+
+    <!-- Favicon - SVG works in all modern browsers -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css?v=5">
+</head>
+
+<body>
+    <noscript>
+        <div style="text-align: center; padding: 2rem; background: #1a1f2e; color: #e8eaed; font-family: sans-serif;">
+            <h2>JavaScript Required</h2>
+            <p>This URL scraper tool requires JavaScript to function. Please enable JavaScript in your browser settings
+                to use this application.</p>
+        </div>
+    </noscript>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer" role="region" aria-live="polite" aria-label="Notifications"></div>
+
+    <!-- Confirmation Modal Container -->
+    <div class="confirmation-overlay" id="confirmationOverlay" style="display: none;">
+        <div class="confirmation-modal" role="dialog" aria-labelledby="confirmationTitle"
+            aria-describedby="confirmationMessage">
+            <h3 class="confirmation-title" id="confirmationTitle">Confirm Action</h3>
+            <p class="confirmation-message" id="confirmationMessage"></p>
+            <div class="confirmation-actions">
+                <button type="button" class="confirmation-btn confirmation-btn-cancel" id="confirmationCancel">Cancel</button>
+                <button type="button" class="confirmation-btn confirmation-btn-confirm" id="confirmationConfirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="grain-overlay" aria-hidden="true"></div>
+
+    <header class="header" role="banner">
+        <div class="container">
+            <a href="/" class="logo" role="img" aria-label="URL Summary Scraper Logo" style="text-decoration: none;">
+                <span class="logo-icon" aria-hidden="true">◈</span>
+                <span class="logo-text">URL<span class="logo-accent">Summary</span></span>
+            </a>
+            <nav class="nav" role="navigation" aria-label="Main navigation">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/app.html" class="nav-link">App</a>
+                <a href="/faq.html" class="nav-link">FAQ</a>
+                <a href="/#api" class="nav-link">API</a>
+                <a href="/#mcp" class="nav-link">MCP</a>
+            </nav>
+        </div>
+    </header>
+
+    <main role="main">
+        <section class="hero" aria-labelledby="app-title">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title" id="app-title">
+                        <span class="title-line">Analyzer App</span>
+                        <span class="title-line title-gradient">Full URL Summary Experience</span>
+                    </h1>
+                    <p class="hero-description">
+                        Run deep metadata checks with advanced options, history, and export tools. Looking for the SEO
+                        landing page? <a href="/" style="color: var(--color-accent); text-decoration: none;">Go back to
+                            Home</a>.
+                    </p>
+                </div>
+
+                <div class="analyzer-card">
+                    <div class="card-header">
+                        <div class="status-indicator">
+                            <span class="status-dot" aria-label="Status indicator"></span>
+                            <span class="status-text">All systems operational</span>
+                        </div>
+                    </div>
+
+                    <form class="analyzer-form" id="analyzerForm" aria-label="URL Analysis Form">
+                        <div class="input-group">
+                            <label for="url" class="input-label">Target URL</label>
+                            <div class="input-wrapper">
+                                <input type="url" id="url" class="domain-input" placeholder="https://example.com"
+                                    autocomplete="off" spellcheck="false" aria-describedby="url-error"
+                                    aria-invalid="false" />
+                                <button type="submit" class="analyze-btn" id="analyzeBtn">
+                                    <span class="btn-text">Analyze</span>
+                                    <span class="btn-icon">→</span>
+                                </button>
+                            </div>
+                            <div class="input-error" id="url-error" role="alert" aria-live="polite"></div>
+                        </div>
+
+                        <div class="turnstile-wrapper">
+                            <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-theme="dark"
+                                size="compact"></div>
+                        </div>
+
+                        <div class="advanced-toggle-wrapper">
+                            <button type="button" class="advanced-toggle" id="advancedToggle">
+                                <span class="toggle-icon">▸</span>
+                                <span>Advanced Options</span>
+                            </button>
+                            <button type="button" class="history-toggle" id="historyToggle">
+                                <span>🕒</span>
+                                <span>History</span>
+                                <span class="history-count" id="historyCount" style="display: none;">0</span>
+                            </button>
+                        </div>
+
+                        <div class="history-panel" id="historyPanel">
+                            <div class="history-header">
+                                <h4>Recent Searches</h4>
+                                <button type="button" class="clear-history-btn" id="clearHistoryBtn">Clear All</button>
+                            </div>
+                            <div class="privacy-notice">
+                                <span class="privacy-icon">🔒</span>
+                                <span class="privacy-text">Your search history is stored only in your browser and never
+                                    synced to servers.</span>
+                            </div>
+                            <div class="history-list" id="historyList">
+                                <div class="history-empty">No search history yet</div>
+                            </div>
+                        </div>
+
+                        <div class="advanced-options" id="advancedOptions">
+                            <div class="options-grid">
+                                <div class="option-group">
+                                    <label class="option-label">
+                                        Preferred Language
+                                        <span class="tooltip-wrapper">
+                                            <span class="tooltip-icon">?</span>
+                                            <span class="tooltip-text">Preferred language for AI summaries and content
+                                                analysis. Auto detects content language.</span>
+                                        </span>
+                                    </label>
+                                    <div class="custom-select" data-name="language">
+                                        <div class="custom-select-trigger">
+                                            <span class="custom-select-value">🌐 Auto</span>
+                                            <span class="custom-select-arrow">▼</span>
+                                        </div>
+                                        <div class="custom-select-options">
+                                            <div class="custom-select-option selected" data-value="auto">🌐 Auto</div>
+                                            <div class="custom-select-option" data-value="en-US">🇺🇸 English (US)</div>
+                                            <div class="custom-select-option" data-value="it-IT">🇮🇹 Italiano</div>
+                                            <div class="custom-select-option" data-value="es-ES">🇪🇸 Español</div>
+                                            <div class="custom-select-option" data-value="fr-FR">🇫🇷 Français</div>
+                                            <div class="custom-select-option" data-value="de-DE">🇩🇪 Deutsch</div>
+                                            <div class="custom-select-option" data-value="pt-PT">🇵🇹 Português</div>
+                                            <div class="custom-select-option" data-value="ja-JP">🇯🇵 日本語</div>
+                                            <div class="custom-select-option" data-value="zh-CN">🇨🇳 中文</div>
+                                        </div>
+                                        <input type="hidden" name="language" value="auto">
+                                    </div>
+                                </div>
+
+                                <div class="option-group">
+                                    <label class="option-label">
+                                        Robots.txt
+                                        <span class="tooltip-wrapper">
+                                            <span class="tooltip-icon">?</span>
+                                            <span class="tooltip-text">Bypass robots.txt restrictions (use responsibly
+                                                and only for authorized testing)</span>
+                                        </span>
+                                    </label>
+                                    <label class="toggle-switch">
+                                        <span class="toggle-switch-label">Ignore</span>
+                                        <input type="checkbox" class="toggle-input" name="ignoreRobots">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="option-group">
+                                    <label class="option-label">
+                                        External Links
+                                        <span class="tooltip-wrapper">
+                                            <span class="tooltip-icon">?</span>
+                                            <span class="tooltip-text">Skip extraction of external links to speed up
+                                                processing</span>
+                                        </span>
+                                    </label>
+                                    <label class="toggle-switch">
+                                        <span class="toggle-switch-label">Ignore</span>
+                                        <input type="checkbox" class="toggle-input" name="ignoreExternalLinks">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="option-group">
+                                    <label class="option-label">
+                                        Internal Links
+                                        <span class="tooltip-wrapper">
+                                            <span class="tooltip-icon">?</span>
+                                            <span class="tooltip-text">Skip extraction of internal links to speed up
+                                                processing</span>
+                                        </span>
+                                    </label>
+                                    <label class="toggle-switch">
+                                        <span class="toggle-switch-label">Ignore</span>
+                                        <input type="checkbox" class="toggle-input" name="ignoreInternalLinks">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="option-group">
+                                    <label class="option-label">
+                                        AI Summary
+                                        <span class="tooltip-wrapper">
+                                            <span class="tooltip-icon">?</span>
+                                            <span class="tooltip-text">Generate AI-powered content summary: None, Short
+                                                (~50 words), Medium (~150 words), or Long (~300 words)</span>
+                                        </span>
+                                    </label>
+                                    <div class="custom-select" data-name="summaryLength">
+                                        <div class="custom-select-trigger">
+                                            <span class="custom-select-value">📋 Short</span>
+                                            <span class="custom-select-arrow">▼</span>
+                                        </div>
+                                        <div class="custom-select-options">
+                                            <div class="custom-select-option" data-value="none">🚫 None</div>
+                                            <div class="custom-select-option selected" data-value="short">📋 Short</div>
+                                            <div class="custom-select-option" data-value="medium">📄 Medium</div>
+                                            <div class="custom-select-option" data-value="long">📰 Long</div>
+                                        </div>
+                                        <input type="hidden" name="summaryLength" value="short">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="results-container" id="resultsContainer" style="display: none;">
+                    <!-- Results will be injected here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">
+                    &copy; 2025 URL Summary Scraper. Built by <a href="https://njoylab.com" target="_blank"
+                        rel="noopener noreferrer"
+                        style="color: var(--color-accent); text-decoration: none;">nJoyLab.com</a>
+                </p>
+                <p class="footer-links" style="color: var(--color-text-dim); font-size: 0.9rem; margin-top: 0.5rem;">
+                    <a href="https://echovalue.dev" target="_blank" rel="noopener noreferrer"
+                        style="color: var(--color-text-secondary); text-decoration: none;">More Tools</a>
+                    <span style="margin: 0 0.5rem;">•</span>
+                    <a href="https://github.com/njoylab/urlsummary.echovalue.dev" target="_blank"
+                        rel="noopener noreferrer"
+                        style="color: var(--color-text-secondary); text-decoration: none;">GitHub</a>
+                    <span style="margin: 0 0.5rem;">•</span>
+                    <a href="/terms.html" style="color: var(--color-text-secondary); text-decoration: none;">Terms &
+                        Conditions</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="confirm-modal">
+        <div class="confirm-modal-content">
+            <div class="confirm-modal-icon">⚠️</div>
+            <p id="confirmMessage" class="confirm-modal-message"></p>
+            <div class="confirm-modal-buttons">
+                <button type="button" id="cancelBtn" class="confirm-btn confirm-btn-cancel">Cancel</button>
+                <button type="button" id="confirmBtn" class="confirm-btn confirm-btn-confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LZString for JSON compression -->
+    <script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
+    <script src="script.js?v=5"></script>
+</body>
+
+</html>

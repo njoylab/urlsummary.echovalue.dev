@@ -1680,3 +1680,27 @@ function downloadJsonFile() {
 
     showToast('JSON file downloaded', 'success', 3000);
 }
+
+// FAQ accordion (landing page)
+const faqQuestions = document.querySelectorAll('.faq-question');
+if (faqQuestions.length > 0) {
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const faqItem = question.parentElement;
+            const isActive = faqItem.classList.contains('active');
+
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+                const toggle = item.querySelector('.faq-question');
+                if (toggle) {
+                    toggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            if (!isActive) {
+                faqItem.classList.add('active');
+                question.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+}
