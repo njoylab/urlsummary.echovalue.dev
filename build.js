@@ -57,14 +57,16 @@ for (const entry of entries) {
     const sourcePath = path.join(rootDir, fileName);
     const destPath = path.join(distDir, fileName);
 
-    if (fileName === 'index.html') {
+    if (ext === '.html') {
         const html = fs.readFileSync(sourcePath, 'utf8');
-        if (!siteKey) {
-            console.warn('TURNSTILE_SITE_KEY is not set; using placeholder in index.html');
+        let output = html;
+        if (html.includes('YOUR_TURNSTILE_SITE_KEY')) {
+            if (!siteKey) {
+                console.warn(`TURNSTILE_SITE_KEY is not set; using placeholder in ${fileName}`);
+            } else {
+                output = output.replace(/YOUR_TURNSTILE_SITE_KEY/g, siteKey);
+            }
         }
-        const output = siteKey
-            ? html.replace('YOUR_TURNSTILE_SITE_KEY', siteKey)
-            : html;
         fs.writeFileSync(destPath, output);
         continue;
     }
