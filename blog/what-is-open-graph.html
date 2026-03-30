@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary Meta Tags -->
+    <title>What Is Open Graph? The Complete Guide to OG Meta Tags</title>
+    <meta name="title" content="What Is Open Graph? The Complete Guide to OG Meta Tags">
+    <meta name="description"
+        content="Open Graph meta tags control how your pages look when shared on social media. Learn what OG tags are, how they work, and how to check them — with examples.">
+    <meta name="keywords" content="open graph, og tags, open graph meta tags, og:image, og:title, social media preview, facebook open graph">
+    <meta name="author" content="URL Summary">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://urlsummary.echovalue.dev/blog/what-is-open-graph">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://urlsummary.echovalue.dev/blog/what-is-open-graph">
+    <meta property="og:title" content="What Is Open Graph? The Complete Guide to OG Meta Tags">
+    <meta property="og:description"
+        content="Open Graph meta tags control how your pages look when shared on social media. Learn what OG tags are, how they work, and how to check them — with examples.">
+    <meta property="og:image" content="https://urlsummary.echovalue.dev/og-image.png">
+    <meta property="og:site_name" content="URL Summary">
+    <meta property="article:published_time" content="2026-03-30">
+    <meta property="article:modified_time" content="2026-03-30">
+    <meta property="article:author" content="URL Summary">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://urlsummary.echovalue.dev/blog/what-is-open-graph">
+    <meta property="twitter:title" content="What Is Open Graph? The Complete Guide to OG Meta Tags">
+    <meta property="twitter:description"
+        content="Open Graph meta tags control how your pages look when shared on social media. Learn what OG tags are, how they work, and how to check them — with examples.">
+    <meta property="twitter:image" content="https://urlsummary.echovalue.dev/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/styles.css">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Article",
+                "@id": "https://urlsummary.echovalue.dev/blog/what-is-open-graph#article",
+                "headline": "What Is Open Graph? The Complete Guide to OG Meta Tags",
+                "description": "Open Graph meta tags control how your pages look when shared on social media. Learn what OG tags are, how they work, and how to check them — with examples.",
+                "url": "https://urlsummary.echovalue.dev/blog/what-is-open-graph",
+                "datePublished": "2026-03-30",
+                "dateModified": "2026-03-30",
+                "author": {
+                    "@type": "Organization",
+                    "name": "URL Summary",
+                    "url": "https://urlsummary.echovalue.dev"
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "URL Summary",
+                    "url": "https://urlsummary.echovalue.dev"
+                },
+                "image": "https://urlsummary.echovalue.dev/og-image.png",
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": "https://urlsummary.echovalue.dev/blog/what-is-open-graph"
+                }
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "What is Open Graph and why does it matter?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Open Graph is a protocol originally created by Facebook that allows any web page to become a rich object in a social graph. By adding OG meta tags to your HTML, you control exactly how your page title, description, and image appear when someone shares your URL on platforms like Facebook, LinkedIn, Slack, or WhatsApp."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Which Open Graph tags are required?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "The four basic Open Graph tags required for a valid OG implementation are og:title, og:type, og:image, and og:url. Without these, social platforms will fall back to scraping your page content directly, often with poor results."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What is the recommended image size for og:image?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "The recommended og:image size is 1200×630 pixels with an aspect ratio of 1.91:1. Images should be at least 600×315 pixels to display correctly, but 1200×630 is preferred for high-resolution screens. Keep file size under 8 MB and use JPEG or PNG format."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Do I need both Open Graph tags and Twitter Card tags?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Yes, for full coverage you should implement both. Twitter has its own set of meta tags (twitter:card, twitter:title, etc.) that take precedence on Twitter/X. However, Twitter will also fall back to Open Graph tags if Twitter Card tags are absent, so OG tags alone provide partial Twitter support."
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        /* Article-specific styles */
+        .article-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem 4rem;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            color: var(--color-text-dim);
+            font-size: 0.875rem;
+            flex-wrap: wrap;
+        }
+
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .article-tag {
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--color-accent);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .article-body h2 {
+            font-family: var(--font-mono);
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .article-body h3 {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin: 1.75rem 0 0.75rem;
+        }
+
+        .article-body p {
+            color: var(--color-text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.1rem;
+        }
+
+        .article-body ul,
+        .article-body ol {
+            color: var(--color-text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.1rem;
+            padding-left: 1.5rem;
+        }
+
+        .article-body li {
+            margin-bottom: 0.4rem;
+        }
+
+        .article-body strong {
+            color: var(--color-text-primary);
+            font-weight: 600;
+        }
+
+        .article-body a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        .article-body a:hover {
+            text-decoration: underline;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin: 1.25rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            color: #a5f3fc;
+            line-height: 1.7;
+            white-space: pre;
+        }
+
+        .code-block code .attr {
+            color: #86efac;
+        }
+
+        .code-block code .val {
+            color: #fde68a;
+        }
+
+        .code-block code .tag {
+            color: #f9a8d4;
+        }
+
+        .og-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.25rem 0;
+            font-size: 0.9rem;
+        }
+
+        .og-table th {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--color-text-primary);
+            font-family: var(--font-mono);
+            font-weight: 600;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--color-border);
+        }
+
+        .og-table td {
+            color: var(--color-text-secondary);
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--color-border);
+            vertical-align: top;
+            line-height: 1.6;
+        }
+
+        .og-table tr:nth-child(even) td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .og-table code {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: #a5f3fc;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+        }
+
+        .og-table .tag-name {
+            color: #86efac;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .callout-box {
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            border-left: 3px solid var(--color-accent);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .callout-box p {
+            margin-bottom: 0;
+        }
+
+        .callout-box p:not(:last-child) {
+            margin-bottom: 0.6rem;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.08));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin: 3rem 0 2rem;
+        }
+
+        .cta-section h3 {
+            font-family: var(--font-mono);
+            font-size: 1.3rem;
+            color: var(--color-text-primary);
+            margin: 0 0 0.75rem;
+        }
+
+        .cta-section p {
+            color: var(--color-text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .article-hero {
+            padding: 3rem 0 0;
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            color: var(--color-text-dim);
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb a {
+            color: var(--color-text-dim);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--color-accent);
+        }
+
+        .breadcrumb span {
+            margin: 0 0.4rem;
+        }
+
+        @media (max-width: 768px) {
+            .og-table {
+                font-size: 0.8rem;
+            }
+
+            .og-table th,
+            .og-table td {
+                padding: 0.5rem 0.6rem;
+            }
+
+            .article-body h2 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grain-overlay" aria-hidden="true"></div>
+
+    <header class="header" role="banner">
+        <div class="container">
+            <a href="/" class="logo" role="img" aria-label="URL Summary Scraper Logo" style="text-decoration: none;">
+                <span class="logo-icon" aria-hidden="true">📄</span>
+                <span class="logo-text">URL<span class="logo-accent">Summary</span></span>
+            </a>
+            <nav class="nav" role="navigation" aria-label="Main navigation">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/app" class="nav-link">Analyzer</a>
+                <a href="/faq" class="nav-link">FAQ</a>
+            </nav>
+        </div>
+    </header>
+
+    <main role="main">
+        <section class="article-hero">
+            <div class="container">
+                <div class="article-wrapper">
+
+                    <nav class="breadcrumb" aria-label="Breadcrumb">
+                        <a href="/">Home</a>
+                        <span aria-hidden="true">›</span>
+                        <a href="/blog">Blog</a>
+                        <span aria-hidden="true">›</span>
+                        <span aria-current="page">What Is Open Graph?</span>
+                    </nav>
+
+                    <div class="article-meta">
+                        <span class="article-tag">Guide</span>
+                        <span>March 30, 2026</span>
+                        <span>~8 min read</span>
+                    </div>
+
+                    <h1 class="hero-title" style="font-size: clamp(1.6rem, 4vw, 2.4rem); text-align: left; margin-bottom: 1.25rem; line-height: 1.25;">
+                        <span class="title-gradient">What Is Open Graph?</span><br>
+                        The Complete Guide to OG Meta Tags
+                    </h1>
+
+                    <article class="article-body" aria-label="Article content">
+
+                        <p>Every time someone copies a URL into Facebook, LinkedIn, Slack, or WhatsApp, those platforms fetch the page and look for a set of special HTML tags — <strong>Open Graph meta tags</strong>. These tags tell social platforms exactly what title, description, and image to display in the preview card. Without them, the platform has to guess, often producing broken or misleading previews that hurt click-through rates.</p>
+
+                        <p>Open Graph was introduced by Facebook in 2010 to create a standard protocol for turning ordinary web pages into rich, shareable objects. The idea was simple: embed structured metadata directly in the <code>&lt;head&gt;</code> of a page so that any application — not just Facebook — can read it without scraping or inferring content. Today, virtually every major platform respects OG tags, from LinkedIn and Pinterest to Telegram and Discord.</p>
+
+                        <p>For developers, marketers, and SEO professionals, understanding and correctly implementing Open Graph tags is one of the highest-leverage, lowest-effort improvements you can make to a site. A well-crafted OG setup can dramatically increase the share rate and visual impact of your content when it spreads across social networks.</p>
+
+                        <!-- ─── How OG Works ─── -->
+                        <h2 id="how-open-graph-works">How Open Graph Works</h2>
+
+                        <p>The Open Graph protocol is built on top of standard HTML <code>&lt;meta&gt;</code> tags placed inside the <code>&lt;head&gt;</code> section of a page. Instead of the usual <code>name</code> attribute, OG tags use a <code>property</code> attribute prefixed with <code>og:</code>. When a user shares a URL, the receiving platform sends a crawler to fetch the page HTML, parses these tags, and uses the values to build the preview card.</p>
+
+                        <p>Here is what a minimal but complete Open Graph implementation looks like:</p>
+
+                        <div class="code-block">
+<code><span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">property</span>=<span class="val">"og:title"</span>       <span class="attr">content</span>=<span class="val">"How to Bake Sourdough Bread"</span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">property</span>=<span class="val">"og:type"</span>        <span class="attr">content</span>=<span class="val">"article"</span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">property</span>=<span class="val">"og:url"</span>         <span class="attr">content</span>=<span class="val">"https://example.com/sourdough"</span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">property</span>=<span class="val">"og:image"</span>       <span class="attr">content</span>=<span class="val">"https://example.com/img/sourdough.jpg"</span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">property</span>=<span class="val">"og:description"</span>  <span class="attr">content</span>=<span class="val">"A step-by-step guide to baking a perfect sourdough loaf at home."</span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">property</span>=<span class="val">"og:site_name"</span>   <span class="attr">content</span>=<span class="val">"Example Blog"</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;/head&gt;</span></code>
+                        </div>
+
+                        <p>The protocol is completely declarative — there is no JavaScript required, no server-side handshake, no API key. The crawler reads the static HTML and extracts the values it needs. This simplicity is a large part of why Open Graph became the de facto standard.</p>
+
+                        <!-- ─── Essential Tags ─── -->
+                        <h2 id="essential-open-graph-tags">The Essential Open Graph Tags</h2>
+
+                        <p>The Open Graph protocol defines dozens of possible properties, but in practice six tags cover the vast majority of use cases. The first four (<code>og:title</code>, <code>og:type</code>, <code>og:image</code>, <code>og:url</code>) are considered required by the spec; the rest are strongly recommended.</p>
+
+                        <div style="overflow-x: auto;">
+                            <table class="og-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tag</th>
+                                        <th>What it does</th>
+                                        <th>Example value</th>
+                                        <th>Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="tag-name">og:title</td>
+                                        <td>The title of the page as it should appear in the social preview card</td>
+                                        <td><code>How to Bake Sourdough Bread</code></td>
+                                        <td>Keep under 60 characters to avoid truncation</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tag-name">og:description</td>
+                                        <td>A short description that provides context below the title in the preview</td>
+                                        <td><code>A step-by-step guide to baking a perfect sourdough loaf at home.</code></td>
+                                        <td>Recommended 155–200 characters</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tag-name">og:image</td>
+                                        <td>The URL of the image that appears in the preview card thumbnail</td>
+                                        <td><code>https://example.com/img/sourdough.jpg</code></td>
+                                        <td>1200×630 px recommended; absolute URL required</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tag-name">og:url</td>
+                                        <td>The canonical URL of the page — the "permanent" address</td>
+                                        <td><code>https://example.com/sourdough</code></td>
+                                        <td>Helps platforms deduplicate shared links</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tag-name">og:type</td>
+                                        <td>The object type of the page (article, website, video, product, etc.)</td>
+                                        <td><code>article</code> or <code>website</code></td>
+                                        <td>Defaults to <code>website</code> if omitted</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tag-name">og:site_name</td>
+                                        <td>The name of the overall site (not the specific page title)</td>
+                                        <td><code>Example Blog</code></td>
+                                        <td>Displayed in smaller text below the main title on some platforms</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <p>For articles, you can also add <code>og:article:published_time</code>, <code>og:article:author</code>, and <code>og:article:section</code> to enable richer display in news aggregators. For e-commerce, the <code>product</code> type unlocks price and availability fields.</p>
+
+                        <!-- ─── Image Requirements ─── -->
+                        <h2 id="open-graph-image-requirements">Open Graph Image Requirements</h2>
+
+                        <p>The <code>og:image</code> tag is the single most impactful element of your Open Graph setup. A compelling, correctly-sized image can double or triple the click-through rate of a shared link compared to a broken or missing preview.</p>
+
+                        <h3>Recommended dimensions</h3>
+                        <ul>
+                            <li><strong>Ideal size:</strong> 1200×630 pixels (aspect ratio 1.91:1)</li>
+                            <li><strong>Minimum size:</strong> 600×315 pixels — smaller images may not display as a large card on some platforms</li>
+                            <li><strong>Square fallback:</strong> 1200×1200 pixels works well for Instagram and WhatsApp previews</li>
+                        </ul>
+
+                        <h3>Formats and file size</h3>
+                        <ul>
+                            <li>Use <strong>JPEG</strong> for photographs and <strong>PNG</strong> for graphics with text or transparency</li>
+                            <li>Keep file size under <strong>8 MB</strong> (Facebook's hard limit); aim for under 1 MB for fast loading</li>
+                            <li>WebP is supported by some platforms but not all — JPEG/PNG are safer choices</li>
+                        </ul>
+
+                        <h3>Common image mistakes</h3>
+                        <ul>
+                            <li><strong>Using a relative URL:</strong> <code>og:image</code> must be an absolute URL including the protocol (<code>https://</code>)</li>
+                            <li><strong>Hot-linking protected images:</strong> If your CDN blocks external scrapers, the platform crawler cannot download the image</li>
+                            <li><strong>Text too close to edges:</strong> Some platforms crop images differently — keep critical content in the central 80% of the frame</li>
+                            <li><strong>Not updating the cache:</strong> Facebook caches OG images aggressively; use the <a href="https://developers.facebook.com/tools/debug/" target="_blank" rel="noopener noreferrer">Facebook Sharing Debugger</a> to force a re-scrape after updates</li>
+                        </ul>
+
+                        <!-- ─── How to Check ─── -->
+                        <h2 id="how-to-check-open-graph-tags">How to Check Open Graph Tags on Any Website</h2>
+
+                        <p>Before publishing or after making changes, you should always verify that your Open Graph tags are present, correctly formatted, and pulling the right image. There are several ways to do this.</p>
+
+                        <p>The fastest method is to use <strong>URL Summary</strong>, a free tool that fetches any URL and instantly displays all its Open Graph tags alongside SEO metadata, Twitter Card data, and social media links. You can see the exact values a social platform crawler would receive — no browser extension or developer tools required.</p>
+
+                        <div class="callout-box">
+                            <p>Paste any URL into <a href="https://urlsummary.echovalue.dev/" target="_blank" rel="noopener">urlsummary.echovalue.dev</a> to instantly inspect its Open Graph tags, og:image preview, Twitter Card data, and full metadata — all in one view.</p>
+                        </div>
+
+                        <p>Platform-specific debuggers are also useful when you need to verify how a specific network will render your preview:</p>
+                        <ul>
+                            <li><strong>Facebook:</strong> <a href="https://developers.facebook.com/tools/debug/" target="_blank" rel="noopener noreferrer">Facebook Sharing Debugger</a> — also lets you clear the cache</li>
+                            <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/post-inspector/" target="_blank" rel="noopener noreferrer">LinkedIn Post Inspector</a></li>
+                            <li><strong>Twitter/X:</strong> <a href="https://cards-dev.twitter.com/validator" target="_blank" rel="noopener noreferrer">Twitter Card Validator</a></li>
+                        </ul>
+
+                        <!-- ─── OG vs Twitter Cards ─── -->
+                        <h2 id="open-graph-vs-twitter-cards">Open Graph vs Twitter Cards</h2>
+
+                        <p>Twitter (now X) developed its own metadata system called <strong>Twitter Cards</strong>, which uses <code>twitter:</code> prefixed tags rather than <code>og:</code>. The functionality largely overlaps, but there are key differences:</p>
+
+                        <div style="overflow-x: auto;">
+                            <table class="og-table">
+                                <thead>
+                                    <tr>
+                                        <th>Feature</th>
+                                        <th>Open Graph</th>
+                                        <th>Twitter Cards</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Primary platform</td>
+                                        <td>Facebook, LinkedIn, Slack, Discord, WhatsApp…</td>
+                                        <td>Twitter / X</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Attribute prefix</td>
+                                        <td><code>og:</code> (via <code>property</code> attribute)</td>
+                                        <td><code>twitter:</code> (via <code>name</code> attribute)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Card layout control</td>
+                                        <td>Limited — platform decides the card style</td>
+                                        <td>Explicit — choose <code>summary</code>, <code>summary_large_image</code>, <code>app</code>, <code>player</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fallback behavior</td>
+                                        <td>No fallback (either present or absent)</td>
+                                        <td>Falls back to OG tags if Twitter tags are missing</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <p>The practical recommendation: <strong>implement both</strong>. The Twitter-specific tags are only a few extra lines of HTML, and having them ensures the best possible display on every platform. Twitter's fallback to OG tags works reasonably well, but setting <code>twitter:card</code> to <code>summary_large_image</code> explicitly triggers the larger card format that shows your image prominently instead of as a small thumbnail.</p>
+
+                        <div class="code-block">
+<code><span class="comment">/* Twitter Card tags — add alongside your OG tags */</span>
+<span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"twitter:card"</span>        <span class="attr">content</span>=<span class="val">"summary_large_image"</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"twitter:title"</span>       <span class="attr">content</span>=<span class="val">"How to Bake Sourdough Bread"</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"twitter:description"</span>  <span class="attr">content</span>=<span class="val">"A step-by-step guide to baking a perfect sourdough loaf."</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"twitter:image"</span>       <span class="attr">content</span>=<span class="val">"https://example.com/img/sourdough.jpg"</span> <span class="tag">/&gt;</span></code>
+                        </div>
+
+                        <!-- ─── Common Mistakes ─── -->
+                        <h2 id="common-open-graph-mistakes">Common Open Graph Mistakes</h2>
+
+                        <p>Even experienced developers make these mistakes. Auditing your site for them takes only a few minutes and can have an immediate positive impact on social sharing performance.</p>
+
+                        <ul>
+                            <li><strong>Missing og:image entirely</strong> — The most common issue. Without an image, most platforms show only a tiny text card or no preview at all.</li>
+                            <li><strong>Using the same OG tags on every page</strong> — Each page should have unique <code>og:title</code>, <code>og:description</code>, and <code>og:url</code>. Generic site-wide tags reduce relevance and click-through.</li>
+                            <li><strong>og:url pointing to the wrong page</strong> — Using your homepage URL for every page confuses platforms that try to aggregate shares and can break like counts.</li>
+                            <li><strong>Image is too small or wrong aspect ratio</strong> — Images below 600×315 px often render as tiny thumbnails instead of large cards. Facebook may refuse to display them at all.</li>
+                            <li><strong>og:description duplicating the page title</strong> — The description should add context, not repeat the title. Use it to explain the value or hook of the content.</li>
+                            <li><strong>Forgetting to invalidate the social cache</strong> — After fixing OG tags, old previews may persist for days on Facebook and LinkedIn until you use their debugging tools to force a re-scrape.</li>
+                            <li><strong>Blocking crawlers with authentication or JavaScript rendering</strong> — Social platform crawlers do not execute JavaScript. If your OG tags are injected by a JS framework (SPA) at runtime rather than in the initial HTML response, crawlers will not find them. Use server-side rendering or static HTML for meta tags.</li>
+                        </ul>
+
+                        <!-- ─── FAQ ─── -->
+                        <h2 id="faq">Frequently Asked Questions</h2>
+
+                        <div class="faq-container" style="margin-top: 1.5rem;">
+                            <div class="faq-section" style="margin-bottom: 0;">
+
+                                <div class="faq-item">
+                                    <button class="faq-question" aria-expanded="false">
+                                        <span>What is Open Graph and why does it matter?</span>
+                                        <span class="faq-icon">▸</span>
+                                    </button>
+                                    <div class="faq-answer">
+                                        <p>Open Graph is a protocol originally created by Facebook that allows any web page to become a rich object in a social graph. By adding OG meta tags to your HTML, you control exactly how your page title, description, and image appear when someone shares your URL on platforms like Facebook, LinkedIn, Slack, or WhatsApp. Without OG tags, platforms guess the content — often poorly — which hurts engagement and click-through rates.</p>
+                                    </div>
+                                </div>
+
+                                <div class="faq-item">
+                                    <button class="faq-question" aria-expanded="false">
+                                        <span>Which Open Graph tags are required?</span>
+                                        <span class="faq-icon">▸</span>
+                                    </button>
+                                    <div class="faq-answer">
+                                        <p>The four basic Open Graph tags required for a valid OG implementation are <strong>og:title</strong>, <strong>og:type</strong>, <strong>og:image</strong>, and <strong>og:url</strong>. Without these, social platforms will fall back to scraping your page content directly, often with poor results. Adding <strong>og:description</strong> and <strong>og:site_name</strong> is strongly recommended to complete the preview.</p>
+                                    </div>
+                                </div>
+
+                                <div class="faq-item">
+                                    <button class="faq-question" aria-expanded="false">
+                                        <span>What is the recommended image size for og:image?</span>
+                                        <span class="faq-icon">▸</span>
+                                    </button>
+                                    <div class="faq-answer">
+                                        <p>The recommended <code>og:image</code> size is <strong>1200×630 pixels</strong> with an aspect ratio of 1.91:1. Images should be at least 600×315 pixels to display correctly, but 1200×630 is preferred for high-resolution screens. Keep file size under 8 MB and use JPEG or PNG format. Always use an absolute URL — relative paths are not supported.</p>
+                                    </div>
+                                </div>
+
+                                <div class="faq-item">
+                                    <button class="faq-question" aria-expanded="false">
+                                        <span>Do I need both Open Graph tags and Twitter Card tags?</span>
+                                        <span class="faq-icon">▸</span>
+                                    </button>
+                                    <div class="faq-answer">
+                                        <p>Yes, for full coverage you should implement both. Twitter has its own set of meta tags (<code>twitter:card</code>, <code>twitter:title</code>, etc.) that take precedence on Twitter/X. However, Twitter will also fall back to Open Graph tags if Twitter Card tags are absent, so OG tags alone provide partial Twitter support. Adding the Twitter-specific tags takes only 4–5 extra lines and enables explicit control over the card format (e.g., <code>summary_large_image</code>).</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- ─── Conclusion / CTA ─── -->
+                        <h2 id="conclusion">Start Checking Your Open Graph Tags</h2>
+
+                        <p>Open Graph tags are a small investment with a large return. A few lines of HTML in your <code>&lt;head&gt;</code> determine whether your content looks polished and compelling or broken and generic when shared across social media. Once correctly implemented, they work automatically for every share of every page — no ongoing maintenance required.</p>
+
+                        <p>The checklist is straightforward: ensure every page has a unique <code>og:title</code>, a descriptive <code>og:description</code>, a correctly-sized <code>og:image</code> at an absolute URL, and the correct <code>og:url</code>. Add Twitter Card tags for complete platform coverage and verify your implementation with a dedicated inspection tool before and after any changes.</p>
+
+                        <div class="cta-section">
+                            <h3>Inspect Any Page's Open Graph Tags — Free</h3>
+                            <p>URL Summary fetches any URL and displays all its OG tags, Twitter Card data, SEO metadata, and more in one clean report. No signup required.</p>
+                            <a href="https://urlsummary.echovalue.dev/" class="analyze-btn" style="text-decoration: none; display: inline-flex;">
+                                <span class="btn-text">Analyze a URL now</span>
+                                <span class="btn-icon">→</span>
+                            </a>
+                        </div>
+
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">
+                    Built by <a href="https://njoylab.com" target="_blank" rel="noopener"
+                        style="color: var(--color-accent); text-decoration: none;">nJoyLab.com</a>
+                </p>
+                <p class="footer-links" style="color: var(--color-text-dim); font-size: 0.9rem; margin-top: 0.5rem;">
+                    <a href="/" style="color: var(--color-text-secondary); text-decoration: none;">Home</a>
+                    <span style="margin: 0 0.5rem;">•</span>
+                    <a href="/faq" style="color: var(--color-text-secondary); text-decoration: none;">FAQ</a>
+                    <span style="margin: 0 0.5rem;">•</span>
+                    <a href="https://echovalue.dev" target="_blank" rel="noopener"
+                        style="color: var(--color-text-secondary); text-decoration: none;">More Tools</a>
+                    <span style="margin: 0 0.5rem;">•</span>
+                    <a href="https://github.com/njoylab/urlsummary.echovalue.dev" target="_blank" rel="noopener"
+                        style="color: var(--color-text-secondary); text-decoration: none;">GitHub</a>
+                    <span style="margin: 0 0.5rem;">•</span>
+                    <a href="/terms" style="color: var(--color-text-secondary); text-decoration: none;">Terms &
+                        Conditions</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Accordion functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const faqItem = question.parentElement;
+                    const isActive = faqItem.classList.contains('active');
+
+                    // Close all other items
+                    document.querySelectorAll('.faq-item').forEach(item => {
+                        item.classList.remove('active');
+                        item.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+                    });
+
+                    // Toggle current item
+                    if (!isActive) {
+                        faqItem.classList.add('active');
+                        question.setAttribute('aria-expanded', 'true');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
