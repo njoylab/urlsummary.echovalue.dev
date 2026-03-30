@@ -1,0 +1,93 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="42" x2="1100" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F1424"/>
+      <stop offset="0.55" stop-color="#0A0E1A"/>
+      <stop offset="1" stop-color="#05070D"/>
+    </linearGradient>
+    <linearGradient id="line" x1="235" y1="104" x2="1044" y2="526" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F59E0B" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#F59E0B" stop-opacity="0.02"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FDE68A"/>
+      <stop offset="1" stop-color="#F59E0B"/>
+    </linearGradient>
+    <filter id="blur-xl" x="-200" y="-200" width="1600" height="1030" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="70"/>
+    </filter>
+    <filter id="soft-shadow" x="0" y="0" width="1200" height="630" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="24" stdDeviation="32" flood-color="#000000" flood-opacity="0.32"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <g opacity="0.9" filter="url(#blur-xl)">
+    <circle cx="920" cy="120" r="170" fill="#F59E0B" fill-opacity="0.18"/>
+    <circle cx="1040" cy="460" r="210" fill="#F59E0B" fill-opacity="0.09"/>
+    <circle cx="330" cy="110" r="180" fill="#1E293B" fill-opacity="0.42"/>
+  </g>
+
+  <g opacity="0.18">
+    <path d="M0 115H1200" stroke="url(#line)"/>
+    <path d="M0 235H1200" stroke="url(#line)"/>
+    <path d="M0 355H1200" stroke="url(#line)"/>
+    <path d="M0 475H1200" stroke="url(#line)"/>
+    <path d="M165 0V630" stroke="url(#line)"/>
+    <path d="M405 0V630" stroke="url(#line)"/>
+    <path d="M645 0V630" stroke="url(#line)"/>
+    <path d="M885 0V630" stroke="url(#line)"/>
+  </g>
+
+  <rect x="54" y="54" width="1092" height="522" rx="30" fill="#141824" fill-opacity="0.64" stroke="#F59E0B" stroke-opacity="0.16"/>
+
+  <g filter="url(#soft-shadow)">
+    <rect x="86" y="90" width="438" height="450" rx="26" fill="#0D1322" stroke="#F59E0B" stroke-opacity="0.14"/>
+    <rect x="110" y="118" width="92" height="34" rx="17" fill="#F59E0B" fill-opacity="0.12" stroke="#F59E0B" stroke-opacity="0.24"/>
+    <text x="130" y="141" fill="#F8D184" font-family="'JetBrains Mono', 'IBM Plex Sans', monospace" font-size="15" font-weight="700" letter-spacing="0.08em">URL SUMMARY</text>
+
+    <text x="110" y="210" fill="#F4F7FB" font-family="'JetBrains Mono', 'IBM Plex Sans', monospace" font-size="64" font-weight="700">Website</text>
+    <text x="110" y="278" fill="url(#accent)" font-family="'JetBrains Mono', 'IBM Plex Sans', monospace" font-size="64" font-weight="700">Metadata</text>
+    <text x="110" y="346" fill="#F4F7FB" font-family="'JetBrains Mono', 'IBM Plex Sans', monospace" font-size="64" font-weight="700">Analyzer</text>
+
+    <text x="110" y="402" fill="#9CA3AF" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="22" font-weight="500">SEO, social previews, structured data,</text>
+    <text x="110" y="432" fill="#9CA3AF" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="22" font-weight="500">contacts, assets, and link analysis.</text>
+
+    <g opacity="0.9">
+      <circle cx="120" cy="488" r="6" fill="#10B981"/>
+      <text x="138" y="495" fill="#E8EAED" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="18" font-weight="600">Fast website inspection</text>
+      <circle cx="330" cy="488" r="6" fill="#F59E0B"/>
+      <text x="348" y="495" fill="#E8EAED" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="18" font-weight="600">Share-ready previews</text>
+    </g>
+  </g>
+
+  <g>
+    <rect x="574" y="112" width="542" height="112" rx="28" fill="#0A0E1A" stroke="#F59E0B" stroke-opacity="0.16"/>
+    <circle cx="618" cy="168" r="18" fill="#F59E0B" fill-opacity="0.14" stroke="#F59E0B" stroke-opacity="0.35"/>
+    <path d="M611 168.5L616 173.5L626 162.5" stroke="#F8D184" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="652" y="156" fill="#6B7280" font-family="'JetBrains Mono', 'IBM Plex Sans', monospace" font-size="17" font-weight="600">INPUT URL</text>
+    <text x="652" y="186" fill="#E8EAED" font-family="'JetBrains Mono', 'IBM Plex Sans', monospace" font-size="27" font-weight="700">https://example.com</text>
+
+    <rect x="574" y="250" width="542" height="264" rx="28" fill="#0D1322" stroke="#F59E0B" stroke-opacity="0.14"/>
+    <text x="608" y="292" fill="#F59E0B" font-family="'JetBrains Mono', 'IBM Plex Sans', monospace" font-size="18" font-weight="700">EXTRACTED SIGNALS</text>
+
+    <rect x="608" y="320" width="216" height="68" rx="18" fill="#F59E0B" fill-opacity="0.07" stroke="#F59E0B" stroke-opacity="0.18"/>
+    <text x="632" y="347" fill="#F4F7FB" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="20" font-weight="700">SEO</text>
+    <text x="632" y="371" fill="#9CA3AF" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="16">title, description, canonicals</text>
+
+    <rect x="848" y="320" width="232" height="68" rx="18" fill="#F59E0B" fill-opacity="0.07" stroke="#F59E0B" stroke-opacity="0.18"/>
+    <text x="872" y="347" fill="#F4F7FB" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="20" font-weight="700">Social Preview</text>
+    <text x="872" y="371" fill="#9CA3AF" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="16">Open Graph and Twitter</text>
+
+    <rect x="608" y="406" width="216" height="68" rx="18" fill="#F59E0B" fill-opacity="0.07" stroke="#F59E0B" stroke-opacity="0.18"/>
+    <text x="632" y="433" fill="#F4F7FB" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="20" font-weight="700">Structured Data</text>
+    <text x="632" y="457" fill="#9CA3AF" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="16">JSON-LD entities and schema</text>
+
+    <rect x="848" y="406" width="232" height="68" rx="18" fill="#F59E0B" fill-opacity="0.07" stroke="#F59E0B" stroke-opacity="0.18"/>
+    <text x="872" y="433" fill="#F4F7FB" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="20" font-weight="700">Links & Contacts</text>
+    <text x="872" y="457" fill="#9CA3AF" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="16">assets, domains, emails, phones</text>
+  </g>
+
+  <text x="84" y="606" fill="#E8EAED" fill-opacity="0.62" font-family="'JetBrains Mono', 'IBM Plex Sans', monospace" font-size="16" font-weight="600">urlsummary.echovalue.dev</text>
+</svg>
