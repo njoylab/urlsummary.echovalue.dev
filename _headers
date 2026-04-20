@@ -1,0 +1,8 @@
+/
+  Link: </.well-known/api-catalog>; rel="api-catalog", </.well-known/service-desc/url-summary-service.json>; rel="service-desc"; type="application/json", </#api>; rel="service-doc"; type="text/html", </.well-known/status/url-summary.json>; rel="status"; type="application/json"
+
+/index.html
+  Link: </.well-known/api-catalog>; rel="api-catalog", </.well-known/service-desc/url-summary-service.json>; rel="service-desc"; type="application/json", </#api>; rel="service-doc"; type="text/html", </.well-known/status/url-summary.json>; rel="status"; type="application/json"
+
+/.well-known/api-catalog
+  Content-Type: application/linkset+json; charset=UTF-8; profile="https://www.rfc-editor.org/info/rfc9727"

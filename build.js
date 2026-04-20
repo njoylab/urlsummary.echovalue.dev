@@ -29,6 +29,7 @@ const allowedExtensions = new Set([
 ]);
 
 const allowedNames = new Set([
+    '_headers',
     'robots.txt',
     'sitemap.xml',
     'site.webmanifest'
@@ -51,7 +52,7 @@ const blockedRootFiles = new Set([
 
 function shouldCopyFile(relativePath, fileName, ext) {
     if (relativePath.startsWith('.well-known/')) {
-        return ext === '.json' || ext === '.md';
+        return ext === '.json' || ext === '.md' || fileName === 'api-catalog';
     }
 
     if (blockedRootFiles.has(fileName)) {
