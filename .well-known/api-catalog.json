@@ -1,0 +1,25 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://urlsummary.echovalue.dev/app",
+      "service-desc": [
+        {
+          "href": "https://urlsummary.echovalue.dev/.well-known/service-desc/url-summary-service.json",
+          "type": "application/json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://urlsummary.echovalue.dev/#api",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://urlsummary.echovalue.dev/.well-known/status/url-summary.json",
+          "type": "application/json"
+        }
+      ]
+    }
+  ]
+}
