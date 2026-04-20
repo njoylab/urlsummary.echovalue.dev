@@ -1,0 +1,105 @@
+{
+  "service": "url-summary-analyzer",
+  "origin": "https://urlsummary.echovalue.dev",
+  "entrypoints": {
+    "homepage": "https://urlsummary.echovalue.dev/",
+    "web_app": "https://urlsummary.echovalue.dev/app"
+  },
+  "description": "Machine-readable description of the URL Summary Analyzer browser service. The static frontend invokes a deployment-specific scraper API endpoint configured at build time.",
+  "requestSchema": {
+    "type": "object",
+    "required": [
+      "url"
+    ],
+    "properties": {
+      "url": {
+        "type": "string",
+        "format": "uri",
+        "description": "Absolute HTTP or HTTPS URL to analyze."
+      },
+      "language": {
+        "type": "string",
+        "description": "Optional preferred language for analysis and AI output."
+      },
+      "ignoreRobots": {
+        "type": "boolean",
+        "description": "Ignore robots.txt restrictions. Only for authorized testing."
+      },
+      "ignoreExternalLinks": {
+        "type": "boolean",
+        "description": "Skip external link extraction."
+      },
+      "ignoreInternalLinks": {
+        "type": "boolean",
+        "description": "Skip internal link extraction."
+      },
+      "generateSummary": {
+        "type": "boolean",
+        "description": "Request AI-generated summary output."
+      },
+      "summaryLength": {
+        "type": "string",
+        "enum": [
+          "short",
+          "medium",
+          "long"
+        ],
+        "description": "Preferred summary length when AI summarization is enabled."
+      },
+      "extractKeyFacts": {
+        "type": "boolean",
+        "description": "Request AI key facts extraction."
+      },
+      "summaryLanguage": {
+        "type": "string",
+        "description": "Preferred language for summary output."
+      }
+    }
+  },
+  "responseSchema": {
+    "type": "object",
+    "properties": {
+      "success": {
+        "type": "boolean"
+      },
+      "data": {
+        "type": "object",
+        "properties": {
+          "seo": {
+            "type": "object"
+          },
+          "openGraph": {
+            "type": "object"
+          },
+          "twitterCard": {
+            "type": "object"
+          },
+          "social": {
+            "type": "object"
+          },
+          "contact": {
+            "type": "object"
+          },
+          "technical": {
+            "type": "object"
+          },
+          "media": {
+            "type": "object"
+          },
+          "links": {
+            "type": "object"
+          },
+          "structuredData": {
+            "type": "array"
+          },
+          "ai": {
+            "type": "object"
+          }
+        }
+      },
+      "error": {
+        "type": "string"
+      }
+    }
+  }
+}

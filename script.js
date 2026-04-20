@@ -1281,6 +1281,33 @@ function hideLoadingState() {
     }
 }
 
+async function runAnalysis(url, options, turnstileToken) {
+    currentOptions = options;
+    showLoadingState();
+    dismissAllToasts();
+
+    try {
+        const response = await callScraperApi(url, options, turnstileToken);
+
+        if (!response.success || !response.data) {
+            throw new Error(response.error || 'Analysis failed');
+        }
+
+        currentApiResponse = response;
+        displayResults(response.data);
+        saveToHistory(url, options, response.data);
+        showToast('URL analysis completed successfully', 'success', 5000);
+
+        return response;
+    } finally {
+        hideLoadingState();
+
+        if (window.turnstile && typeof window.turnstile.reset === 'function') {
+            window.turnstile.reset();
+        }
+    }
+}
+
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -1306,21 +1333,8 @@ form.addEventListener('submit', async (e) => {
         return;
     }
 
-    currentOptions = options;
-    showLoadingState();
-    dismissAllToasts();
-
     try {
-        const response = await callScraperApi(url, options, turnstileToken);
-
-        if (response.success && response.data) {
-            currentApiResponse = response;
-            displayResults(response.data);
-            saveToHistory(url, options, response.data);
-            showToast('URL analysis completed successfully', 'success', 5000);
-        } else {
-            throw new Error(response.error || 'Analysis failed');
-        }
+        await runAnalysis(url, options, turnstileToken);
     } catch (error) {
         console.error('Analysis error:', error);
 
@@ -1335,13 +1349,6 @@ form.addEventListener('submit', async (e) => {
 
         showToast(errorMessage, 'error', 10000);
         resultsContainer.style.display = 'none';
-    } finally {
-        hideLoadingState();
-
-        // Reset Turnstile
-        if (window.turnstile && typeof window.turnstile.reset === 'function') {
-            window.turnstile.reset();
-        }
     }
 });
 
@@ -1429,12 +1436,12 @@ function copyJsonToClipboard() {
 }
 
 // Generate Markdown report optimized for LLM prompts
-function generateMarkdownReport() {
-    if (!currentApiResponse || !currentApiResponse.data) {
+function generateMarkdownReport(response = currentApiResponse) {
+    if (!response || !response.data) {
         return '';
     }
 
-    const data = currentApiResponse.data;
+    const data = response.data;
     const url = data.technical?.originalUrl || 'Unknown URL';
     const timestamp = new Date().toLocaleString('en-US', {
         year: 'numeric', month: '2-digit', day: '2-digit',

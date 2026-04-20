@@ -1,0 +1,12 @@
+{
+  "service": "url-summary-analyzer",
+  "origin": "https://urlsummary.echovalue.dev",
+  "status": "ok",
+  "surface": "static-web-app",
+  "checks": {
+    "homepage": "ok",
+    "app": "ok",
+    "agent_discovery": "ok"
+  },
+  "updated": "2026-04-20"
+}

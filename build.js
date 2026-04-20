@@ -18,6 +18,8 @@ const allowedExtensions = new Set([
     '.html',
     '.css',
     '.js',
+    '.json',
+    '.md',
     '.png',
     '.ico',
     '.svg',
@@ -35,27 +37,60 @@ const allowedNames = new Set([
 fs.rmSync(distDir, { recursive: true, force: true });
 fs.mkdirSync(distDir, { recursive: true });
 
-const entries = fs.readdirSync(rootDir, { withFileTypes: true });
+function shouldSkipDirectory(dirName) {
+    return dirName === 'dist' || dirName === 'node_modules' || dirName === 'functions';
+}
 
-for (const entry of entries) {
-    if (!entry.isFile()) {
-        continue;
+const blockedRootFiles = new Set([
+    'AGENTS.md',
+    'CLAUDE.md',
+    'README.md',
+    'build.js',
+    'package.json'
+]);
+
+function shouldCopyFile(relativePath, fileName, ext) {
+    if (relativePath.startsWith('.well-known/')) {
+        return ext === '.json' || ext === '.md';
     }
 
-    const fileName = entry.name;
-    if (fileName.startsWith('.')) {
-        continue;
+    if (blockedRootFiles.has(fileName)) {
+        return false;
+    }
+
+    return allowedExtensions.has(ext) || allowedNames.has(fileName);
+}
+
+function copyEntry(sourcePath, relativePath = '') {
+    const stats = fs.statSync(sourcePath);
+    const fileName = path.basename(sourcePath);
+
+    if (stats.isDirectory()) {
+        if (fileName.startsWith('.') && fileName !== '.well-known') {
+            return;
+        }
+        if (shouldSkipDirectory(fileName)) {
+            return;
+        }
+
+        const entries = fs.readdirSync(sourcePath, { withFileTypes: true });
+        for (const entry of entries) {
+            copyEntry(path.join(sourcePath, entry.name), path.join(relativePath, entry.name));
+        }
+        return;
+    }
+
+    if (fileName.startsWith('.') && !relativePath.startsWith('.well-known')) {
+        return;
     }
 
     const ext = path.extname(fileName);
-    const shouldCopy = allowedExtensions.has(ext) || allowedNames.has(fileName);
-
-    if (!shouldCopy) {
-        continue;
+    if (!shouldCopyFile(relativePath, fileName, ext)) {
+        return;
     }
 
-    const sourcePath = path.join(rootDir, fileName);
-    const destPath = path.join(distDir, fileName);
+    const destPath = path.join(distDir, relativePath);
+    fs.mkdirSync(path.dirname(destPath), { recursive: true });
 
     if (ext === '.html') {
         const html = fs.readFileSync(sourcePath, 'utf8');
@@ -68,17 +103,22 @@ for (const entry of entries) {
             }
         }
         fs.writeFileSync(destPath, output);
-        continue;
+        return;
     }
 
     if (fileName === 'script.js') {
         const script = fs.readFileSync(sourcePath, 'utf8');
         const output = script.replace('__API_ENDPOINT__', apiEndpoint);
         fs.writeFileSync(destPath, output);
-        continue;
+        return;
     }
 
     fs.copyFileSync(sourcePath, destPath);
+}
+
+const rootEntries = fs.readdirSync(rootDir, { withFileTypes: true });
+for (const entry of rootEntries) {
+    copyEntry(path.join(rootDir, entry.name), entry.name);
 }
 
 console.log('Build completed successfully!');
