@@ -1,6 +1,7 @@
 # robots.txt for URL Summary
 
 User-agent: *
+Content-Signal: ai-train=yes, search=yes, ai-input=no
 Allow: /
 
 # Sitemaps
