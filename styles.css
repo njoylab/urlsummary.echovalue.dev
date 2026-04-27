@@ -11,10 +11,10 @@
     --color-text-muted: #6e6e73;
     --color-text-dim: #6e6e73;
 
-    --color-accent: #ff9f0a;
-    --color-accent-hover: #fbbf24;
-    --color-accent-soft: rgba(255, 159, 10, 0.14);
-    --color-accent-rgb: 255, 159, 10;
+    --color-accent: #0a84ff;
+    --color-accent-hover: #64d2ff;
+    --color-accent-soft: rgba(10, 132, 255, 0.14);
+    --color-accent-rgb: 10, 132, 255;
 
     --color-success: #30d158;
     --color-warning: #ff9f0a;
@@ -52,7 +52,7 @@
 body {
     font-family: var(--font-sans);
     background:
-        linear-gradient(180deg, rgba(255, 159, 10, 0.04), transparent 280px),
+        linear-gradient(180deg, rgba(10, 132, 255, 0.04), transparent 280px),
         var(--color-bg);
     color: var(--color-text-primary);
     line-height: 1.65;
@@ -3249,7 +3249,7 @@ html {
 }
 
 ::selection {
-    background: rgba(255, 159, 10, 0.28);
+    background: rgba(10, 132, 255, 0.25);
     color: var(--color-text-primary);
 }
 
