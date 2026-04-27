@@ -43,7 +43,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
     <!-- Stylesheet -->
@@ -62,10 +62,10 @@
         .terms-section h2 {
             font-family: var(--font-mono);
             font-size: 1.5rem;
-            color: var(--color-accent);
+            color: var(--color-text-primary);
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+            border-bottom: 1px solid var(--color-border);
         }
 
         .terms-section h3 {
@@ -117,20 +117,22 @@
     </style>
 </head>
 
-<body>
+<body class="doc-page">
     <div class="grain-overlay" aria-hidden="true"></div>
 
     <header class="header" role="banner">
         <div class="container">
-            <a href="/" class="logo" role="img" aria-label="URL Summary Logo" style="text-decoration: none;">
-                <span class="logo-icon" aria-hidden="true">📄</span>
-                <span class="logo-text">URL<span class="logo-accent">Summary</span></span>
+            <a href="/" class="logo" aria-label="echoValue URL summary">
+                <span class="logo-text">echoValue</span>
+                <span class="logo-separator">/</span>
+                <span class="logo-accent">urlsummary</span>
             </a>
             <nav class="nav" role="navigation" aria-label="Main navigation">
                 <a href="/" class="nav-link">Home</a>
+                <a href="/app" class="nav-link">App</a>
                 <a href="/faq" class="nav-link">FAQ</a>
-                <a href="/#api" class="nav-link">API Access</a>
-                <a href="/#mcp" class="nav-link">MCP Access</a>
+                <a href="https://www.echovalue.dev/" target="_blank" rel="noopener noreferrer" class="nav-link">More Tools</a>
+                <a href="https://github.com/njoylab/urlsummary.echovalue.dev" target="_blank" rel="noopener noreferrer" class="nav-link">GitHub</a>
             </nav>
         </div>
     </header>
@@ -140,7 +142,7 @@
             <div class="container">
                 <div class="terms-content">
                     <h1 class="hero-title" id="terms-title" style="margin-bottom: 0.5rem;">
-                        <span class="title-gradient">Terms and Conditions</span>
+                        <span>Terms and Conditions</span>
                     </h1>
                     <p class="effective-date">Effective Date: December 30, 2025</p>
 
@@ -422,17 +424,16 @@
         <div class="container">
             <div class="footer-content">
                 <p class="footer-text">
-                    Built by <a href="https://njoylab.com" target="_blank" rel="noopener"
-                        style="color: var(--color-accent); text-decoration: none;">nJoyLab.com</a>
+                    Built by <a href="https://njoylab.com" target="_blank" rel="noopener">nJoyLab.com</a>
                 </p>
-                <p class="footer-links" style="color: var(--color-text-dim); font-size: 0.9rem; margin-top: 0.5rem;">
-                    <a href="https://echovalue.dev" target="_blank" rel="noopener"
-                        style="color: var(--color-text-secondary); text-decoration: none;">More Tools</a>
+                <p class="footer-links">
+                    <a href="https://www.echovalue.dev" target="_blank" rel="noopener"
+                        >More Tools</a>
                     <span style="margin: 0 0.5rem;">•</span>
                     <a href="https://github.com/njoylab/urlsummary.echovalue.dev" target="_blank" rel="noopener"
-                        style="color: var(--color-text-secondary); text-decoration: none;">GitHub</a>
+                        >GitHub</a>
                     <span style="margin: 0 0.5rem;">•</span>
-                    <a href="/terms" style="color: var(--color-text-secondary); text-decoration: none;">Terms &
+                    <a href="/terms">Terms &
                         Conditions</a>
                 </p>
             </div>

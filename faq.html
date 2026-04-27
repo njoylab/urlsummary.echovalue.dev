@@ -41,27 +41,29 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body class="doc-page">
     <div class="grain-overlay" aria-hidden="true"></div>
 
     <header class="header" role="banner">
         <div class="container">
-            <a href="/" class="logo" role="img" aria-label="URL Summary Scraper Logo" style="text-decoration: none;">
-                <span class="logo-icon" aria-hidden="true">📄</span>
-                <span class="logo-text">URL<span class="logo-accent">Summary</span></span>
+            <a href="/" class="logo" aria-label="echoValue URL summary">
+                <span class="logo-text">echoValue</span>
+                <span class="logo-separator">/</span>
+                <span class="logo-accent">urlsummary</span>
             </a>
             <nav class="nav" role="navigation" aria-label="Main navigation">
                 <a href="/" class="nav-link">Home</a>
-                <a href="/faq" class="nav-link">FAQ</a>
-                <a href="/#api" class="nav-link">API Access</a>
-                <a href="/#mcp" class="nav-link">MCP Access</a>
+                <a href="/app" class="nav-link">App</a>
+                <a href="https://www.echovalue.dev/" target="_blank" rel="noopener noreferrer" class="nav-link">More Tools</a>
+                <a href="https://github.com/njoylab/urlsummary.echovalue.dev" target="_blank" rel="noopener noreferrer" class="nav-link">GitHub</a>
+                <a href="/terms" class="nav-link">Terms</a>
             </nav>
         </div>
     </header>
@@ -70,7 +72,7 @@
         <section class="hero" style="padding: 4rem 0 2rem;" aria-labelledby="faq-title">
             <div class="container">
                 <h1 class="hero-title" id="faq-title" style="margin-bottom: 1rem;">
-                    <span class="title-gradient">Frequently Asked Questions</span>
+                    <span>Frequently Asked Questions</span>
                 </h1>
                 <p class="hero-description" style="margin-bottom: 3rem;">
                     Everything you need to know about URL Summary Scraper
@@ -394,17 +396,16 @@
         <div class="container">
             <div class="footer-content">
                 <p class="footer-text">
-                    Built by <a href="https://njoylab.com" target="_blank" rel="noopener"
-                        style="color: var(--color-accent); text-decoration: none;">nJoyLab.com</a>
+                    Built by <a href="https://njoylab.com" target="_blank" rel="noopener">nJoyLab.com</a>
                 </p>
-                <p class="footer-links" style="color: var(--color-text-dim); font-size: 0.9rem; margin-top: 0.5rem;">
-                    <a href="https://echovalue.dev" target="_blank" rel="noopener"
-                        style="color: var(--color-text-secondary); text-decoration: none;">More Tools</a>
+                <p class="footer-links">
+                    <a href="https://www.echovalue.dev" target="_blank" rel="noopener"
+                        >More Tools</a>
                     <span style="margin: 0 0.5rem;">•</span>
                     <a href="https://github.com/njoylab/urlsummary.echovalue.dev" target="_blank" rel="noopener"
-                        style="color: var(--color-text-secondary); text-decoration: none;">GitHub</a>
+                        >GitHub</a>
                     <span style="margin: 0 0.5rem;">•</span>
-                    <a href="/terms" style="color: var(--color-text-secondary); text-decoration: none;">Terms &
+                    <a href="/terms">Terms &
                         Conditions</a>
                 </p>
             </div>

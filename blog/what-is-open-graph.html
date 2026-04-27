@@ -48,7 +48,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
     <!-- Stylesheet -->
@@ -149,7 +149,7 @@
         }
 
         .article-tag {
-            background: rgba(99, 102, 241, 0.15);
+            background: var(--color-accent-soft);
             color: var(--color-accent);
             padding: 0.2rem 0.6rem;
             border-radius: 4px;
@@ -246,7 +246,7 @@
         }
 
         .og-table th {
-            background: rgba(99, 102, 241, 0.1);
+            background: var(--color-bg-elevated);
             color: var(--color-text-primary);
             font-family: var(--font-mono);
             font-weight: 600;
@@ -284,8 +284,8 @@
         }
 
         .callout-box {
-            background: rgba(99, 102, 241, 0.08);
-            border: 1px solid rgba(99, 102, 241, 0.25);
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
             border-left: 3px solid var(--color-accent);
             border-radius: 8px;
             padding: 1.25rem 1.5rem;
@@ -301,8 +301,8 @@
         }
 
         .cta-section {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.08));
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
             border-radius: 12px;
             padding: 2.5rem 2rem;
             text-align: center;
@@ -366,14 +366,17 @@
 
     <header class="header" role="banner">
         <div class="container">
-            <a href="/" class="logo" role="img" aria-label="URL Summary Scraper Logo" style="text-decoration: none;">
-                <span class="logo-icon" aria-hidden="true">📄</span>
-                <span class="logo-text">URL<span class="logo-accent">Summary</span></span>
+            <a href="/" class="logo" aria-label="echoValue URL summary">
+                <span class="logo-text">echoValue</span>
+                <span class="logo-separator">/</span>
+                <span class="logo-accent">urlsummary</span>
             </a>
             <nav class="nav" role="navigation" aria-label="Main navigation">
                 <a href="/" class="nav-link">Home</a>
                 <a href="/app" class="nav-link">Analyzer</a>
                 <a href="/faq" class="nav-link">FAQ</a>
+                <a href="https://www.echovalue.dev/" target="_blank" rel="noopener noreferrer" class="nav-link">More Tools</a>
+                <a href="/terms" class="nav-link">Terms</a>
             </nav>
         </div>
     </header>
@@ -398,7 +401,7 @@
                     </div>
 
                     <h1 class="hero-title" style="font-size: clamp(1.6rem, 4vw, 2.4rem); text-align: left; margin-bottom: 1.25rem; line-height: 1.25;">
-                        <span class="title-gradient">What Is Open Graph?</span><br>
+                        <span>What Is Open Graph?</span><br>
                         The Complete Guide to OG Meta Tags
                     </h1>
 
@@ -672,17 +675,16 @@
         <div class="container">
             <div class="footer-content">
                 <p class="footer-text">
-                    Built by <a href="https://njoylab.com" target="_blank" rel="noopener"
-                        style="color: var(--color-accent); text-decoration: none;">nJoyLab.com</a>
+                    Built by <a href="https://njoylab.com" target="_blank" rel="noopener">nJoyLab.com</a>
                 </p>
-                <p class="footer-links" style="color: var(--color-text-dim); font-size: 0.9rem; margin-top: 0.5rem;">
+                <p class="footer-links">
                     <a href="/" style="color: var(--color-text-secondary); text-decoration: none;">Home</a>
                     <span style="margin: 0 0.5rem;">•</span>
                     <a href="/faq" style="color: var(--color-text-secondary); text-decoration: none;">FAQ</a>
                     <span style="margin: 0 0.5rem;">•</span>
                     <a href="/blog/meta-tags-guide" style="color: var(--color-text-secondary); text-decoration: none;">Meta Tags Guide</a>
                     <span style="margin: 0 0.5rem;">•</span>
-                    <a href="https://echovalue.dev" target="_blank" rel="noopener"
+                    <a href="https://www.echovalue.dev" target="_blank" rel="noopener"
                         style="color: var(--color-text-secondary); text-decoration: none;">More Tools</a>
                     <span style="margin: 0 0.5rem;">•</span>
                     <a href="https://github.com/njoylab/urlsummary.echovalue.dev" target="_blank" rel="noopener"
