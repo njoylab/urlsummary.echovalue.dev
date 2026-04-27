@@ -3,7 +3,9 @@
   "origin": "https://urlsummary.echovalue.dev",
   "entrypoints": {
     "homepage": "https://urlsummary.echovalue.dev/",
-    "web_app": "https://urlsummary.echovalue.dev/app"
+    "web_app": "https://urlsummary.echovalue.dev/app",
+    "api_docs": "https://docs.echovalue.dev/url-to-metadata/",
+    "openapi": "https://docs.echovalue.dev/openapi.yaml"
   },
   "description": "Machine-readable description of the URL Summary Analyzer browser service. The static frontend invokes a deployment-specific scraper API endpoint configured at build time.",
   "requestSchema": {

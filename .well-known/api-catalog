@@ -6,11 +6,15 @@
         {
           "href": "https://urlsummary.echovalue.dev/.well-known/service-desc/url-summary-service.json",
           "type": "application/json"
+        },
+        {
+          "href": "https://docs.echovalue.dev/openapi.yaml",
+          "type": "text/yaml"
         }
       ],
       "service-doc": [
         {
-          "href": "https://urlsummary.echovalue.dev/#api",
+          "href": "https://docs.echovalue.dev/url-to-metadata/",
           "type": "text/html"
         }
       ],

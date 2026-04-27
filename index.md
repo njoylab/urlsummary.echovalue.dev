@@ -37,7 +37,8 @@ This tool is intended for marketers, developers, SEO practitioners, and QA teams
 - Home: https://urlsummary.echovalue.dev/
 - App: https://urlsummary.echovalue.dev/app
 - FAQ: https://urlsummary.echovalue.dev/faq
-- API section: https://urlsummary.echovalue.dev/#api
+- API docs: https://docs.echovalue.dev/url-to-metadata/
+- OpenAPI schema: https://docs.echovalue.dev/openapi.yaml
 - MCP section: https://urlsummary.echovalue.dev/#mcp
 
 ## API And Integration Signals

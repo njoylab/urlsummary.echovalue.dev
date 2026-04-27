@@ -138,9 +138,9 @@ More tools at [echovalue.dev](https://echovalue.dev)
 
 ## API Access
 
-This scraper is available as a REST API on multiple platforms:
+This scraper is available as a REST API through the echoValue documentation:
 
-- **Apify**: [AI Enhanced Website Metadata](https://apify.com/njoylab/ai-enhanced-website-metadata?fpr=njoylab)
-- **RapidAPI**: [Website URL to Metadata API](https://rapidapi.com/njoylab/api/website-url-to-metadata)
+- **API docs**: [URL to Metadata](https://docs.echovalue.dev/url-to-metadata/)
+- **OpenAPI schema**: [openapi.yaml](https://docs.echovalue.dev/openapi.yaml)
 
-Both platforms offer simple REST access with AI-powered features for production use and bulk analysis.
+The API offers simple REST access with AI-powered features for production use and bulk analysis.
