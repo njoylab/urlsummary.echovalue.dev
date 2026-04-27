@@ -6,6 +6,10 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 
 This is a frontend web application for the **URL Summary Scraper** AWS Lambda API. It extracts comprehensive metadata from websites including SEO data, Open Graph tags, Twitter Card information, social media links, contact details, media assets, link analysis, and optional AI-powered summaries.
 
+## Design System Reference
+
+Use `/Users/emln/dev/njoylab.com/echovalue.dev/design-system` as the reference design system for echoValue visual tokens, navigation patterns, spacing, typography, and utility-page layout alignment.
+
 ## Architecture
 
 ### Core Components
