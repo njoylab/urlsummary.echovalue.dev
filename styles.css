@@ -2016,6 +2016,10 @@ body {
     padding: 2rem 0 0 !important;
 }
 
+.doc-page .hero > .container {
+    max-width: 808px;
+}
+
 .doc-page .hero-content,
 .doc-page .terms-content,
 .article-wrapper,
@@ -3237,4 +3241,359 @@ pre,
 .confirm-btn-confirm:hover {
     background: var(--color-accent-hover);
     transform: translateY(-2px);
+}
+
+/* echoValue suite alignment */
+html {
+    scroll-behavior: smooth;
+}
+
+::selection {
+    background: rgba(255, 159, 10, 0.28);
+    color: var(--color-text-primary);
+}
+
+button,
+a,
+input {
+    font: inherit;
+}
+
+code,
+pre,
+.logo,
+.section-label,
+.input-label,
+.step-label,
+.tag-badge,
+.article-tag,
+.effective-date,
+.error-code,
+.back-link {
+    font-family: var(--font-mono);
+}
+
+.header .container {
+    min-height: 64px;
+}
+
+.logo:hover,
+.nav-link:hover {
+    color: var(--color-accent-hover);
+}
+
+.hero {
+    padding: 2rem 0 3rem;
+}
+
+.hero-content {
+    max-width: 760px;
+    margin-bottom: 1.25rem;
+}
+
+.hero-title {
+    letter-spacing: 0;
+}
+
+.hero-description a,
+.landing-note a,
+.article-body a,
+.terms-content a,
+.faq-answer a {
+    color: var(--color-accent);
+}
+
+.analyzer-card,
+.results-container {
+    width: min(960px, 100%);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.analyzer-card,
+.use-cases-list li,
+.step-card,
+.cta-card,
+.faq-item,
+.article-toc,
+.cta-box,
+.callout-box,
+.terms-highlight {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: none;
+}
+
+.analyzer-card:hover,
+.cta-card:hover,
+.faq-item:hover {
+    transform: translateY(-1px);
+    border-color: var(--color-border-hover);
+    box-shadow: none;
+}
+
+.domain-input,
+.custom-select-trigger,
+.history-toggle,
+.checkbox-label,
+.toggle-switch,
+.privacy-notice,
+.history-item,
+.history-item-status {
+    border-color: var(--color-border);
+    background: var(--color-bg-elevated);
+}
+
+.analyze-btn,
+.back-link,
+.cta-button-primary {
+    background: var(--color-accent);
+    color: var(--color-bg);
+}
+
+.analyze-btn:hover,
+.back-link:hover,
+.cta-button-primary:hover {
+    background: var(--color-accent-hover);
+    box-shadow: none;
+}
+
+.landing-section,
+main > .cta-section {
+    padding: 2.5rem 0;
+}
+
+.landing-title {
+    font-size: clamp(1.45rem, 3vw, 2rem);
+}
+
+.landing-lede,
+.step-description,
+.cta-description,
+.footer-text,
+.footer-links,
+.article-meta,
+.article-hero-meta,
+.error-message {
+    color: var(--color-text-secondary);
+}
+
+.cta-grid {
+    gap: 1rem;
+}
+
+.cta-card {
+    padding: 1.25rem;
+    text-align: left;
+}
+
+.cta-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+}
+
+.cta-title {
+    font-size: 1.1rem;
+}
+
+.cta-button,
+.history-toggle,
+.advanced-toggle,
+.clear-history-btn {
+    border-radius: var(--radius-sm);
+}
+
+.footer {
+    padding: 0.85rem 0;
+    border-top: 1px solid var(--color-border);
+}
+
+.footer-content {
+    gap: 0.25rem;
+}
+
+.footer a,
+.footer-links a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+}
+
+.footer a:hover,
+.footer-links a:hover {
+    color: var(--color-accent-hover) !important;
+    text-decoration: underline !important;
+}
+
+.doc-page .hero,
+.article-hero {
+    padding: 2rem 0 0 !important;
+}
+
+.doc-page .hero-content,
+.doc-page .terms-content,
+.article-wrapper,
+.article-body {
+    max-width: 760px !important;
+}
+
+.article-wrapper {
+    padding: 0 1rem 3rem;
+}
+
+.article-body {
+    padding-top: 1rem;
+}
+
+.doc-page .hero-title,
+.article-hero .hero-title {
+    font-size: clamp(2rem, 4vw, 3rem) !important;
+    line-height: 1.08 !important;
+    text-align: left !important;
+}
+
+.doc-page .hero-description,
+.article-hero .hero-description {
+    max-width: 680px;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    text-align: left !important;
+}
+
+.faq-container {
+    max-width: 760px;
+}
+
+.faq-section {
+    margin-bottom: 2rem;
+}
+
+.faq-section-title {
+    color: var(--color-text-primary);
+    font-size: 1rem;
+    border-bottom: 0;
+    padding-bottom: 0;
+    margin-bottom: 0.75rem;
+}
+
+.faq-question {
+    padding: 0.95rem 1rem;
+    font-size: 1rem;
+}
+
+.faq-answer {
+    padding: 0 1rem;
+}
+
+.faq-item.active .faq-answer {
+    padding: 0 1rem 1rem;
+}
+
+.article-toc,
+.cta-box,
+.callout-box {
+    padding: 1.25rem;
+}
+
+.article-body h2,
+.terms-section h2 {
+    font-size: 1.35rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.article-body h3,
+.terms-section h3 {
+    font-size: 1.05rem;
+}
+
+pre,
+.code-block {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+}
+
+.article-table th,
+.og-table th {
+    background: var(--color-bg-elevated);
+}
+
+.site-error {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.error-main {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    padding: 3rem 1.5rem;
+}
+
+.error-container {
+    max-width: 520px;
+    text-align: center;
+}
+
+.error-code {
+    color: var(--color-accent);
+    font-size: clamp(4rem, 14vw, 8rem);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 1rem;
+}
+
+.error-title {
+    margin-bottom: 0.75rem;
+}
+
+.error-message {
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .header .container {
+        min-height: 0;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.65rem;
+        padding-top: 0.85rem;
+        padding-bottom: 0.85rem;
+    }
+
+    .nav {
+        flex-wrap: wrap;
+        gap: 0.85rem;
+    }
+
+    .hero {
+        padding: 1.5rem 0 2.5rem;
+    }
+
+    .input-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .analyze-btn,
+    .analyze-btn.loading {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .landing-section,
+    main > .cta-section {
+        padding: 2rem 0;
+    }
+
+    .cta-grid,
+    .use-cases-list,
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .doc-page .hero-title,
+    .article-hero .hero-title {
+        font-size: 2rem !important;
+    }
 }
