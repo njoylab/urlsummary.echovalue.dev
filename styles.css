@@ -637,7 +637,7 @@ body {
     border-bottom: 1px solid var(--color-border);
 }
 
-.history-header h4 {
+.history-title {
     font-family: var(--font-mono);
     font-size: 0.9rem;
     color: var(--color-text-primary);
@@ -2009,6 +2009,10 @@ body {
     font-size: 0.72rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
+}
+
+.step-label {
+    color: var(--color-accent-hover);
 }
 
 .doc-page .hero,
