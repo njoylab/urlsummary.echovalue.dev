@@ -64,7 +64,7 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css?v=9">
+    <link rel="stylesheet" href="styles.css?v=10">
 
     <!-- Sitemap Reference -->
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
@@ -105,7 +105,7 @@
               "name": "What does the analyzer extract?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "It extracts titles, descriptions, meta tags, Open Graph data, Twitter cards, canonical tags, robots directives, JSON-LD structured data, social links, contact info, and internal/external links."
+                "text": "We extract titles, descriptions, meta tags, Open Graph data, Twitter cards, canonical tags, robots directives, JSON-LD structured data, social links, contact info, and internal/external links."
               }
             },
             {
@@ -121,7 +121,7 @@
               "name": "Does it respect robots.txt?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "By default it respects robots.txt. You can choose to ignore robots.txt only for authorized testing and owned sites."
+                "text": "By default it respects robots.txt. The ignore option is intended only for authorized testing and sites you own."
               }
             },
             {
@@ -129,7 +129,7 @@
               "name": "Do you store the URLs I analyze?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Search history stays in your browser only. It is never synced to servers unless you choose to use the API."
+                "text": "Search history is stored locally in your browser and never synced to servers unless you use the API."
               }
             },
             {
@@ -145,7 +145,7 @@
               "name": "Can I automate checks with an API?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes. API access is documented at docs.echovalue.dev with REST endpoints for automation and bulk analysis."
+                "text": "Yes. API access is documented at docs.echovalue.dev/url-to-metadata with REST endpoints for automation and bulk analysis."
               }
             },
             {
@@ -153,7 +153,7 @@
               "name": "Is MCP access available?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes. You can use the MCP tool on Apify to integrate the analyzer into AI workflows."
+                "text": "Yes. You can use the MCP tool on Apify to connect the analyzer to AI workflows."
               }
             },
             {
@@ -219,6 +219,7 @@
             </button>
             <ul class="nav navbar-nav" role="navigation" aria-label="Main navigation">
                 <li><a href="/app" class="nav-link">App</a></li>
+                <li><a href="/blog" class="nav-link">Guides</a></li>
                 <li><a href="/faq" class="nav-link">FAQ</a></li>
                 <li><a href="https://www.echovalue.dev/" class="nav-link" target="_blank" rel="noopener noreferrer">More Tools</a></li>
                 <li><a href="https://github.com/njoylab/urlsummary.echovalue.dev" class="nav-link" target="_blank" rel="noopener noreferrer">GitHub</a></li>
@@ -462,6 +463,28 @@
             </div>
         </section>
 
+        <section class="landing-section" id="guides" aria-labelledby="guides-title">
+            <div class="container">
+                <div class="landing-header">
+                    <h2 class="landing-title" id="guides-title">Guides</h2>
+                    <p class="landing-lede">How the tags this analyzer reads actually work.</p>
+                </div>
+                <ol class="steps-grid">
+                    <li class="step-card">
+                        <span class="step-label">Guide</span>
+                        <h3 class="step-title"><a href="/blog/what-is-open-graph">What Is Open Graph?</a></h3>
+                        <p class="step-description">How OG tags control the title, description, and image shown when a URL is shared.</p>
+                    </li>
+                    <li class="step-card">
+                        <span class="step-label">Guide</span>
+                        <h3 class="step-title"><a href="/blog/meta-tags-guide">HTML Meta Tags Guide</a></h3>
+                        <p class="step-description">Every tag that matters, from title and description to canonical, robots, and social cards.</p>
+                    </li>
+                </ol>
+                <p class="landing-note"><a href="/blog">All guides</a></p>
+            </div>
+        </section>
+
         <section class="landing-section" id="faq" aria-labelledby="faq-title">
             <div class="container">
                 <div class="landing-header">
@@ -626,6 +649,7 @@
                     <li><a href="https://dash.echovalue.dev" target="_blank" rel="noopener noreferrer">Dashboard</a></li>
                     <li><a href="https://www.echovalue.dev/privacy" target="_blank" rel="noopener noreferrer">Privacy</a></li>
                     <li><a href="https://github.com/njoylab" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                    <li><a href="/blog">Guides</a></li>
                     <li><a href="/terms">Terms</a></li>
                 </ul>
             </div>
