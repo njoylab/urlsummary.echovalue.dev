@@ -111,12 +111,12 @@ body {
 }
 
 .logo-accent {
-    color: var(--color-text-muted);
+    color: var(--color-success);
     font-weight: 500;
 }
 
 .logo-separator {
-    color: var(--color-text-muted);
+    display: none;
 }
 
 .nav,
