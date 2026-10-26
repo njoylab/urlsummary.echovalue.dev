@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Emiliano Saurin">
 
     <!-- Primary Meta Tags -->
     <title>404 - Page Not Found | URL Summary</title>
@@ -22,10 +23,13 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/styles.css?v=7">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles.css?v=9">
 </head>
 
 <body class="site-error">
+    <a href="#main" class="skip-link">Skip to content</a>
     <header class="header" role="banner">
         <div class="container">
             <a href="/" class="logo" aria-label="echoValue URL summary">
@@ -33,17 +37,28 @@
                 <span class="logo-separator">/</span>
                 <span class="logo-accent">urlsummary</span>
             </a>
-            <nav class="nav" role="navigation" aria-label="Main navigation">
-                <a href="/" class="nav-link">Home</a>
-                <a href="/app" class="nav-link">App</a>
-                <a href="https://www.echovalue.dev/" target="_blank" rel="noopener noreferrer" class="nav-link">More Tools</a>
-                <a href="https://github.com/njoylab/urlsummary.echovalue.dev" target="_blank" rel="noopener noreferrer" class="nav-link">GitHub</a>
-                <a href="https://docs.echovalue.dev/url-to-metadata/" target="_blank" rel="noopener noreferrer" class="nav-link">API</a>
-            </nav>
+            <button type="button" class="theme-toggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-moon"></i>
+                <i class="fa-solid fa-sun"></i>
+            </button>
+            <button type="button" class="navbar-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav navbar-nav" role="navigation" aria-label="Main navigation">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/app" class="nav-link">App</a></li>
+                <li><a href="/faq" class="nav-link">FAQ</a></li>
+                <li><a href="https://www.echovalue.dev/" class="nav-link" target="_blank" rel="noopener noreferrer">More Tools</a></li>
+                <li><a href="https://github.com/njoylab/urlsummary.echovalue.dev" class="nav-link" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                <li><a href="https://docs.echovalue.dev/url-to-metadata/" class="nav-link" target="_blank" rel="noopener noreferrer">API</a></li>
+                <li><a href="https://dash.echovalue.dev" class="nav-link navbar-cta" target="_blank" rel="noopener noreferrer">Dashboard</a></li>
+            </ul>
         </div>
     </header>
 
-    <main class="error-main">
+    <main class="error-main" id="main">
         <div class="error-container">
             <div class="error-code">404</div>
             <h1 class="error-title">Page Not Found</h1>
@@ -57,17 +72,24 @@
     <footer class="footer" role="contentinfo">
         <div class="container">
             <div class="footer-content">
-                <p class="footer-text">Built by <a href="https://njoylab.com" target="_blank" rel="noopener noreferrer">nJoyLab.com</a></p>
-                <p class="footer-links">
-                    <a href="https://www.echovalue.dev/" target="_blank" rel="noopener noreferrer">More Tools</a>
-                    <span style="margin: 0 0.5rem;">•</span>
-                    <a href="https://github.com/njoylab/urlsummary.echovalue.dev" target="_blank" rel="noopener noreferrer">GitHub</a>
-                    <span style="margin: 0 0.5rem;">•</span>
-                    <a href="/terms">Terms & Conditions</a>
-                </p>
+                <ul class="footer-links">
+                    <li><a href="https://www.echovalue.dev/" target="_blank" rel="noopener noreferrer">Home</a></li>
+                    <li><a href="https://www.echovalue.dev/db-api/" target="_blank" rel="noopener noreferrer">DB API</a></li>
+                    <li><a href="https://www.echovalue.dev/webhook-api/" target="_blank" rel="noopener noreferrer">Webhook API</a></li>
+                    <li><a href="https://docs.echovalue.dev" target="_blank" rel="noopener noreferrer">Documentation</a></li>
+                    <li><a href="https://dash.echovalue.dev" target="_blank" rel="noopener noreferrer">Dashboard</a></li>
+                    <li><a href="https://www.echovalue.dev/privacy" target="_blank" rel="noopener noreferrer">Privacy</a></li>
+                    <li><a href="https://github.com/njoylab" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                    <li><a href="/terms">Terms</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>Built by <a href="https://www.njoylab.com" target="_blank" rel="noopener noreferrer">nJoyLab.com</a> · IT12822520966 · <span class="text-mono">v2.0</span></p>
             </div>
         </div>
     </footer>
+    <script src="/nav-toggle.js?v=1"></script>
+    <script src="/theme-toggle.js?v=1"></script>
 </body>
 
 </html>
