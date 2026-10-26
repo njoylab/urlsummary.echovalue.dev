@@ -405,9 +405,11 @@ function getTurnstileToken() {
 }
 
 // Advanced options toggle
+advancedToggle.setAttribute('aria-expanded', 'false');
 advancedToggle.addEventListener('click', () => {
-    advancedToggle.classList.toggle('active');
-    advancedOptions.classList.toggle('active');
+    const open = advancedOptions.classList.toggle('active');
+    advancedToggle.classList.toggle('active', open);
+    advancedToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
 });
 
 // History toggle

@@ -11,7 +11,7 @@
     <meta name="description"
         content="A complete guide to HTML meta tags — from title and description to Open Graph, Twitter Card, robots, and canonical. With code examples and a free checker.">
     <meta name="keywords" content="html meta tags guide, meta tags, SEO meta tags, open graph tags, twitter card tags, canonical tag, robots meta tag">
-    <meta name="author" content="URL Summary">
+    <meta name="author" content="Emiliano Saurin">
     <meta name="robots" content="index, follow">
 
     <!-- Canonical URL -->
@@ -48,7 +48,9 @@
         rel="stylesheet">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="/styles.css?v=7">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles.css?v=10">
 
     <!-- Article-specific styles -->
     <style>
@@ -360,6 +362,7 @@
 <body>
     <div class="grain-overlay" aria-hidden="true"></div>
 
+    <a href="#main" class="skip-link">Skip to content</a>
     <header class="header" role="banner">
         <div class="container">
             <a href="/" class="logo" aria-label="echoValue URL summary">
@@ -367,18 +370,29 @@
                 <span class="logo-separator">/</span>
                 <span class="logo-accent">urlsummary</span>
             </a>
-            <nav class="nav" role="navigation" aria-label="Main navigation">
-                <a href="/" class="nav-link">Home</a>
-                <a href="/app" class="nav-link">Analyzer</a>
-                <a href="/faq" class="nav-link">FAQ</a>
-                <a href="https://www.echovalue.dev/" target="_blank" rel="noopener noreferrer" class="nav-link">More Tools</a>
-                <a href="https://github.com/njoylab/urlsummary.echovalue.dev" target="_blank" rel="noopener noreferrer" class="nav-link">GitHub</a>
-                <a href="https://docs.echovalue.dev/url-to-metadata/" target="_blank" rel="noopener noreferrer" class="nav-link">API</a>
-            </nav>
+            <button type="button" class="theme-toggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-moon"></i>
+                <i class="fa-solid fa-sun"></i>
+            </button>
+            <button type="button" class="navbar-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav navbar-nav" role="navigation" aria-label="Main navigation">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/app" class="nav-link">App</a></li>
+                <li><a href="/blog" class="nav-link">Guides</a></li>
+                <li><a href="/faq" class="nav-link">FAQ</a></li>
+                <li><a href="https://www.echovalue.dev/" class="nav-link" target="_blank" rel="noopener noreferrer">More Tools</a></li>
+                <li><a href="https://github.com/njoylab/urlsummary.echovalue.dev" class="nav-link" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                <li><a href="https://docs.echovalue.dev/url-to-metadata/" class="nav-link" target="_blank" rel="noopener noreferrer">API</a></li>
+                <li><a href="https://dash.echovalue.dev" class="nav-link navbar-cta" target="_blank" rel="noopener noreferrer">Dashboard</a></li>
+            </ul>
         </div>
     </header>
 
-    <main role="main">
+    <main role="main" id="main">
         <section class="hero" style="padding: 4rem 0 2rem;" aria-labelledby="article-title">
             <div class="container">
                 <div style="max-width: 800px; margin: 0 auto; text-align: left;">
@@ -709,7 +723,7 @@ Twitter Card, robots, canonical, and more."&gt;
             <div class="cta-box">
                 <h3 style="margin-bottom: 0.75rem;">Free Meta Tag Checker</h3>
                 <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">
-                    <strong><a href="https://urlsummary.echovalue.dev/" target="_blank" rel="noopener">URL Summary</a></strong> extracts every meta tag from any live URL in seconds. Paste a URL and instantly see:
+                    <strong><a href="https://urlsummary.echovalue.dev/" target="_blank" rel="noopener noreferrer">URL Summary</a></strong> extracts every meta tag from any live URL in seconds. Paste a URL and instantly see:
                 </p>
                 <ul style="text-align: left; display: inline-block; margin-bottom: 1.5rem;">
                     <li>All SEO tags — title, description, canonical, robots</li>
@@ -830,26 +844,20 @@ Twitter Card, robots, canonical, and more."&gt;
     <footer class="footer" role="contentinfo">
         <div class="container">
             <div class="footer-content">
-                <p class="footer-text">
-                    Built by <a href="https://njoylab.com" target="_blank" rel="noopener">nJoyLab.com</a>
-                </p>
-                <p class="footer-links">
-                    <a href="/" style="color: var(--color-text-secondary); text-decoration: none;">Home</a>
-                    <span style="margin: 0 0.5rem;">•</span>
-                    <a href="/blog" style="color: var(--color-text-secondary); text-decoration: none;">Guides</a>
-                    <span style="margin: 0 0.5rem;">•</span>
-                    <a href="/faq" style="color: var(--color-text-secondary); text-decoration: none;">FAQ</a>
-                    <span style="margin: 0 0.5rem;">•</span>
-                    <a href="/blog/what-is-open-graph" style="color: var(--color-text-secondary); text-decoration: none;">What Is Open Graph?</a>
-                    <span style="margin: 0 0.5rem;">•</span>
-                    <a href="https://www.echovalue.dev" target="_blank" rel="noopener"
-                        style="color: var(--color-text-secondary); text-decoration: none;">More Tools</a>
-                    <span style="margin: 0 0.5rem;">•</span>
-                    <a href="https://github.com/njoylab/urlsummary.echovalue.dev" target="_blank" rel="noopener"
-                        style="color: var(--color-text-secondary); text-decoration: none;">GitHub</a>
-                    <span style="margin: 0 0.5rem;">•</span>
-                    <a href="/terms" style="color: var(--color-text-secondary); text-decoration: none;">Terms &amp; Conditions</a>
-                </p>
+                <ul class="footer-links">
+                    <li><a href="https://www.echovalue.dev/" target="_blank" rel="noopener noreferrer">Home</a></li>
+                    <li><a href="https://www.echovalue.dev/db-api/" target="_blank" rel="noopener noreferrer">DB API</a></li>
+                    <li><a href="https://www.echovalue.dev/webhook-api/" target="_blank" rel="noopener noreferrer">Webhook API</a></li>
+                    <li><a href="https://docs.echovalue.dev" target="_blank" rel="noopener noreferrer">Documentation</a></li>
+                    <li><a href="https://dash.echovalue.dev" target="_blank" rel="noopener noreferrer">Dashboard</a></li>
+                    <li><a href="https://www.echovalue.dev/privacy" target="_blank" rel="noopener noreferrer">Privacy</a></li>
+                    <li><a href="https://github.com/njoylab" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                    <li><a href="/blog">Guides</a></li>
+                    <li><a href="/terms">Terms</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>Built by <a href="https://www.njoylab.com" target="_blank" rel="noopener noreferrer">nJoyLab.com</a> · IT12822520966 · <span class="text-mono">v2.0</span></p>
             </div>
         </div>
     </footer>
@@ -879,6 +887,8 @@ Twitter Card, robots, canonical, and more."&gt;
             });
         });
     </script>
+    <script src="/nav-toggle.js?v=1"></script>
+    <script src="/theme-toggle.js?v=1"></script>
 </body>
 
 </html>
