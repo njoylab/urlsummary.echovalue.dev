@@ -1,7 +1,12 @@
 (function () {
     var btn = document.querySelector('.theme-toggle');
     if (!btn) return;
-    var stored = localStorage.getItem('theme');
+    var stored;
+    try {
+        stored = localStorage.getItem('theme');
+    } catch (error) {
+        // Theme switching remains available when browser storage is blocked.
+    }
 
     function apply(theme) {
         if (theme === 'light') {
@@ -16,6 +21,10 @@
         var current = document.documentElement.getAttribute('data-theme');
         var next = current === 'light' ? 'dark' : 'light';
         apply(next);
-        localStorage.setItem('theme', next);
+        try {
+            localStorage.setItem('theme', next);
+        } catch (error) {
+            // Keep the selected theme for this page even without persistence.
+        }
     });
 })();

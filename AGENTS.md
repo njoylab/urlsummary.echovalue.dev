@@ -14,9 +14,10 @@ Use `/Users/emln/dev/njoylab.com/echovalue.dev/design-system` as the reference d
 
 ### Core Components
 
-- **index.html**: Single-page application with form, advanced options, history panel, and results container
+- **index.html**: Landing page with analyzer form and informational content
+- **app.html**: Dedicated analyzer page sharing the same JavaScript and CSS
 - **script.js**: Vanilla JavaScript handling validation, API calls, history management, and comprehensive results rendering
-- **styles.css**: Complete styling with CSS variables, dark theme, responsive design, and results visualization components
+- **styles.css**: Complete styling with CSS variables, dark/light themes, responsive design, and results visualization components
 - **build.js**: Build script for environment variable injection (API endpoint and Turnstile site key)
 
 ### Tech Stack
@@ -24,8 +25,7 @@ Use `/Users/emln/dev/njoylab.com/echovalue.dev/design-system` as the reference d
 - **Pure Vanilla Stack**: HTML5, CSS3, Vanilla JavaScript ES6+ (no frameworks, no build tools required)
 - **Libraries**:
   - Cloudflare Turnstile (bot protection)
-  - LZ-String (JSON compression for results sharing)
-  - Google Fonts (IBM Plex Sans + JetBrains Mono)
+  - Google Fonts (Inter + JetBrains Mono)
 
 ### Data Flow
 
@@ -40,16 +40,22 @@ Use `/Users/emln/dev/njoylab.com/echovalue.dev/design-system` as the reference d
 ## Common Commands
 
 ```bash
-# Development (no build needed)
-python -m http.server 8000
-# or
-npx serve
+# Local development (Node.js 22.16+, configured .env)
+npm ci
+npm run build
+python3 -m http.server 8000 --directory dist
+# Open /app.html with the simple Python server
 
 # Production build (injects environment variables)
 npm run build
 
 # Build with environment variables
 TURNSTILE_SITE_KEY="..." URL_SCRAPER_API_ENDPOINT="..." npm run build
+
+# Verification (API and Turnstile simulated locally)
+npm run check
+npx playwright install chromium
+npm test
 ```
 
 ## API Integration
@@ -98,14 +104,14 @@ Structured metadata organized into categories:
 ### 2. Advanced Options
 - **Language Selector**: 8 languages supported (en-US, it-IT, es-ES, fr-FR, de-DE, pt-PT, ja-JP, zh-CN)
 - **Scraper Options**: ignoreRobots, ignoreExternalLinks, ignoreInternalLinks
-- **AI Options**: generateSummary, summaryLength (short/medium/long), extractKeyFacts
+- **AI Options**: summaryLength (none/short/medium/long); summary and key facts are enabled together unless none is selected
 - Collapsible panel with smooth animations
 
 ### 3. History Management
 - LocalStorage persistence (key: `url-scraper-history`)
 - Maximum 20 items with automatic pruning
 - Preview data: title, status code, favicon
-- Click to reload previous searches
+- Click to restore the URL and options for a fresh analysis
 - Individual delete and clear all functionality
 
 ### 4. Results Visualization
@@ -128,18 +134,21 @@ Comprehensive rendering with collapsible sections:
 - Loading states with rotating messages
 - Collapsible sections with aria attributes
 - Mobile-first responsive design
-- Dark theme with grain overlay
+- Dark and light themes
 - Smooth transitions and animations
 
 ## File Structure
 
 ```
 urlsummary.echovalue.dev/
-├── index.html              # Main SPA (400+ lines)
-├── script.js               # All JavaScript logic (1100+ lines)
-├── styles.css              # Complete styling (2500+ lines)
+├── index.html              # Landing page with analyzer
+├── app.html                # Dedicated analyzer page
+├── script.js               # Shared analyzer logic
+├── styles.css              # Shared styling
 ├── build.js                # Build script for env injection
-├── package.json            # Minimal dependencies
+├── package.json            # Build/check/test commands
+├── tests/                  # Build and browser regressions
+├── .github/workflows/      # Verification workflow
 ├── robots.txt              # SEO configuration
 ├── sitemap.xml             # SEO sitemap
 ├── site.webmanifest        # PWA manifest
@@ -157,11 +166,11 @@ urlsummary.echovalue.dev/
 
 ### Build Process
 The `build.js` script:
-1. Clears and recreates `dist/` directory
-2. Copies all static files (HTML, CSS, JS, images, manifests)
-3. Replaces `YOUR_TURNSTILE_SITE_KEY` in index.html
-4. Replaces `__API_ENDPOINT__` in script.js
-5. Outputs build warnings for missing environment variables
+1. Loads `.env` without overriding environment variables and validates required configuration
+2. Clears and recreates `dist/` only after configuration is valid
+3. Copies public static files, excluding tests, dependencies and internal documentation
+4. Replaces `YOUR_TURNSTILE_SITE_KEY` in index.html and app.html
+5. Serializes the API endpoint safely into script.js; missing/invalid configuration fails the build
 
 ### Results Rendering Pattern
 Each data category has a dedicated render function:
@@ -181,7 +190,7 @@ All sections use the common `renderCollapsibleSection()` helper with:
 
 ### Styling Architecture
 - **CSS Variables**: All colors, fonts, transitions defined in `:root`
-- **Dark Theme**: Single theme, no toggle
+- **Themes**: Dark by default, light theme selected with the shared toggle
 - **Responsive**: Mobile-first with breakpoints at 768px, 1024px
 - **Components**: Modular CSS for reusable components
 - **Results**: ~570 lines of CSS dedicated to results visualization
@@ -201,10 +210,12 @@ All sections use the common `renderCollapsibleSection()` helper with:
 ```
 
 ### URL Parameters
-Format: `?url=https://example.com&lang=it-IT&share=1`
+Format: `?url=https%3A%2F%2Fexample.com&lang=it-IT&summary=short&share=1`
 - `url`: URL to analyze (URL-encoded)
 - `lang`: Language preference
-- `share`: Indicates shared result link
+- `summary`: none, short, medium or long
+- `ignoreRobots`, `ignoreExternalLinks`, `ignoreInternalLinks`: optional boolean flags
+- `share`: Indicates shared analysis settings; results are not embedded in the URL
 
 ## Error Handling
 
@@ -245,7 +256,7 @@ URL_SCRAPER_API_ENDPOINT=https://your-lambda-url.amazonaws.com/prod
 
 Potential features (not implemented):
 - Results comparison (multiple URLs side-by-side)
-- Export formats (PDF, CSV, JSON download)
+- Additional export formats (PDF and CSV; JSON download and JSON/Markdown clipboard export already exist)
 - Batch analysis (upload list of URLs)
 - Scheduled monitoring (track changes over time)
 - Screenshot preview integration
@@ -261,3 +272,12 @@ Potential features (not implemented):
 ## License
 
 MIT License - Built by nJoyLab.com
+
+## Verification and Data Safety
+
+- `npm test` runs build and browser regressions on temporary copies with simulated network responses.
+- The runtime has no npm dependencies; Playwright is used only for development checks.
+- Treat all API and persisted history values as untrusted. Escape HTML attributes as well as text; allow only HTTP(S) links and media URLs.
+- Storage failure must not hide successful analysis results.
+- View JSON uses a local blob document; no external viewer or compression library is needed.
+- The published browser service schema retains the backend wire key `ignoreInteralLinks`. Do not silently rename it in requests.

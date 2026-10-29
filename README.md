@@ -15,46 +15,42 @@ A web application for extracting comprehensive metadata from any URL. This front
 - **Structured Data**: JSON-LD extraction and visualization
 - **AI Summaries**: Optional AI-powered content summaries and key facts extraction
 - **History Management**: LocalStorage-based search history
-- **Responsive Design**: Mobile-first, dark theme interface
+- **Responsive Design**: Mobile-first interface with dark and light themes
+- **Exports**: Copy JSON/Markdown, download JSON, and view JSON locally
 
 ## Quick Start
 
-### Development (No Build Required)
+### Local Development
+
+Requires Node.js 22.16 or newer. Configure `.env` as shown below, then:
 
 ```bash
-# Serve the directory
-python -m http.server 8000
-# or
-npx serve
-
-# Open in browser
-open http://localhost:8000
+npm ci
+npm run build
+python3 -m http.server 8000 --directory dist
+# Open http://localhost:8000/app.html (or the homepage)
 ```
 
-The application will work with placeholder API endpoint. To connect to a real API, use the build process.
+The repository can also be served directly to preview the layout, but analysis requires a configured build and a Turnstile key authorized for the serving hostname. The simple Python server requires `.html` extensions; production hosting must support extensionless routes such as `/app` and `/faq`.
 
 ### Production Build
 
 ```bash
-# Install dependencies
-npm install
-
-# Build with environment variables
-TURNSTILE_SITE_KEY="your_key" URL_SCRAPER_API_ENDPOINT="your_endpoint" npm run build
-
-# Output will be in dist/ directory
+TURNSTILE_SITE_KEY="your_key" URL_SCRAPER_API_ENDPOINT="https://your-api.example.com/scrape" npm run build
 ```
+
+Output is written to `dist/`. Missing or invalid required configuration stops the build without replacing a previous output directory. No deployment is performed by this command.
 
 ## Environment Variables
 
-Create a `.env` file or set environment variables:
+Create a `.env` file in the repository root or set environment variables. The build loads `.env` automatically; existing environment variables take precedence. Both values are public browser configuration, not secrets:
 
 ```bash
 # Cloudflare Turnstile site key
 TURNSTILE_SITE_KEY=0x4AAAA...
 
 # AWS Lambda API Gateway endpoint
-URL_SCRAPER_API_ENDPOINT=https://<URL>
+URL_SCRAPER_API_ENDPOINT=https://your-api.example.com/scrape
 ```
 
 ## API Integration
@@ -73,6 +69,8 @@ URL_SCRAPER_API_ENDPOINT=https://<URL>
   "extractKeyFacts": false
 }
 ```
+
+The request retains the backend wire spelling `ignoreInteralLinks`. The browser control and saved options use `ignoreInternalLinks`; the client maps between them. AI summaries and key facts are enabled by default with a short summary, and disabled together by selecting **None**.
 
 ### Response Format
 
@@ -98,20 +96,28 @@ The API returns comprehensive metadata organized in categories:
 
 ## Build System
 
-The `build.js` script:
-1. Creates `dist/` directory
-2. Copies all static files
-3. Injects Turnstile site key into `index.html`
-4. Injects API endpoint into `script.js`
+The `build.js` script validates configuration, creates `dist/`, copies public static files and injects the Turnstile key into both entry pages and the API endpoint into JavaScript. Tests, dependencies, local environment files and repository documentation are excluded from the output.
+
+## Verification
+
+```bash
+npm ci
+npx playwright install chromium
+npm run check
+npm test
+```
+
+Tests use Node's built-in test runner and Playwright as a development dependency. Build and browser regressions run against temporary copies with intercepted network traffic, synthetic API responses and a simulated Turnstile token; they do not call the real scraper. The GitHub workflow runs these checks without deploying.
+
+To use an existing Chrome installation, set `PLAYWRIGHT_EXECUTABLE_PATH` to its executable. Optional `TEST_SCREENSHOTS=/absolute/output/path` saves desktop/mobile screenshots during the browser checks.
 
 ## Privacy
 
-- ✅ No server-side data collection
-- ✅ Search history stored locally only (LocalStorage)
-- ✅ No tracking or analytics
-- ✅ No cookies
+Search history (URL, options and preview metadata) and the theme preference are saved locally when browser storage is available. Full results stay in memory; copying, downloading or viewing JSON is handled locally. **View JSON** opens a browser blob document without sending the response to an external viewer.
 
-Your privacy is our priority. The only data sent to our servers is the URL you choose to analyze. All search history, preferences, and results are stored exclusively in your browser's LocalStorage and never synced to any server.
+Analysis sends the target URL, options and Turnstile token to the configured API. Result images and favicons are loaded from their source websites. The page also loads external fonts, icons and Cloudflare Turnstile. This repository contains no analytics integration; backend logging and retention must be assessed separately.
+
+Shared links include the analyzed URL and selected options in the query string, not the complete result. Avoid sharing URLs containing private parameters.
 
 ## Features Detail
 
@@ -123,7 +129,7 @@ Your privacy is our priority. The only data sent to our servers is the URL you c
 ### History Management
 - Stores last 20 searches in LocalStorage
 - Preview data (title, status, favicon)
-- Click to reload previous analysis
+- Click to restore the URL and options, then run a fresh analysis
 - Privacy-focused (browser only, never synced)
 
 ## License

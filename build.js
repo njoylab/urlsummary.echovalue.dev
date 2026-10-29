@@ -4,6 +4,11 @@ const path = require('path');
 const rootDir = __dirname;
 const distDir = path.join(rootDir, 'dist');
 
+const envFile = path.join(rootDir, '.env');
+if (fs.existsSync(envFile)) {
+    process.loadEnvFile(envFile);
+}
+
 const siteKey =
     process.env.TURNSTILE_SITE_KEY ||
     process.env.CLOUDFLARE_TURNSTILE_SITE_KEY ||
@@ -13,6 +18,20 @@ const apiEndpoint =
     process.env.URL_SCRAPER_API_ENDPOINT ||
     process.env.API_ENDPOINT ||
     '';
+
+if (!siteKey || siteKey === 'YOUR_TURNSTILE_SITE_KEY' || !/^[a-zA-Z0-9_-]+$/.test(siteKey)) {
+    throw new Error('Set a valid TURNSTILE_SITE_KEY in the environment or .env before building.');
+}
+
+let parsedEndpoint;
+try {
+    parsedEndpoint = new URL(apiEndpoint);
+} catch (error) {
+    throw new Error('Set URL_SCRAPER_API_ENDPOINT to an absolute HTTP(S) URL before building.');
+}
+if (!['http:', 'https:'].includes(parsedEndpoint.protocol) || parsedEndpoint.username || parsedEndpoint.password) {
+    throw new Error('URL_SCRAPER_API_ENDPOINT must be an HTTP(S) URL without credentials.');
+}
 
 const allowedExtensions = new Set([
     '.html',
@@ -39,7 +58,7 @@ fs.rmSync(distDir, { recursive: true, force: true });
 fs.mkdirSync(distDir, { recursive: true });
 
 function shouldSkipDirectory(dirName) {
-    return dirName === 'dist' || dirName === 'node_modules' || dirName === 'functions';
+    return ['dist', 'node_modules', 'functions', 'tests', 'test-results', 'coverage'].includes(dirName);
 }
 
 const blockedRootFiles = new Set([
@@ -47,7 +66,8 @@ const blockedRootFiles = new Set([
     'CLAUDE.md',
     'README.md',
     'build.js',
-    'package.json'
+    'package.json',
+    'package-lock.json'
 ]);
 
 function shouldCopyFile(relativePath, fileName, ext) {
@@ -97,11 +117,7 @@ function copyEntry(sourcePath, relativePath = '') {
         const html = fs.readFileSync(sourcePath, 'utf8');
         let output = html;
         if (html.includes('YOUR_TURNSTILE_SITE_KEY')) {
-            if (!siteKey) {
-                console.warn(`TURNSTILE_SITE_KEY is not set; using placeholder in ${fileName}`);
-            } else {
-                output = output.replace(/YOUR_TURNSTILE_SITE_KEY/g, siteKey);
-            }
+            output = output.replace(/YOUR_TURNSTILE_SITE_KEY/g, siteKey);
         }
         fs.writeFileSync(destPath, output);
         return;
@@ -109,7 +125,7 @@ function copyEntry(sourcePath, relativePath = '') {
 
     if (fileName === 'script.js') {
         const script = fs.readFileSync(sourcePath, 'utf8');
-        const output = script.replace('__API_ENDPOINT__', apiEndpoint);
+        const output = script.replace("'__API_ENDPOINT__'", () => JSON.stringify(apiEndpoint));
         fs.writeFileSync(destPath, output);
         return;
     }
@@ -124,9 +140,3 @@ for (const entry of rootEntries) {
 
 console.log('Build completed successfully!');
 console.log(`Output directory: ${distDir}`);
-if (!siteKey) {
-    console.warn('⚠️  TURNSTILE_SITE_KEY not set');
-}
-if (!apiEndpoint) {
-    console.warn('⚠️  URL_SCRAPER_API_ENDPOINT not set');
-}

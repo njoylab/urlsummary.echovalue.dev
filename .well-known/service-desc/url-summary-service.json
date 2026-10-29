@@ -31,9 +31,9 @@
         "type": "boolean",
         "description": "Skip external link extraction."
       },
-      "ignoreInternalLinks": {
+      "ignoreInteralLinks": {
         "type": "boolean",
-        "description": "Skip internal link extraction."
+        "description": "Skip internal link extraction. The wire field retains the backend spelling ignoreInteralLinks; the browser control is named ignoreInternalLinks."
       },
       "generateSummary": {
         "type": "boolean",

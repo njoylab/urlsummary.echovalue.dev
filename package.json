@@ -4,7 +4,9 @@
   "description": "URL Summary Scraper - Extract comprehensive metadata from any URL",
   "scripts": {
     "build": "node build.js",
-    "install-deps": "npm install"
+    "install-deps": "npm install",
+    "check": "node --check build.js && node --check script.js && node --check theme-toggle.js && node --check nav-toggle.js",
+    "test": "node --test tests/*.test.js"
   },
   "keywords": [
     "url",
@@ -16,5 +18,11 @@
     "social-media"
   ],
   "author": "URL Summary Scraper",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.16.0"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
 }

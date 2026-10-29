@@ -107,6 +107,7 @@ function dismissAllToasts() {
 // ===============================================
 
 let confirmResolve = null;
+let confirmationTrigger = null;
 
 /**
  * Show a confirmation dialog
@@ -116,7 +117,12 @@ let confirmResolve = null;
  */
 function showConfirmation(message, title = 'Confirm Action') {
     return new Promise((resolve) => {
+        if (confirmResolve) {
+            resolve(false);
+            return;
+        }
         confirmResolve = resolve;
+        confirmationTrigger = document.activeElement;
 
         confirmationTitle.textContent = title;
         confirmationMessage.textContent = message;
@@ -126,9 +132,7 @@ function showConfirmation(message, title = 'Confirm Action') {
             confirmationOverlay.classList.add('show');
         });
 
-        setTimeout(() => {
-            confirmationConfirm.focus();
-        }, 100);
+        confirmationCancel.focus();
     });
 }
 
@@ -137,15 +141,14 @@ function showConfirmation(message, title = 'Confirm Action') {
  * @param {boolean} confirmed - Whether the action was confirmed
  */
 function hideConfirmation(confirmed) {
+    if (!confirmResolve) return;
+    const resolve = confirmResolve;
+    const trigger = confirmationTrigger;
+    confirmResolve = null;
     confirmationOverlay.classList.remove('show');
-
-    setTimeout(() => {
-        confirmationOverlay.style.display = 'none';
-        if (confirmResolve) {
-            confirmResolve(confirmed);
-            confirmResolve = null;
-        }
-    }, 300);
+    confirmationOverlay.style.display = 'none';
+    trigger?.focus();
+    resolve(confirmed);
 }
 
 confirmationCancel.addEventListener('click', () => hideConfirmation(false));
@@ -158,8 +161,13 @@ confirmationOverlay.addEventListener('click', (e) => {
 });
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && confirmationOverlay.style.display === 'flex') {
+    if (!confirmResolve) return;
+    if (e.key === 'Escape') {
         hideConfirmation(false);
+    } else if (e.key === 'Tab') {
+        e.preventDefault();
+        const next = document.activeElement === confirmationCancel ? confirmationConfirm : confirmationCancel;
+        next.focus();
     }
 });
 
@@ -174,6 +182,7 @@ const VALIDATION_DEBOUNCE_MS = 300;
 
 let validationTimeout = null;
 let lastValidationState = null;
+let isAnalyzing = false;
 
 /**
  * Validates URL input and returns validation result
@@ -182,13 +191,13 @@ let lastValidationState = null;
  */
 function validateURL(input) {
     if (!input || input.trim() === '') {
-        return { valid: true, message: '', cleaned: '' };
+        return { valid: false, message: 'Enter a URL to analyze', cleaned: '' };
     }
 
     let cleaned = input.trim();
 
     // Auto-prepend https:// if no protocol
-    if (!cleaned.match(/^https?:\/\//i)) {
+    if (!cleaned.match(/^[a-z][a-z0-9+.-]*:/i)) {
         cleaned = 'https://' + cleaned;
     }
 
@@ -237,7 +246,7 @@ function updateValidationUI(validation, showNeutral = false) {
     urlInput.setAttribute('aria-invalid', 'false');
 
     if (isEmpty && showNeutral) {
-        analyzeBtn.disabled = false;
+        analyzeBtn.disabled = isAnalyzing;
         urlError.textContent = '';
         lastValidationState = null;
         return;
@@ -255,11 +264,11 @@ function updateValidationUI(validation, showNeutral = false) {
         // Valid state
         urlInput.classList.add('valid');
         urlError.textContent = '';
-        analyzeBtn.disabled = false;
+        analyzeBtn.disabled = isAnalyzing;
         lastValidationState = true;
     } else {
         // Default state (empty)
-        analyzeBtn.disabled = false;
+        analyzeBtn.disabled = isAnalyzing;
         urlError.textContent = '';
         lastValidationState = null;
     }
@@ -308,12 +317,7 @@ urlInput.addEventListener('blur', () => {
     updateValidationUI(validation, false);
 });
 
-let currentOptions = null;
 let currentApiResponse = null;
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 async function fetchWithTimeout(url, payload, turnstileToken) {
     const controller = new AbortController();
@@ -408,6 +412,7 @@ function getTurnstileToken() {
 advancedToggle.setAttribute('aria-expanded', 'false');
 advancedToggle.addEventListener('click', () => {
     const open = advancedOptions.classList.toggle('active');
+    advancedOptions.inert = !open;
     advancedToggle.classList.toggle('active', open);
     advancedToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
 });
@@ -415,7 +420,9 @@ advancedToggle.addEventListener('click', () => {
 // History toggle
 historyToggle.addEventListener('click', () => {
     historyToggle.classList.toggle('active');
-    historyPanel.classList.toggle('active');
+    const open = historyPanel.classList.toggle('active');
+    historyPanel.inert = !open;
+    historyToggle.setAttribute('aria-expanded', String(open));
 });
 
 // History management
@@ -468,14 +475,16 @@ function saveToHistory(url, options, previewData) {
         history = history.slice(0, MAX_HISTORY_ITEMS);
     }
 
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-    renderHistory();
+    return writeHistory(history);
 }
 
 function getHistory() {
     try {
         const history = localStorage.getItem(HISTORY_KEY);
-        return history ? JSON.parse(history) : [];
+        const entries = history ? JSON.parse(history) : [];
+        return Array.isArray(entries) ? entries.filter(item =>
+            item && typeof item.url === 'string' && typeof item.timestamp === 'string'
+        ).slice(0, MAX_HISTORY_ITEMS) : [];
     } catch (e) {
         return [];
     }
@@ -484,8 +493,22 @@ function getHistory() {
 function deleteHistoryItem(url) {
     let history = getHistory();
     history = history.filter(item => item.url !== url);
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-    renderHistory();
+    writeHistory(history);
+}
+
+function writeHistory(history) {
+    try {
+        if (history.length) {
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+        } else {
+            localStorage.removeItem(HISTORY_KEY);
+        }
+        renderHistory();
+        return true;
+    } catch (error) {
+        showToast('Browser history could not be updated. Analysis results are unaffected.', 'warning');
+        return false;
+    }
 }
 
 async function clearHistory() {
@@ -494,9 +517,7 @@ async function clearHistory() {
         'Clear Search History'
     );
 
-    if (confirmed) {
-        localStorage.removeItem(HISTORY_KEY);
-        renderHistory();
+    if (confirmed && writeHistory([])) {
         showToast('Search history cleared successfully', 'success', 3000);
     }
 }
@@ -532,16 +553,16 @@ function renderHistory() {
 
     // Render items
     historyList.innerHTML = history.map(item => {
-        const title = item.preview?.title || item.url;
+        const title = String(item.preview?.title || item.url);
         const displayTitle = title.length > 50 ? title.substring(0, 50) + '...' : title;
         const safeTitle = escapeHtml(displayTitle);
         const safeUrl = escapeHtml(item.url);
-        const safeFavicon = item.preview?.favicon ? escapeHtml(item.preview.favicon) : '';
+        const safeFavicon = escapeHtml(safeHttpUrl(item.preview?.favicon));
         const safeStatus = item.preview?.statusCode ? escapeHtml(String(item.preview.statusCode)) : '';
 
         return `
             <div class="history-item" data-url="${safeUrl}">
-                <div class="history-item-main">
+                <button type="button" class="history-item-main">
                     ${safeFavicon ? `<img src="${safeFavicon}" class="history-item-favicon" alt="">` : ''}
                     <div class="history-item-content">
                         <div class="history-item-domain">${safeTitle}</div>
@@ -553,8 +574,8 @@ function renderHistory() {
                             ${safeStatus ? `<span class="history-item-status">${safeStatus}</span>` : ''}
                         </div>
                     </div>
-                </div>
-                <button class="history-item-delete" data-url="${safeUrl}" title="Delete">×</button>
+                </button>
+                <button type="button" class="history-item-delete" data-url="${safeUrl}" title="Delete">×</button>
             </div>
         `;
     }).join('');
@@ -592,16 +613,7 @@ function loadFromHistory(historyItem) {
     if (historyItem.options) {
         const options = historyItem.options;
 
-        // Set language (custom select)
-        if (options.language) {
-            const langSelect = document.querySelector('.custom-select[data-name="language"]');
-            if (langSelect) {
-                const langOption = langSelect.querySelector(`.custom-select-option[data-value="${options.language}"]`);
-                if (langOption) {
-                    langOption.click();
-                }
-            }
-        }
+        setSelectValue('language', options.language);
 
         // Set toggles
         const setToggle = (name, value) => {
@@ -613,21 +625,14 @@ function loadFromHistory(historyItem) {
         setToggle('ignoreExternalLinks', options.ignoreExternalLinks);
         setToggle('ignoreInternalLinks', options.ignoreInternalLinks);
 
-        // Set summary length (custom select)
-        if (options.summaryLength) {
-            const summarySelect = document.querySelector('.custom-select[data-name="summaryLength"]');
-            if (summarySelect) {
-                const summaryOption = summarySelect.querySelector(`.custom-select-option[data-value="${options.summaryLength}"]`);
-                if (summaryOption) {
-                    summaryOption.click();
-                }
-            }
-        }
+        setSelectValue('summaryLength', options.summaryLength);
     }
 
     // Close history panel
     historyToggle.classList.remove('active');
     historyPanel.classList.remove('active');
+    historyPanel.inert = true;
+    historyToggle.setAttribute('aria-expanded', 'false');
 
     // Focus URL input
     urlInput.focus();
@@ -639,113 +644,42 @@ clearHistoryBtn.addEventListener('click', clearHistory);
 // Initialize history on page load
 renderHistory();
 
-// Initialize from URL parameters
+function setSelectValue(name, value) {
+    const select = form.elements.namedItem(name);
+    if (select && Array.from(select.options).some(option => option.value === value)) {
+        select.value = value;
+    }
+}
+
+// URLSearchParams already decodes each value; a second decode changes nested URLs.
 function initializeFromURL() {
     const params = new URLSearchParams(window.location.search);
-    const urlParam = params.get('url');
-    const langParam = params.get('lang');
+    const url = params.get('url');
+    if (!url) return;
 
-    if (urlParam) {
-        try {
-            const decodedUrl = decodeURIComponent(urlParam);
-            urlInput.value = decodedUrl;
-
-            if (langParam) {
-                const langSelect = document.querySelector('.custom-select[data-name="language"]');
-                if (langSelect) {
-                    const langOption = langSelect.querySelector(`.custom-select-option[data-value="${langParam}"]`);
-                    if (langOption) {
-                        langOption.click();
-                    }
-                }
-            }
-
-            // Trigger validation
-            const validation = validateURL(decodedUrl);
-            updateValidationUI(validation, true);
-        } catch (e) {
-            console.error('Invalid URL parameter', e);
-        }
+    urlInput.value = url;
+    setSelectValue('language', params.get('lang'));
+    setSelectValue('summaryLength', params.get('summary'));
+    for (const name of ['ignoreRobots', 'ignoreExternalLinks', 'ignoreInternalLinks']) {
+        form.elements.namedItem(name).checked = params.get(name) === 'true';
     }
+    updateValidationUI(validateURL(url), true);
 }
 
 function updateURLWithResult(url, options) {
-    const params = new URLSearchParams();
-    params.set('url', url);
-    if (options.language && options.language !== 'en-US') {
+    const params = new URLSearchParams({ url, share: '1' });
+    if (options.language && options.language !== 'auto') {
         params.set('lang', options.language);
     }
-    params.set('share', '1');
-
+    params.set('summary', options.summaryLength);
+    for (const name of ['ignoreRobots', 'ignoreExternalLinks', 'ignoreInternalLinks']) {
+        if (options[name]) params.set(name, 'true');
+    }
     const newURL = `${window.location.pathname}?${params.toString()}`;
-    window.history.pushState({}, '', newURL);
+    window.history.replaceState({}, '', newURL);
 }
 
-// Initialize from URL on page load
 initializeFromURL();
-
-// ===============================================
-// Custom Select Dropdown
-// ===============================================
-
-const customSelects = document.querySelectorAll('.custom-select');
-
-customSelects.forEach(select => {
-    const trigger = select.querySelector('.custom-select-trigger');
-    const options = select.querySelectorAll('.custom-select-option');
-    const valueDisplay = select.querySelector('.custom-select-value');
-    const hiddenInput = select.querySelector('input[type="hidden"]');
-    const selectName = select.dataset.name;
-
-    // Toggle dropdown
-    trigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-
-        // Close other selects
-        customSelects.forEach(s => {
-            if (s !== select) s.classList.remove('active');
-        });
-
-        select.classList.toggle('active');
-    });
-
-    // Select option
-    options.forEach(option => {
-        option.addEventListener('click', (e) => {
-            e.stopPropagation();
-
-            const value = option.dataset.value;
-            const text = option.textContent;
-
-            // Update UI
-            valueDisplay.textContent = text;
-            hiddenInput.value = value;
-
-            // Update selected state
-            options.forEach(opt => opt.classList.remove('selected'));
-            option.classList.add('selected');
-
-            // Close dropdown
-            select.classList.remove('active');
-        });
-    });
-});
-
-// Close dropdowns when clicking outside
-document.addEventListener('click', () => {
-    customSelects.forEach(select => {
-        select.classList.remove('active');
-    });
-});
-
-// Close dropdowns on Escape key
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        customSelects.forEach(select => {
-            select.classList.remove('active');
-        });
-    }
-});
 
 // Social media icons mapping (SVG paths from Simple Icons)
 const SOCIAL_ICONS = {
@@ -776,10 +710,32 @@ const SOCIAL_ICONS = {
 // ===============================================
 
 function escapeHtml(text) {
-    if (!text) return '';
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
+    return String(text ?? '').replace(/[&<>"']/g, character => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[character]);
+}
+
+function safeHttpUrl(value) {
+    if (typeof value !== 'string') return '';
+    try {
+        const url = new URL(value);
+        return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+    } catch (error) {
+        return '';
+    }
+}
+
+function renderLink(value, label = value, className = 'data-value-link') {
+    const href = safeHttpUrl(value);
+    const element = document.createElement(href ? 'a' : 'span');
+    element.className = className;
+    element.textContent = label;
+    if (href) {
+        element.href = href;
+        element.target = '_blank';
+        element.rel = 'noopener noreferrer';
+    }
+    return element.outerHTML;
 }
 
 function renderCollapsibleSection(id, icon, title, badge, content) {
@@ -806,7 +762,7 @@ function renderDataItem(label, value, type = 'text') {
     let displayValue = '';
 
     if (type === 'link') {
-        displayValue = `<a href="${escapeHtml(value)}" target="_blank" rel="noopener noreferrer" class="data-value-link">${escapeHtml(value)}</a>`;
+        displayValue = renderLink(value);
     } else if (Array.isArray(value)) {
         displayValue = `<span class="data-value">${value.map(v => escapeHtml(v)).join(', ')}</span>`;
     } else {
@@ -822,11 +778,10 @@ function renderDataItem(label, value, type = 'text') {
 }
 
 function renderSummaryHeader(technical, seo) {
-    const statusCode = technical?.statusCode || '—';
-    const loadTime = technical?.loadTime ? `${technical.loadTime}ms` : '—';
+    const statusCode = Number.isInteger(technical?.statusCode) ? technical.statusCode : '—';
+    const loadTime = Number.isFinite(technical?.loadTime) ? `${technical.loadTime}ms` : '—';
     const isSecure = technical?.isSecure ? '🔒 Secure' : '🔓 Not Secure';
     const title = seo?.title || 'No title found';
-    const url = technical?.originalUrl || '';
 
     return `
         <div class="summary-header">
@@ -936,15 +891,17 @@ function renderSocialMediaSection(social) {
     const links = Object.entries(social)
         .filter(([_, url]) => url)
         .map(([platform, url]) => {
-            const icon = SOCIAL_ICONS[platform] || '🔗';
+            const icon = Object.hasOwn(SOCIAL_ICONS, platform) ? SOCIAL_ICONS[platform] : '🔗';
             const displayName = platform.charAt(0).toUpperCase() + platform.slice(1);
+            const href = safeHttpUrl(url);
+            if (!href) return '';
             return `
-                <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="social-link-item">
+                <a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer" class="social-link-item">
                     <span class="social-icon">${icon}</span>
                     <span class="social-platform">${escapeHtml(displayName)}</span>
                 </a>
             `;
-        });
+        }).filter(Boolean);
 
     if (links.length === 0) return '';
 
@@ -994,16 +951,15 @@ function renderMediaSection(media) {
         { label: 'Apple Touch Icon', url: media.appleTouchIcon, type: 'icon' },
         { label: 'Featured Image', url: media.featuredImage, type: 'image' },
         { label: 'Logo', url: media.logo, type: 'logo' }
-    ].filter(item => item.url).map(item => `
+    ].map(item => ({ ...item, url: safeHttpUrl(item.url) })).filter(item => item.url).map(item => `
         <div class="media-item">
             <div class="media-label">${escapeHtml(item.label)}</div>
             <div class="media-preview">
                 <img src="${escapeHtml(item.url)}"
                      alt="${escapeHtml(item.label)}"
                      class="media-image media-image-${item.type}"
-                     loading="lazy"
-                     onerror="this.style.display='none'">
-                <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" class="media-link">View Full Size</a>
+                     loading="lazy" referrerpolicy="no-referrer">
+                ${renderLink(item.url, 'View Full Size', 'media-link')}
             </div>
         </div>
     `);
@@ -1018,7 +974,9 @@ function renderMediaSection(media) {
 function renderLinksSection(links) {
     if (!links) return '';
 
-    const totalLinks = (links.internal?.total || 0) + (links.external?.total || 0);
+    const internalCount = Number.isInteger(links.internal?.total) ? Math.max(0, links.internal.total) : 0;
+    const externalCount = Number.isInteger(links.external?.total) ? Math.max(0, links.external.total) : 0;
+    const totalLinks = internalCount + externalCount;
 
     const stats = `
         <div class="links-stats">
@@ -1027,15 +985,15 @@ function renderLinksSection(links) {
                 <div class="stat-label">Total Links</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">${links.internal?.total || 0}</div>
+                <div class="stat-value">${internalCount}</div>
                 <div class="stat-label">Internal</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">${links.external?.total || 0}</div>
+                <div class="stat-value">${externalCount}</div>
                 <div class="stat-label">External</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">${links.external?.domains?.length || 0}</div>
+                <div class="stat-value">${Array.isArray(links.external?.domains) ? links.external.domains.length : 0}</div>
                 <div class="stat-label">Domains</div>
             </div>
         </div>
@@ -1052,14 +1010,14 @@ function renderLinksSection(links) {
 }
 
 function renderLinksList(title, urls, limit = 20) {
-    if (!urls || urls.length === 0) return '';
+    if (!Array.isArray(urls) || urls.length === 0) return '';
 
     const displayUrls = urls.slice(0, limit);
     const hasMore = urls.length > limit;
 
     const items = displayUrls.map(url => `
         <div class="link-item">
-            <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(url)}</a>
+            ${renderLink(url)}
         </div>
     `).join('');
 
@@ -1075,7 +1033,7 @@ function renderLinksList(title, urls, limit = 20) {
 }
 
 function renderContactLinksList(title, links) {
-    if (!links || links.length === 0) return '';
+    if (!Array.isArray(links) || links.length === 0) return '';
 
     const items = links.map(link => `
         <div class="link-item">
@@ -1092,7 +1050,7 @@ function renderContactLinksList(title, links) {
 }
 
 function renderStructuredDataSection(structuredData) {
-    if (!structuredData || structuredData.length === 0) return '';
+    if (!Array.isArray(structuredData) || structuredData.length === 0) return '';
 
     const jsonString = JSON.stringify(structuredData, null, 2);
     const content = `
@@ -1107,7 +1065,7 @@ function renderStructuredDataSection(structuredData) {
 }
 
 function renderAISection(ai) {
-    if (!ai || (!ai.summary && !ai.keyFacts)) return '';
+    if (!ai || (!ai.summary && !ai.keyFacts && !ai.error)) return '';
 
     let summaryHtml = '';
     if (ai.summary) {
@@ -1188,13 +1146,6 @@ function displayResults(data) {
             e.stopPropagation();
             dropdownMenu.classList.toggle('show');
         });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.json-action-dropdown')) {
-                dropdownMenu.classList.remove('show');
-            }
-        });
     }
 
     // Dropdown item handlers
@@ -1224,12 +1175,15 @@ function displayResults(data) {
         downloadJsonBtn.addEventListener('click', downloadJsonFile);
     }
 
-    // Update URL with result
-    updateURLWithResult(data.technical.originalUrl, currentOptions);
-
     // Scroll to results
     resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
+
+document.addEventListener('click', (event) => {
+    if (!event.target.closest('.json-action-dropdown')) {
+        resultsContainer.querySelector('.dropdown-menu')?.classList.remove('show');
+    }
+});
 
 function attachCollapsibleHandlers() {
     const headers = resultsContainer.querySelectorAll('[data-collapsible]');
@@ -1259,6 +1213,7 @@ let loadingMessageInterval = null;
 let currentMessageIndex = 0;
 
 function showLoadingState() {
+    isAnalyzing = true;
     analyzeBtn.disabled = true;
     analyzeBtn.classList.add('loading');
 
@@ -1273,6 +1228,7 @@ function showLoadingState() {
 }
 
 function hideLoadingState() {
+    isAnalyzing = false;
     analyzeBtn.disabled = false;
     analyzeBtn.classList.remove('loading');
     analyzeBtn.querySelector('.btn-text').textContent = 'Analyze';
@@ -1284,19 +1240,19 @@ function hideLoadingState() {
 }
 
 async function runAnalysis(url, options, turnstileToken) {
-    currentOptions = options;
     showLoadingState();
     dismissAllToasts();
 
     try {
         const response = await callScraperApi(url, options, turnstileToken);
 
-        if (!response.success || !response.data) {
-            throw new Error(response.error || 'Analysis failed');
+        if (!response?.success || !response.data || typeof response.data !== 'object' || Array.isArray(response.data)) {
+            throw new Error(response?.error || 'Analysis failed');
         }
 
         currentApiResponse = response;
         displayResults(response.data);
+        updateURLWithResult(url, options);
         saveToHistory(url, options, response.data);
         showToast('URL analysis completed successfully', 'success', 5000);
 
@@ -1312,6 +1268,7 @@ async function runAnalysis(url, options, turnstileToken) {
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (isAnalyzing || confirmResolve) return;
 
     // Validate URL
     const validation = validateURL(urlInput.value);
@@ -1341,7 +1298,7 @@ form.addEventListener('submit', async (e) => {
         console.error('Analysis error:', error);
 
         let errorMessage = 'Failed to analyze URL. ';
-        if (error.message.includes('aborted')) {
+        if (error.name === 'AbortError') {
             errorMessage += 'Request timeout. The target website may be slow or unresponsive.';
         } else if (error.message.includes('fetch')) {
             errorMessage += 'Network error. Please check your connection.';
@@ -1354,45 +1311,12 @@ form.addEventListener('submit', async (e) => {
     }
 });
 
-// Confirmation modal
-function showConfirmModal(message) {
-    return new Promise((resolve) => {
-        const modal = document.getElementById('confirmModal');
-        const messageEl = document.getElementById('confirmMessage');
-        const confirmBtn = document.getElementById('confirmBtn');
-        const cancelBtn = document.getElementById('cancelBtn');
-
-        messageEl.textContent = message;
-        modal.style.display = 'flex';
-
-        const handleConfirm = () => {
-            modal.style.display = 'none';
-            cleanup();
-            resolve(true);
-        };
-
-        const handleCancel = () => {
-            modal.style.display = 'none';
-            cleanup();
-            resolve(false);
-        };
-
-        const cleanup = () => {
-            confirmBtn.removeEventListener('click', handleConfirm);
-            cancelBtn.removeEventListener('click', handleCancel);
-        };
-
-        confirmBtn.addEventListener('click', handleConfirm);
-        cancelBtn.addEventListener('click', handleCancel);
-    });
-}
-
 // Handle Ignore robots.txt confirmation
 const ignoreRobotsCheckbox = form.querySelector('input[name="ignoreRobots"]');
 if (ignoreRobotsCheckbox) {
     ignoreRobotsCheckbox.addEventListener('change', async (e) => {
         if (e.target.checked) {
-            const confirmed = await showConfirmModal(
+            const confirmed = await showConfirmation(
                 'Are you authorized to bypass robots.txt restrictions for this website? Only proceed if you have explicit permission or are conducting authorized security testing.'
             );
 
@@ -1607,46 +1531,24 @@ function copyMarkdownToClipboard() {
     });
 }
 
-// View JSON file in JSONLint
+// Open a local JSON document without sending the result to another service.
 function viewJsonFile() {
     if (!currentApiResponse) {
         showToast('No analysis data available to view', 'warning', 4000);
         return;
     }
 
-    try {
-        // Compress JSON using LZString
-        const jsonString = JSON.stringify(currentApiResponse);
-        const compressed = LZString.compressToEncodedURIComponent(jsonString);
-
-        // Create a temporary link and click it (prevents popup blockers)
-        const url = `https://jsonlint.echovalue.dev/?json=${compressed}`;
-        const link = document.createElement('a');
-        link.href = url;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // Visual feedback
-        const btn = document.getElementById('viewJsonBtn');
-        const originalContent = btn.innerHTML;
-        btn.innerHTML = '<span>✓</span><span>Opened!</span>';
-        btn.style.background = 'var(--color-success)';
-        btn.style.borderColor = 'var(--color-success)';
-        btn.style.color = 'var(--color-bg)';
-
-        setTimeout(() => {
-            btn.innerHTML = originalContent;
-            btn.style.background = '';
-            btn.style.borderColor = '';
-            btn.style.color = '';
-        }, 2000);
-    } catch (error) {
-        showToast('Failed to compress JSON. Please try again.', 'error', 5000);
-        console.error('Compression error:', error);
-    }
+    const blob = new Blob([JSON.stringify(currentApiResponse, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    // Leave enough time for the new tab to load before releasing the blob.
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 
 // Download JSON file

@@ -737,6 +737,10 @@ body {
 }
 
 .history-item-main {
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
     flex: 1;
     min-width: 0;
 }
@@ -782,7 +786,8 @@ body {
     opacity: 0;
 }
 
-.history-item:hover .history-item-delete {
+.history-item:hover .history-item-delete,
+.history-item:focus-within .history-item-delete {
     opacity: 1;
 }
 
@@ -2979,125 +2984,33 @@ pre,
     border-radius: 8px;
 }
 
-/* Custom Select Dropdown */
-.custom-select {
-    position: relative;
+/* Native option selectors */
+.option-select {
     width: 100%;
-    z-index: 1;
-}
-
-.custom-select.active {
-    z-index: 10001;
-}
-
-.custom-select-trigger {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--color-bg-elevated);
-    border: 2px solid var(--color-border);
-    border-radius: 8px;
-    padding: 1rem;
-    cursor: pointer;
-    transition: all 0.3s var(--transition-smooth);
-    user-select: none;
     min-height: 56px;
-}
-
-.custom-select-trigger:hover {
-    border-color: var(--color-accent);
-}
-
-.custom-select.active .custom-select-trigger {
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.15);
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-.custom-select-value {
-    font-size: 0.95rem;
-    color: var(--color-text-primary);
-    font-family: var(--font-sans);
-}
-
-.custom-select-arrow {
-    font-size: 0.75rem;
-    color: var(--color-text-secondary);
-    transition: transform 0.3s var(--transition-smooth);
-}
-
-.custom-select.active .custom-select-arrow {
-    transform: rotate(180deg);
-}
-
-.custom-select-options {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    padding: 1rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-sm);
     background: var(--color-bg-elevated);
-    border: 2px solid var(--color-accent);
-    border-top: none;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    max-height: 240px;
-    overflow-y: auto;
-    z-index: 10000;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s var(--transition-smooth);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.custom-select.active .custom-select-options {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.custom-select-option {
-    padding: 0.75rem 1rem;
-    cursor: pointer;
-    transition: all 0.2s var(--transition-smooth);
     color: var(--color-text-primary);
-    font-size: 0.95rem;
+    font: inherit;
+    cursor: pointer;
+    color-scheme: dark;
 }
 
-.custom-select-option:hover {
-    background: var(--color-bg-card);
-    color: var(--color-accent);
+.option-select:hover {
+    border-color: var(--color-accent);
 }
 
-.custom-select-option.selected {
-    background: rgba(10, 132, 255, 0.15);
-    color: var(--color-accent);
-    font-weight: 600;
+.option-select:focus-visible,
+.history-item-main:focus-visible,
+.history-item-delete:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
 }
 
-.custom-select-option.selected::after {
-    content: ' ✓';
-    float: right;
-}
-
-/* Custom scrollbar for select options */
-.custom-select-options::-webkit-scrollbar {
-    width: 8px;
-}
-
-.custom-select-options::-webkit-scrollbar-track {
-    background: var(--color-bg);
-    border-bottom-right-radius: 8px;
-}
-
-.custom-select-options::-webkit-scrollbar-thumb {
-    background: var(--color-border);
-    border-radius: 4px;
-}
-
-.custom-select-options::-webkit-scrollbar-thumb:hover {
-    background: var(--color-accent);
+[data-theme="light"] .option-select {
+    color-scheme: light;
 }
 
 /* History item with favicon */
@@ -3198,93 +3111,6 @@ pre,
     }
 }
 
-/* Confirmation Modal */
-.confirm-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(4px);
-    z-index: 10000;
-    align-items: center;
-    justify-content: center;
-    animation: fadeIn 0.2s ease-out;
-}
-
-.confirm-modal-content {
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 2rem;
-    max-width: 500px;
-    width: 90%;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    animation: slideUp 0.3s ease-out;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.confirm-modal-icon {
-    font-size: 3rem;
-    text-align: center;
-    margin-bottom: 1rem;
-}
-
-.confirm-modal-message {
-    color: var(--color-text-primary);
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    text-align: center;
-}
-
-.confirm-modal-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-}
-
-.confirm-btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.confirm-btn-cancel {
-    background: var(--color-border);
-    color: var(--color-text-primary);
-}
-
-.confirm-btn-cancel:hover {
-    background: var(--color-text-secondary);
-}
-
-.confirm-btn-confirm {
-    background: var(--color-accent);
-    color: var(--color-bg);
-}
-
-.confirm-btn-confirm:hover {
-    background: var(--color-accent-hover);
-    transform: translateY(-2px);
-}
-
 /* echoValue suite alignment */
 html {
     scroll-behavior: smooth;
@@ -3376,7 +3202,7 @@ pre,
 }
 
 .domain-input,
-.custom-select-trigger,
+.option-select,
 .history-toggle,
 .checkbox-label,
 .toggle-switch,
